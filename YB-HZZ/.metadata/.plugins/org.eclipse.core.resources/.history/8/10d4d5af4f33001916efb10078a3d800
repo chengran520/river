@@ -1,0 +1,236 @@
+.table-bordered tbody {
+	display:block;
+    height: 85%;
+	overflow-y:scroll;
+}
+.table-bordered thead, .table-bordered tbody tr {
+	display:table;
+	width:100%;
+	table-layout:fixed;
+}
+.table th, .table td { 
+	text-align: center;
+	vertical-align: middle!important;
+}
+.modal_tab td{
+	line-height: 25px;
+} 
+.titlespan{
+	color:red;
+	font-size:16px;
+}
+.circleDiv{
+	text-align: center;
+	margin-top:10px;
+	cursor:pointer;
+}
+#imgbtn{
+	cursor:pointer;
+}
+.cicle{  
+      margin:0 auto;  
+      width: 60px;  
+      height: 60px;
+      border:4px solid #518FFB;  
+      border-radius: 50%;
+ }  
+.marginDIV{
+	padding-top: 5px;
+	vertical-align: middle;
+    text-align: center;
+}
+.btn_span{
+	text-decoration:none;  
+    background:#3CB371;  
+    color:#fff;   
+    padding: 4px 8px;  
+    font-size:12px;  
+    font-family: ΢���ź�,����,Arial,Helvetica,Verdana,sans-serif;  
+    font-weight:bold;  
+    border-radius:3px;    
+    -webkit-transition:all linear 0.30s;  
+    -moz-transition:all linear 0.30s;  
+    transition:all linear 0.30s;  
+}
+#btn_span:hover { 
+	background:#385f9e;
+ }  
+ .btnSite {
+    background-color: #EEAEEE;
+    border: 0px;
+    color: #fff;
+    padding: 7px 15px;
+    margin: 0px 5px;
+    letter-spacing: 2px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+.busineI{
+  cursor:pointer;
+}
+.getclolr{
+	color:red;
+	font-size:12px;
+}
+#content1{
+  height:44%;
+}
+#content2{
+  height: 56%;
+}
+.test1{
+    height: 87%;
+    border-top: 1px solid #eee;
+    margin-top: 1%;
+}
+.deltal_div_info{
+    border-bottom: 1px solid #DDD;
+    height: 10%;
+     margin-top: 2%;
+    text-align: center;
+}
+.work_div_info{
+       border-bottom: 1px solid #DDD;
+    height: 10%;
+     margin-top: 2%;
+    text-align: center;
+}
+ #filePicker div:nth-child(2){
+ 	width:100%!important;
+    height:100%!important;
+ }  
+.amap-logo img{
+	display: none;
+}
+.amap-copyright {
+   right: 500px !important;
+   left: auto !important;
+}   
+.superscript{
+ 	width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: red;
+    position: relative;
+    bottom: 51px;
+    left: 31px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.superscript span{
+	color: #fff;
+	font-weight: bold;
+	font-size: 16px;
+}
+.count_left {
+    float: left;
+    width: 8%;
+    height: 100%;
+    border-right: 1px solid #DDD;
+ }
+ .tab_right {
+ 	float: left;
+ 	width: 92%;
+ 	height: 60%;
+ }
+ .deltal_rigth{
+ 	float: left;
+ 	width: 92%;
+ 	height: 40%;
+ }
+ .left1 {
+   float: left;
+   width: 900px;
+   height: 95%;
+ }
+ .right1 {
+   margin-left:900px;
+ }
+  .left2 {
+   float: left;
+   width: 300px;
+   height:0px;
+   margin-left:10px;
+ }
+ .right2 {
+   margin-left:420px;
+   width:400px;
+   letter-spacing: 1px;
+ }
+  .right2 div{
+  height:30px;
+  }
+ .right2 div span:nth-child(2){
+    margin-left:10px;
+ }
+ table-head{padding-right:17px;background-color:#999;color:#000;}
+.table-body{width:100%; height:300px;overflow-y:scroll;}
+.table-head table,.table-body table{width:100%;}
+.cicel_img_p{
+	width:30px;
+	height:30px;
+	margin-top: 11px;
+	text-align: center;
+}
+.cicel_img_h{
+	width:40px;
+	height:40px;
+	margin-top: 5px;
+	text-align: center;
+}
+#container_div,#timeAxis{
+	margin: 0 auto;
+    padding-right: 3px;
+    position: relative;
+    height: 86%;
+    overflow: hidden;
+}
+#timeAxis{
+  overflow: auto;	
+}
+#leftContent {
+ position:absolute;
+ top:4px;
+ left:4px;
+}
+#leftContent img{
+  width: 235px;
+  border:1px solid #ccc;
+  padding:2px;
+}
+#rightContent {
+  margin-left:255px;
+  overflow: auto;
+  height: 100%;
+}
+.deltal_content{
+	line-height: 30px;
+}
+.backgorund{
+	background-color: #d7d7d7;
+}
+.modal-content{
+		height:auto;
+	}
+.modal-body{
+		height:400px;
+		paddding:10px;
+	}
+@media screen and (max-width: 1466px){
+	.modal-dialog {
+	    margin: 5px auto;
+	}
+	.modal-content{
+		height:550px;
+	}
+	.modal-body{
+		height:440px;
+		paddding:0 5px;
+	}
+}

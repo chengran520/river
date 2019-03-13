@@ -1,0 +1,258 @@
+.handleGrade {
+	color: #0095E7;
+}
+
+.handleGrade:hover {
+	cursor: pointer;
+}
+
+.tm-label {
+	font-size: 16px !important;
+	width: 16px !important;
+	padding: 0px !important;
+	line-height: 35px;
+}
+
+#son_dataChange {
+	padding: 5px 15px;
+}
+
+#leadTable thead th, td:nth-child(1), td:nth-child(3), td:nth-child(4),
+	td:nth-child(5) {
+	text-align: center;
+}
+
+#leadTable tr {
+	height: 70px;
+	line-height: 70px;
+}
+
+.layui-table-view {
+	margin-top: 10px !important;
+}
+
+.downleft_div {
+	float: left;
+	border: solid 1px #ccc;
+	width: 25%;
+	height: 100%;
+	background-color: white;
+	color: white;
+	margin-right: 1%;
+}
+
+.downright_div {
+	float: left;
+	border: solid 1px #ccc;
+	width: 70%;
+	height: 100%;
+	background-color: white;
+	color: white;
+	overflow: auto;
+}
+
+.bottom_div {
+	height: 45%;
+	width: 100%;
+	padding: 25px;
+}
+
+.bottomRightLeft_div {
+	height: 85%;
+	width: 60%;
+	padding: 20px;
+	color: black;
+	float: left;
+}
+
+.bottomRightRight_div {
+	height: 70%;
+	width: 20%;
+	padding: 5px;
+	float: left;
+}
+
+.description_p {
+	line-height: 200%;
+	font-size: 18px;
+}
+
+.downrightheader_div {
+	width: 100%;
+	height: 10%;
+	border-bottom: solid 2px #ccc;
+}
+
+.downrightheader_div span {
+	margin-left: 4px;
+	color: #4db7f1;
+	line-height: 36px;
+	font-size: 18px;
+	margin-left: 10px;
+}
+
+#timeAxis {
+	margin: 0 auto;
+	/* padding-right: 3px; */
+	position: relative;
+	height: 86%;
+	overflow: auto;
+	color: black;
+	padding: .3rem;
+}
+
+.flowChart {
+	display: flex;
+	margin-bottom: .5rem;
+}
+
+.flowChart-left {
+	width: 50px;
+	flex-shrink: 0;
+}
+
+.flowChart .dashed {
+	width: 0px;
+	height: 100%;
+	margin-left: 50%;
+	border-left-style: dashed;
+	border-left-color: darkgray;
+	border-left-width: 2px;
+}
+
+.flowChart-right {
+	flex-grow: 1;
+}
+
+.flowChart .oneNode {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 93%;
+	margin-bottom: 1%;
+}
+
+.flowChart .check-danger {
+	background-color: rgb(228, 108, 35);
+	border: 4px solid rgb(250, 166, 122);
+	width: 48px;
+	height: 48px;
+	line-height: 48px;
+}
+
+.tag-boder {
+	width: 0;
+	height: 0;
+	border: 12px solid;
+	border-style: dashed;
+	border-color: transparent gainsboro transparent transparent;
+	position: relative;
+	left: -10px;
+}
+
+.tag {
+	width: 0;
+	height: 0;
+	border: 14px solid;
+	border-style: dashed;
+	border-color: transparent white transparent transparent;
+	position: absolute;
+	left: -13px;
+	top: -14px;
+}
+
+.flowChart .NodeDetail {
+	background-color: white;
+	margin-left: -9px;
+	flex-grow: 1;
+	border: 1px solid gainsboro;
+	border-radius: 3px;
+	padding-right: 3%;
+	height: 99%;
+	padding-top: 1%;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 1px 1px 3px gainsboro;
+}
+
+.NodeDetail-content {
+	flex-grow: 1;
+}
+
+.NodeDetail-content p {
+	margin: 0;
+	padding: 0;
+	line-height: 2;
+	text-indent: 2em;
+	text-align: justify;
+	font-size: 14px;
+}
+
+.getclolr {
+	font-size: 12px;
+	color: red;
+}
+
+.NodeDetail-footer {
+	margin-top: 0px;
+}
+
+.NodeDetail-footer span {
+	font-size: 12px;
+	font-weight: 100;
+	color: rgb(104, 104, 104);
+	float: right;
+}
+/* ÂÖ²¥Í¼ */
+#banner{
+    width:350px;
+    height:280px;
+    /* position:absolute;
+    top:50%;
+    margin-top:-140px;
+    left:50%;
+    margin-left:-260px; */
+}
+.pic img{
+    position:absolute;
+}
+.tabs{
+    position:absolute;
+    bottom:10px;
+    left:200px;
+}
+.tabs li{
+    width:20px;
+    height:20px;
+    border:2px solid #fff;
+    float:left;
+    margin-left:5px;
+    border-radius:100%;
+
+}
+.btn{
+    width:30px;
+    height:50px;
+    background-color:rgba(0,0,0,.5);
+    color:#fff;
+    font-size:30px;
+    line-height:50px;
+    text-align:center;
+    position:absolute;
+    top:50%;
+    margin-top:-25px;
+    cursor:pointer;
+}
+.btn:hover{
+    background-color:rgba(0,0,0,.8);
+    color:red;
+}
+.btn1{
+    left:0;
+}
+.btn2{
+    right:0;
+}
+.bg{
+    background-color:red;
+}

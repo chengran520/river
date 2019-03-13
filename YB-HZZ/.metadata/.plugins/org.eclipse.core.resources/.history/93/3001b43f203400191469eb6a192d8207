@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+    <link rel="stylesheet" href="riverPatrol/patrolLog/patrolLog.css">
+</head>
+<body>
+<!--content内容开始-->
+<div class="baseData layui-body">
+    <div class="baseData_content fr">
+        <div class="baseData_title title_size">
+            <p>巡河日志信息</p>
+        </div>
+        <div class="baseDataBox">
+            <div class="bottombox">
+           		<div class="content_top">
+          			 <div id="table_patrol_toolbar" class="toolbar">
+	                    <form class="form-inline" id="toolbar_form">
+	                        <div class="form-group">
+	                             <div class="input-group">
+	                               <span class="input-group-addon">巡河人员:</span>
+	                               <input class="form-control busineUnm" name="query_busineUnm" id="keyword"  placeholder="请输入巡河人员">
+	                            </div>
+	                            <div class="input-group" style="width:264px;">
+	                               <input id="patrolStartTm" type="text" class="form-control" style="width: 150px; color: red;">
+	                            </div>
+	                            <div class="input-group" style="width:264px;">
+	                               <input id="patrolEndTm" type="text" class="form-control" style="width: 150px; color: red;">
+	                            </div>
+	                        </div>
+	                        <button type="button" class="btn btn-primary queryBtn_patrol"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	                    </form>
+	                </div>
+	                <table id="table_patrol" class="table table-hover">
+	
+	                </table>
+	            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--content内容结束-->
+<script type="text/javascript" src="riverPatrol/patrolLog/patrolLog.js"></script>
+</body>
+</html>

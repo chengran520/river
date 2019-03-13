@@ -1,0 +1,258 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="aRiverLong/aRiverLong.css" rel="stylesheet" type="text/css"> 
+	
+<!--验证必填项-->
+<script type="text/javascript" src="common/util/jquery/jquery.validate.min.js"></script>
+<script type="text/javascript" src="common/util/jquery/jquery.validate.unobtrusive.min.js"></script>
+<!--省市县选择下拉框-->
+<script type="text/javascript" src="common/util/jquery/jquery.citys.js"></script>
+
+<script src="aRiverLong/aRiverLong.js"  type="text/javascript" ></script>
+
+<!-- 导入页面Dom -->
+<div class="layui-upload" id="uploadRL" style="display: none;">
+	<div style="border:1px solid #eee;margin:10px 20px;padding:5px 0px;">导入文件<button type="button"  id="selectRLFile">选择文件</button>
+	<div class="uplaod-v" style="text-align: center;"><a class="upload-a" id="importRLFile">导入</a></div> 
+	</div>
+	<p class='p1'><a>点击下载模板</a></p>
+	<p class='p2'>点击浏览文件后选择需要导入的Excel文件进行数据导入 </p>
+</div>
+<div class="layui-layout layui-layout-admin">
+	<div class="layui-body" id="layui_content">
+		<div class="layui-fluid">
+			<div class="layui-row layui-col-space12" id="layui_tab">	   
+			    <div class="layui-col-md2" id="layui_tab_1">
+			      <div class="grid-demo"  id="cityCount">
+			         <div class="layadmin-contact-box"> 
+				          <div class="layui-col-md4">
+				            <a href="javascript:;">
+				              <div class="layadmin-text-center">
+				                <img src="common/images/rRiverLong/Township_RiverLong.png">
+				              </div>
+				            </a>
+				          </div>			        
+				        <div class="layui-col-md8">
+				          <a href="javascript:;">
+				            <h3 class="layadmin-title">
+				              	市级河长
+				            </h3>
+							<h3 class="layadmin-title tit-h">
+								<font id="city"></font>
+				              	<font class="cydw-span">人</font>
+				            </h3>
+				          </a>
+				        </div>
+				    </div>
+			      </div>
+			    </div>
+			    <div class="layui-col-md2" id="layui_tab_2">
+			      <div class="grid-demo" id="countyCount">
+			         <div class="layadmin-contact-box"> 
+				          <div class="layui-col-md4">
+				            <a href="javascript:;">
+				              <div class="layadmin-text-center">
+				                <img src="common/images/rRiverLong/Township_RiverLong.png">
+				              </div>
+				            </a>
+				          </div>			        
+				        <div class="layui-col-md8">
+				          <a href="javascript:;">
+				            <h3 class="layadmin-title">
+				              	县级河长
+				            </h3>
+							<h3 class="layadmin-title tit-h" >
+								<font id="county"></font>
+				              	<font class="cydw-span">人</font>
+				            </h3>
+				          </a>
+				        </div>
+				    </div>
+			      </div>
+			    </div>
+			    <div class="layui-col-md2" id="layui_tab_3">
+			      <div class="grid-demo"  id="townCount">
+			          <div class="layadmin-contact-box"> 
+				          <div class="layui-col-md4">
+				            <a href="javascript:;">
+				              <div class="layadmin-text-center">
+				                <img src="common/images/rRiverLong/Township_RiverLong.png">
+				              </div>
+				            </a>
+				          </div>			        
+				        <div class="layui-col-md8">
+				          <a href="javascript:;">
+				            <h3 class="layadmin-title">
+				              	乡级河长
+				            </h3>
+							<h3 class="layadmin-title tit-h">
+							    <font id="town"></font>
+				              	<font class="cydw-span">人</font>
+				            </h3>
+				          </a>
+				        </div>
+				    </div>
+			      </div>
+			    </div>
+			    <div class="layui-col-md2" id="layui_tab_4">
+			      <div class="grid-demo" id="villageCount">
+			          <div class="layadmin-contact-box"> 
+				          <div class="layui-col-md4">
+				            <a href="javascript:;">
+				              <div class="layadmin-text-center">
+				                <img src="common/images/rRiverLong/Township_RiverLong.png">
+				              </div>
+				            </a>
+				          </div>			        
+				        <div class="layui-col-md8">
+				          <a href="javascript:;">
+				            <h3 class="layadmin-title">
+				              	村级河长
+				            </h3>
+							<h3 class="layadmin-title tit-h">
+							    <font id="village"></font>
+				              	<font  class="cydw-span">人</font>
+				            </h3>
+				          </a>
+				        </div>
+				    </div>
+			      </div>
+			    </div>
+			</div> 
+		</div>
+	 <!-- 河长信息 -->
+	 <div class="layui-tab layui-tab-card"  lay-filter="riverlongTab">  
+		  <div class="layui-tab-content" style="padding-top: 0px !important;">
+		    <div class="layui-tab-item layui-show">   
+		    	  <div id="table_aRiverLong_toolbar" class="toolbar">
+	                   <form class="form-inline" id="toolbar_form">
+	                       <div class="form-group">
+	                            <div class="input-group">
+	                              <span class="input-group-addon">河长名称:</span>
+	                              <input class="form-control" name="keyWord" id="query_keyWord" placeholder="请输入河长信息">
+	                           </div>
+	                       </div>
+	                       <button type="button" class="btn btn-primary queryBtn_table"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	                       <button type="button" class="btn btn-primary queryBtn_add" onclick="aRiverLong.showModal(1)"><span class="glyphicon glyphicon-plus"></span>&nbsp;新&nbsp;增</button>
+	                       <button type="button" class="btn btn-primary queryBtn_import"><span class="glyphicon glyphicon-import"></span>&nbsp;导&nbsp;入</button>
+	                   </form>
+	               </div>
+	               </div>
+	               <table id="table_aRiverLong" class="table table-hover">
+	
+	               </table>  
+		    </div>
+		  </div>
+		</div>      
+	  </div>
+
+<div class="modal fade" id="modal_aRiverLong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_aRiverLong" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:1000px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_aRiverLong">河长信息&nbsp;——&nbsp;<span id="title_type"></span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="form_aRiverLong">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label required">河长名称</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" form="form_aRiverLong" name="gmName" id="gmName" type="text" data-val="true" data-val-required="名称不能为空！" placeholder="河长名称...">
+                            <span data-valmsg-for="gmName" data-valmsg-replace="true" class="error"></span>
+                        </div>
+                           <label class="col-sm-2 control-label required">河长职务</label>
+                        <div class="col-sm-3">
+                             <input class="form-control" form="form_aRiverLong" name="gmDuties" id="gmDuties" type="text" data-val="true" data-val-required="职务不能为空！" placeholder="请输入河长职务">
+                              <span data-valmsg-for="gmDuties" data-valmsg-replace="true" class="error"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                     	<label class="col-sm-2 control-label required">手机号码</label>
+						<div class="col-sm-3">
+							<input type="text" name="gmMobile" class="form-control" form="form_aRiverLong"
+								placeholder="请输入手机号码" data-val="true" data-val-required="手机号码不能为空！">
+							<span data-valmsg-for="gmMobile" data-valmsg-replace="true" class="error"></span>
+						</div>
+                        <label class="col-sm-2 control-label required">河长类型</label>
+                        <div class="col-sm-3">
+                           <select id='gmType' name='gmType' form="form_aRiverLong" class="form-control" data-val="true" data-val-required="河长类型不能为空！">
+								<option value=''>-- 请选择河长类型 --</option>
+								<option value='1'>总河长</option>
+								<option value='2'>副总河长</option>
+								<option value='3'>河长</option>
+							</select>
+							<span data-valmsg-for="gmType" data-valmsg-replace="true" class="error"></span>
+                        </div>
+                    </div>
+                  <div class="form-group">
+						<label class="col-sm-2 control-label required">所属行政区</label>
+		                     <div class="col-sm-10" id="citys">
+		                         <select class="form-control" name="province"></select>
+		                         <select class="form-control" name="city"></select>
+		                         <select class="form-control" name="area"></select>
+		                         <select class="form-control" name="town"></select>
+		                         <input class="form-control"  name="addvcd" form="form_aRiverLong" id="addvcd" type="hidden">
+		                     </div>
+                    </div>
+                 <div class="form-group">
+						<label class="col-sm-2 control-label required">行政级别</label>
+						<div class="col-sm-3">
+							<select name="adLevel" class="form-control" form="form_aRiverLong" class="form-control" data-val="true" data-val-required="行政级别不能为空！">
+								<option value=''>请选择行政级别</option>
+								<option value='1'>省级</option>
+								<option value='2'>副省级</option>
+								<option value='3'>地市级</option>
+								<option value='4'>副地市级</option>
+								<option value='5'>县级</option>
+								<option value='6'>副县级</option>
+								<option value='7'>科级</option>
+								<option value='8'>副科级</option>
+								<option value='9'>股级</option>
+								<option value='10'>副股级</option>
+								<option value='99'>其他</option>
+							</select>
+							<span data-valmsg-for="adLevel" data-valmsg-replace="true" class="error"></span>
+						</div>
+						<label class="col-sm-2 control-label">所辖河流(段)</label>
+						<div class="col-sm-3">
+							<input class="form-control" form="form_aRiverLong" name="hightDutiesGov" id="hightDutiesGov" type="text" placeholder="请输入所辖河流(段)">
+						</div>
+                    </div>
+                     <div class="form-group">
+                          <label class="col-sm-2 control-label">主要领导</label>
+                        <div class="col-sm-3">
+	                         <select id='gmDutiesLev' name='gmDutiesLev' class="form-control" form="form_aRiverLong" class="form-control">
+								<option value=''>-- 请选择主要领导 --</option>
+								<option value='1'>党委主要领导</option>
+								<option value='2'>政府主要领导</option>
+								<option value='3'>人大主要领导</option>
+								<option value='4'>政协主要领导</option>
+								<option value='99'>其他</option>
+							</select>
+                        </div>
+                         <label class="col-sm-2 control-label">单位类别</label>
+                        <div class="col-sm-3">
+	                        <select id='govType' name='govType' class="form-control" form="form_aRiverLong" class="form-control">
+	                        	<option value=''>-- 请选择单位类别--</option>
+								<option value='1'>党委、政府</option>
+								<option value='2'>人大、政协</option>
+								<option value='99'>其他</option>
+							</select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary add" form="form_aRiverLong" type="button" onclick="aRiverLong.submitForm()">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;保&nbsp;存
+                </button>
+                <button class="btn btn-primary update" form="form_aRiverLong" type="button" onclick="aRiverLong.submitForm()">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;修&nbsp;改
+                </button>
+                <button class="btn btn-primary return" type="button" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-log-out "></span>&nbsp;返&nbsp;回
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

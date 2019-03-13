@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.basic.mapper.StraRiverMapper">
+  <select id="getStraRivers"  resultType="com.gxhy.base.basic.model.StraRiverModel">
+    SELECT S.UUID AS uuid,S.CREATE_TM as creatTm,S.RV_CD as rvCd,S.STRAFILE_TITLE as straFileTitle,
+    S.STRAFILE_CONTENT AS straFileContent,S.TYPE as type, R.RV_NM as rvNm,S.DOWNLOAD_NUM AS downloadNum,
+    S.CHECK_NUM AS checkNum,(SELECT DICT_NM FROM SYS_DICT  WHERE DICT_VAL=S.TYPE  AND  DICT_TP='YHYC')
+    AS typeNm ,(select TOP 1 su.USER_NAME from BASE_GM_RELA  b LEFT JOIN SYS_USER  su on b.GM_CD =su.USER_ID where b.R_CD = S.RV_CD ) AS gmName 
+    FROM IOT_STR_RIVER  S LEFT JOIN ST_RIVER_B R ON S.RV_CD=R.RV_CD  where 1=1
+	<if test="type != null and type != ''">
+		AND S.TYPE=#{type}  
+	</if>
+	<if test="startTime != null and startTime != ''">
+		AND S.CREATE_TM >= #{startTime}
+	</if>
+	<if test="endTime != null and endTime != ''">
+		AND S.CREATE_TM &lt;= #{endTime}
+	</if>
+	<if test="uuid != null and uuid != ''">
+		AND S.UUID=#{uuid}
+	</if>
+	ORDER BY S.CREATE_TM  DESC
+  </select>
+  
+  <!-- 增加一河一策 -->
+  <insert id="insertStRiver">
+     INSERT INTO IOT_STR_RIVER(UUID,CREATE_TM,RV_CD,STRAFILE_TITLE,STRAFILE_CONTENT,TYPE,DOWNLOAD_NUM,CHECK_NUM)
+     VALUES(#{uuid},#{creatTm},#{rvCd},#{straFileTitle},#{straFileContent},#{type},#{downloadNum},#{checkNum})
+  </insert>
+  
+  <!--更新查看次数  -->
+  <select id="updateStraRiver">
+    UPDATE IOT_STR_RIVER  SET CHECK_NUM=CHECK_NUM+1  WHERE UUID=#{uuid}
+  </select>
+  
+  
+  <!-- 删除一河一策 -->
+  <delete id="deleteStraRivers">
+   DELETE FROM IOT_STR_RIVER WHERE UUID=#{uuid}
+  </delete>
+  
+  <select id="selectFile" resultType="com.gxhy.base.basic.model.StraRiverModel">
+      SELECT RV_CD, STRAFILE_CONTENT FROM IOT_STR_RIVER WHERE UUID=#{uuid}
+   </select>
+</mapper>

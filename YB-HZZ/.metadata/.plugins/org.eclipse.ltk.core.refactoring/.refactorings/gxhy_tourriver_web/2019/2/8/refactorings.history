@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 3 elements from project &apos;gxhy_tourriver_web&apos;&#x0D;&#x0A;- Original project: &apos;gxhy_tourriver_web&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     trajectory.js.mine&#x0D;&#x0A;     trajectory.js.r8257&#x0D;&#x0A;     trajectory.js.r8261" description="Delete elements" element1="src/main/webapp/riverPatrol/patrolLog/trajectory.js.mine" element2="src/main/webapp/riverPatrol/patrolLog/trajectory.js.r8257" element3="src/main/webapp/riverPatrol/patrolLog/trajectory.js.r8261" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="3" stamp="1550560959845" subPackages="false" version="1.0"/>
+</session>

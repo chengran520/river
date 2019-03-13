@@ -1,0 +1,40 @@
+<!-- 考核排名-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+</head>
+<body>
+	<div class="layui-body base_content">
+		<div id="table_rankInfo_toolbar" class="toolbar">
+	         <form class="form-inline" id="toolbar_form">
+	             <div class="form-group">
+	                  <div class="input-group">
+	                    <span class="input-group-addon">考核人:</span>
+	                    <input class="form-control" name="query_applicant" id="query_applicant" placeholder="请输入考核人">
+	                 </div>
+	                 <div class="input-group" style="width:264px;">
+		            <span class="input-group-addon">开始日期:</span>
+		            <input class="form-control"  style="width:156px;max-width:156px;" name="startTm" id="startTm" type="text" placeholder="请选择开始时间">
+		         </div>
+		         <div class="input-group" style="width:264px;">
+		            <span class="input-group-addon">结束日期:</span>
+		            <input class="form-control"  style="width:156px;max-width:156px;" name="endTm" id="endTm" type="text" placeholder="请选择结束时间">
+		         </div>
+	       </div>
+	       <button type="button" class="btn btn-primary queryBtn_table"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	     </form>
+	    </div>
+	    <table id="table_rankInfo" class="table table-hover">
+	
+	    </table>
+	</div>
+<!--content内容结束-->
+<script src="rank/rankInfo.js"  type="text/javascript" ></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+1547536772375	Delete element
+1547536776150	Delete element
+1547549765811	Rename package 'com.gxhy.base.check.controller'
+1547549791583	Rename package 'com.gxhy.base.check.service'
+1547549814126	Rename package 'com.gxhy.base.check.model'
+1547549825526	Rename package 'com.gxhy.base.check.mapper'
+1547551125347	Rename package 'com.gxhy.monitor.controller'
+1547551133479	Rename package 'com.gxhy.monitor.mapper'
+1547551140460	Rename package 'com.gxhy.monitor.model'
+1547551149497	Rename package 'com.gxhy.monitor.service'
+1547603026185	Delete element
+1547607718281	Encapsulate field 'resLevel'
+1547608246743	Encapsulate field 'sttp'
+1547609063276	Encapsulate field 'resUser'

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="gxhy">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="gxhy_base_service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_base_service/gxhy_base_service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gxhy_hydro_service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_hydro_service/gxhy_hydro_service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gxhy_system_service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_system_service/gxhy_system_service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gxhy_compre_service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_compre_service/gxhy_compre_service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gxhy_utils-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_utils/gxhy_utils">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gxhy_infoservice_service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_infoservice_service/gxhy_infoservice_service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gxhy_check_service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_check_service/gxhy_check_service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gxhy_tourriver_service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxhy_tourriver_service/gxhy_tourriver_service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/overlay/prj/gxhy_tourriver_web?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
+            <dependency-type>consumes</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/overlay/prj/gxhy_check_web?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
+            <dependency-type>consumes</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/overlay/prj/gxhy_infoservice_web?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
+            <dependency-type>consumes</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/overlay/prj/gxhy_compre_web?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
+            <dependency-type>consumes</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/overlay/prj/gxhy_system_web?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
+            <dependency-type>consumes</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/overlay/slf/?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
+            <dependency-type>consumes</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="gxhy"/>
+        <property name="java-output-path" value="/gxhy/target/classes"/>
+    </wb-module>
+</project-modules>

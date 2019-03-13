@@ -1,0 +1,23 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.gxhy.datasource.BaseDataSourceConfig",
+      "name": "spring.datasource.base",
+      "sourceMethod": "public javax.sql.DataSource baseDataSource() ",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "com.gxhy.datasource.HydroDataSourceConfig",
+      "name": "spring.datasource.hydro",
+      "sourceMethod": "public javax.sql.DataSource hydroDataSource() ",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "com.gxhy.utils.ReadApplicationUntil",
+      "name": "system-params",
+      "type": "com.gxhy.utils.ReadApplicationUntil"
+    }
+  ],
+  "properties": []
+}

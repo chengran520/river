@@ -1,0 +1,83 @@
+.layui-fluid {
+    padding: 0.30rem 0.40rem 0rem 0.30rem;
+}
+.layui-card{
+	border-radius:0.05rem;
+	height:3.40rem !important;
+    background:#fff;
+}
+.layui-card-header{
+	height: 0.52rem;
+}
+.layui-card-header{
+	font-size: 0.18rem;
+    font-family: MicrosoftYaHei;
+    font-weight: bold;
+    color: rgba(127, 125, 125, 1);
+    line-height:0.52rem;
+    border-bottom:0.01rem solid rgba(180,180,180,0.3);
+    box-shadow: 0rem 0.01rem 0rem rgba(180,180,180,0.1);
+}
+.layui-card .layui-card-header span{
+	font-size: 0.14rem;
+    font-family: MicrosoftYaHei;
+    color: #fff;
+    padding: 0rem 0.10rem;
+    background:rgba(136,149,169,0.9);
+    border-radius: 0.07rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+.layui-card .layui-card-header span:hover,.layui-card .layui-card-header span:first-child,.spanActive{
+	  background:#666666bf;
+}
+.rate{
+	padding: 0.30rem 0.20rem 1.00rem 0.20rem;
+	font-size:0.20rem;
+	font-family:MicrosoftYaHei;
+	font-weight:400;
+	color:#8895A9;
+}
+.rate p{
+	height: 0.30rem;
+	padding-top: 0.06rem;
+}
+#qualiteRate,#eventRate{
+	font-size: 0.33rem;
+}
+#qualiteRate{
+	color: #F36A5B;
+}
+#eventRate{
+	color: #5C9BD1;
+}
+.layui-col-md12{
+	height: 3.82rem;
+}
+.layui-col-md12 .count-title{
+	height:0.50rem;
+	font-size:0.25rem;
+	font-family:MicrosoftYaHei;
+	font-weight:400;
+	color:rgba(0,123,190,1);
+	line-height:0.50rem;
+}
+.layui-table-box{
+	padding:0rem;
+	overflow-x:hidden;
+}
+.countDetail{
+	color:#138CCF;
+}
+.layui-form-item .layui-input-inline {
+	padding:0rem 0.09rem;
+    width: 2.40rem;
+    line-height: 0.36rem;
+}
+.layui-form-label{
+	padding:0.09rem 0.05rem;
+}
+.queryTime{
+	    display: inline-block;
+    float: right;
+}

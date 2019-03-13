@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.hydro.mapper.PptnMapper">
+  
+  <!--国汛预警APP- 雨情信息(查询最新一小时的雨量) -->
+  <select id="getPptnList" resultType="com.gxhy.hydro.model.PptnModel">
+    	SELECT
+			ST.DEVID,
+			B.STCD,
+			B.STNM,
+			B.STLC,
+			B.STTP,
+			B.RVNM,
+			B.HNNM,
+			B.BSNM,
+			B.ADDVCD,
+			B.FRGRD,
+			B.ADMAUTH,
+			B.LGTD,
+			B.LTTD,
+			T1.DrP,
+			T1.TM AS PPTNTM
+		FROM
+			ST_STBPRP_B B
+		JOIN IOT_DEVI_ST ST ON ST.STCD = B.STCD
+		INNER JOIN (
+			SELECT
+				DISTINCT(A.STCD) as stcd,
+				ISNULL(A.DRP, 0) as drp,
+				A.TM
+			FROM
+				ST_PPTN_R A
+			WHERE
+				TM = (
+					SELECT
+						MAX (TM)
+					FROM
+						ST_PPTN_R B
+					WHERE
+						A.STCD = B.STCD
+					AND B.DrP IS NOT NULL
+				)
+		) AS T1 ON T1.STCD = B.STCD
+		WHERE
+			1 = 1
+		AND B.STTP IN ('TG', 'ZP', 'TD', 'PP', 'TW')
+		AND B.ADDVCD LIKE '${addvcd}%'
+		<!-- AND  T1.tm &gt;= DATEADD(hh,-1,getdate())
+	    AND  T1.tm &lt;= CONVERT(varchar,GETDATE(),120) -->
+	    <if test="stcd != null and stcd != ''">
+		   	AND B.STCD=#{stcd}
+		</if>
+		<if test="keyword !=null and keyword !=''">
+		and  (B.STCD like '%${keyword}%' OR B.STNM LIKE '%${keyword}%' OR ST.DEVID LIKE '%${keyword}%')
+		 </if> 
+		<if test="stm != null and stm != ''">
+	   		and T1.tm >= #{stm}
+	 	</if>
+	 	<if test="etm != null and etm != ''">
+	   		and T1.tm &lt;= #{etm}
+	 	</if>
+		ORDER BY T1.TM DESC
+  </select>
+  
+  
+	<!-- 雨情Chart图表 -->
+	<select id="pptnChart" resultType="com.gxhy.hydro.model.PptnModel">
+		select STCD,TM,DRP from ST_PPTN_S where STCD = #{stcd} and TM &gt;= #{stm} and Tm &lt;= #{etm} order by TM 
+	</select>
+	
+	<select id="rain" resultType="double">
+		select SUM(DRP) DRP from ST_PPTN_R where STCD = #{stcd} and TM &gt;= #{stm} and Tm &lt;= #{etm}
+	</select>
+	
+	
+</mapper>
+

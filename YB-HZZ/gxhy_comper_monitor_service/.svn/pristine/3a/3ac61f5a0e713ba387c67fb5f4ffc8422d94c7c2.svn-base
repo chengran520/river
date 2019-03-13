@@ -1,0 +1,86 @@
+package com.gxhy.base.basic.service;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.alibaba.fastjson.JSONObject;
+import com.gxhy.base.basic.mapper.RiverLongMapper;
+import com.gxhy.base.basic.model.ResultRiverInfoModel;
+import com.gxhy.base.basic.model.RiverLongModel;
+import com.gxhy.base.imp.ImportExeclUtil;
+import com.gxhy.base.mapper.BaseMapper;
+import com.gxhy.base.model.RequestModel;
+import com.gxhy.utils.QueryUtil;
+
+@Service
+@SuppressWarnings("unchecked")
+public class RiverLongService extends BaseMapper{
+
+	public int importFileRL(MultipartFile file, int index) {
+		JSONObject map = new JSONObject();
+		String name = file.getOriginalFilename();
+		List<RiverLongModel>  riverList=ImportExeclUtil.exportInfo(file,name,new RiverLongModel());//代表河流
+		for(RiverLongModel  model:riverList){
+			model.setGmCode(UUID.randomUUID().toString().replace("-", ""));
+			switch (index) {
+			case 0:
+				model.setGmTp("1");
+				break;
+			case 1:
+				model.setGmTp("2");
+				break;
+			case 2:
+				model.setGmTp("3");
+				break;
+			case 3:
+				model.setGmTp("4");
+				break;
+			default:
+				break;
+			}
+		}
+		map.put("list", riverList);
+		map.put(RequestModel.SQLID,RiverLongMapper.class.getName() + ".insertRiverLong");
+	   return  this.insert(map);
+	}
+
+	public List<RiverLongModel> selectAllRiverLongs(JSONObject map) {
+		map.put(RequestModel.SQLID,RiverLongMapper.class.getName() + ".selectAllRiverLongs");
+		return  this.selectList(map);
+	}
+
+	public int deleteRL(QueryUtil model) {
+		JSONObject map = new JSONObject();
+		List<String> list= Arrays.asList(model.getIds().split(","));
+		map.put("list", list);
+		map.put(RequestModel.SQLID,RiverLongMapper.class.getName() + ".deleteRiverLong");
+		return  this.delete(map);
+	}
+
+	public List<ResultRiverInfoModel> getRiverInfoList(JSONObject map) {
+		map.put(RequestModel.SQLID, RiverLongMapper.class.getName()+ ".getRiverInfoList");
+		List<ResultRiverInfoModel> models= this.selectList(map);
+		return models;
+	
+   }
+	
+	/**
+	 * 查询水位、流量
+	 * @param stcd
+	 * @return
+	 */
+  public List<ResultRiverInfoModel> getZlist(String stcd,String stm,String etm) {
+	    Map<String, Object> map = new Hashtable<String, Object>();
+		map.put("stcd", stcd);
+		map.put("stm", stm);
+		map.put("etm", etm);
+		map.put(RequestModel.SQLID, RiverLongMapper.class.getName() + ".getZqlist");
+		List<ResultRiverInfoModel> list=this.selectList(map);
+	    return list;
+  }
+}

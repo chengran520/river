@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+    <link href="common/util/fileinput/fileinput.min.css" rel="stylesheet" type="text/css"  media="all">
+   	<script type="text/javascript" src="common/util/selectTree.js"></script>	
+	<!-- 文件上传 -->
+	<script src="common/util/fileinput/fileinput.min.js"  type="text/javascript" ></script>
+	<script src="common/util/fileinput/zh.js"  type="text/javascript" ></script>
+	<!--验证必填项-->
+	<script type="text/javascript" src="common/util/jquery/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="common/util/jquery/jquery.validate.unobtrusive.min.js"></script>
+	<script src="common/util/tree.js"  type="text/javascript" ></script>	
+	<script type="text/javascript" src="systemInfo/user/userInfo1.js"></script>
+</head>
+<body>
+<!--content内容开始-->
+<div class="layui-body base_content">
+	<div id="table_select_toolbar" class="toolbar" style="margin-top:0.1rem;">
+	       <form class="form-inline" id="toolbar_form">
+	           <div class="form-group">
+               		<div class="input-group">
+                       <span class="input-group-addon">用户信息:</span>
+                       <input class="form-control" name="keyword" id="keyword"  placeholder="请填写用户编码或名称">
+                   </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">开始时间:</span>
+	                   <input class="form-control" name="startTm" id="startTm"  placeholder="请选择开始时间">
+	               </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">结束时间:</span>
+	                   <input class="form-control" name="endTm" id="endTm"  placeholder="请选择结束时间">
+	               </div>
+			    </div>
+	           <button type="button" class="btn btn-primary queryBtn_select"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	           <button type="button" class="btn btn-primary queryBtn_add"  onclick="user.showModal(1)"><span class="glyphicon glyphicon-plus"></span>&nbsp;新&nbsp;增</button>
+      		   <button type="button" class="btn btn-primary queryBtn_import"><span class="glyphicon glyphicon-import"></span>&nbsp;导&nbsp;入</button>
+	       </form>
+	   </div>
+   <table id="table_user" class="table table-hover">
+   </table>
+</div>
+</body>
+</html>
+
+
+<!-- 设置角色 -->
+<div class="modal fade" id="modal_setRole" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_riverUpload" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:4.75rem;height:4.5rem;">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_fileManage">设置角色</h4> 
+            </div>
+           <div class="modal-body"> 
+			  <form class="form-horizontal" role="form" id="form_setRole">
+		        <div class="form-group">
+				     <label class="col-sm-2 control-label" for="keyRole">关键字</label>
+					<div class="col-sm-10"> 
+				      	<input type="text"  style="width:2.7rem;display: inline;" name="key" id="keyRole" class="form-control" form="form_setRole" placeholder="请输入关键字"    onkeypress="return onKeyPress(event)">			      		
+			      		<button class="btn btn-primary queryBtn_select"   onclick="searchRoleBtn()">搜索</button>
+					</div>				
+		        </div>
+		        <div class="form-group">
+				     <label class="col-sm-2 control-label">角色</label>
+					<div class="col-sm-10"> 
+				        <div id="userDemo"></div>
+					</div>				
+		        </div>		         
+		     </form>
+		   </div>
+		   <div class="modal-footer">
+                <button class="btn btn-primary add" form="form_setRole" type="button" onclick="user.submitForm(1)">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;保&nbsp;存
+                </button>
+                <button class="btn btn-primary return" type="button" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-log-out "></span>&nbsp;返&nbsp;回
+                </button>
+           </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 设置密码的模态框 -->
+<div class="modal fade" id="modal_setPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_setPassword" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:9rem;height:2rem;">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_setPassword">设置密码</h4> 
+            </div>
+           <div class="modal-body"> 
+		        <div class="form-group">
+				    <label class="layui-form-label search-label" for="keyRole">新密码</label>
+					<div class="col-sm-10">
+					       <input type="text" name="pwd" id="pwd"  autocomplete="off" placeholder="请输入密码" class="layui-input search-input" >  
+					</div>
+		        </div>		        
+		   </div>
+		   <div class="modal-footer">
+                <button class="btn btn-primary add" form="form_setPassword" type="button" onclick="user.submitForm(2)">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;保&nbsp;存
+                </button>
+                <button class="btn btn-primary return" type="button" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-log-out "></span>&nbsp;返&nbsp;回
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 添加user -->
+<div class="modal fade" id="modal_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_user" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:1000px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_user">用户信息&nbsp;——&nbsp;<span id="title_type"></span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="form_user">
+                    <div class="form-group">                  
+                        <label class="col-sm-2 control-label required">用户编码</label>
+                        <div class="col-sm-3">
+                            <input type="hidden" value="" name="uuid" id="">
+                            <input class="form-control" form="form_user" name="userId" id="userId" type="text" data-val="true" data-val-required="编码不能为空！" placeholder="河长编码...">
+                            <span data-valmsg-for="userId" data-valmsg-replace="true" class="error"></span>
+                        </div> 
+                        <label class="col-sm-2 control-label required">用户名称</label>
+                        <div class="col-sm-3">
+                             <input class="form-control" form="form_user" name="userName" id="userName" type="text" data-val="true" data-val-required="名称不能为空！" placeholder="请输入河流名称">
+                              <span data-valmsg-for="userName" data-valmsg-replace="true" class="error"></span>
+                        </div>                                             
+                    </div>
+                    <div class="form-group">
+                    	<label class="col-sm-2 control-label">用户性別</label>
+						<div class="col-sm-3">	
+							<input type="radio"   name="userSex"  form="form_user" value='0' checked/>男&nbsp;&nbsp;&nbsp;
+							<input type="radio"   name="userSex"  form="form_user" value='1' />女&nbsp;&nbsp;&nbsp;
+						</div>  
+						<label class="col-sm-2 control-label">用户手机</label>
+						<div class="col-sm-3">
+							<input type="text" name="userPhone" id="userPhone" class="form-control" form="form_user" placeholder="请输入所属水系"  data-val-required="所属水系不能为空！">
+						</div>    
+                    </div>
+                    <div class="form-group">
+                    	<label class="col-sm-2 control-label">行政区:</label>   
+                         <div class="col-sm-3">						       
+	                         <input class="form-control" form="form_user" id="pmenuIdName" type="text" placeholder="请选择行政区"  onclick="commonZtree.showMenu();">
+					         <input name="" id="pmenuId"  type="hidden">
+					         <input name="userAddvcd" id="userAddvcd"  type="hidden" form="form_user">
+					         <input name="addvnm" id="addvnm"  type="hidden" form="form_user">
+						     <div id="menuContent" class="menuContent" style="position: absolute; z-index: 999; background-color: #eee; left: 0.2rem !important; top: 0.39rem !important;display: none;">
+						        <ul id="menuZtree" class="ztree" style="margin-top:0;"></ul>
+						     </div>	
+						 </div>                         
+                         <label class="col-sm-2 control-label">微信号</label>
+						 <div class="col-sm-3">
+							<input type="text" name="userWechat" id="userWechat" class="form-control" form="form_user" placeholder="请输入所属水系"  data-val-required="所属水系不能为空！">
+						 </div>						  					                                            
+                    </div>   
+                     <div class="form-group"> 	
+                        <la
+                        
+                        bel class="col-sm-2 control-label">是否登录平台</label>
+						<div class="col-sm-3">
+						  	<input type="radio"   name="isLopc"  form="form_user" value='0' checked/>是&nbsp;&nbsp;&nbsp;
+							<input type="radio"   name="isLopc"  form="form_user" value='0' checked/>否&nbsp;&nbsp;&nbsp;
+						</div>  
+						<label class="col-sm-2 control-label">是否登录app</label>
+						<div class="col-sm-3">
+					  		 <input type="radio"   name="isLoapp" form="form_user"  value='0' />是&nbsp;&nbsp;&nbsp;
+							 <input type="radio"   name="isLoapp" form="form_user"  value='1' />否&nbsp;&nbsp;&nbsp;
+						</div>  						
+                     </div>             
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary add" form="form_user" type="button" onclick="user.submitForm(3)">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;保&nbsp;存
+                </button>
+                <button class="btn btn-primary update" form="form_user" type="button" onclick="user.submitForm(4)">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;修&nbsp;改
+                </button>
+                <button class="btn btn-primary return" type="button" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-log-out "></span>&nbsp;返&nbsp;回
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 导入excel-->
+<div class="modal fade" id="modal_userUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_userUpload" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:9rem;height:5rem;">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_userUpload">用户信息导入</h4> 
+            </div>
+           <div class="modal-body"> 
+                <a href="common/templates/UserInfo.xls" class="form-control" style="border:none;color:red;">下载导入模板</a>
+		        <div class="form-group">
+				    <label for="" class="col-sm-2 control-label">选择文件</label>
+					<div class="col-sm-10">
+					   <input id="uploadUser" type="file" name="uploadUser" class="fileloading" onchange="formUtil.filefujianChange(this,2);">
+					    <p class="help-block">支持xls,xlsx格式，大小不超过2.0M</p>
+					</div>
+					<input type="hidden" name="user.logo" id="logo">
+		        </div>
+		   </div>
+        </div>
+    </div>
+</div>

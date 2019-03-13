@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;addUser.html&apos; to &apos;showRelease&apos;&#x0D;&#x0A;- Original project: &apos;gxhy_system_web&apos;&#x0D;&#x0A;- Destination element: &apos;showRelease&apos;&#x0D;&#x0A;- Original element: &apos;addUser.html&apos;" description="Copy file" element1="src/main/webapp/systemInfo/user/addUser.html" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1548118611956" target="/gxhy_infoservice_web/src/main/webapp/showRelease" units="0" version="1.0"/>
+</session>

@@ -1,0 +1,14 @@
+	<link rel="stylesheet" href="../../common/layui/css/layui.css" >
+<link href="routine_work.css" rel="stylesheet"> 
+<script type="text/javascript" src="../../common/util/jquery/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src='http://webapi.amap.com/maps?v=1.4.3&key=832085f1e357efae7eb7e34449ac1a36'></script>
+<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="../../common/util/commonUtils.js"></script>
+	<script  src="../../common/layui/layui.js"></script>
+	
+	
+<script type="text/javascript" src="trajectory.js"></script>
+<div id="container"></div>
+<div id="tip" style="position: absolute;top: 0.52rem;right: 0.4rem">
+	<div id="hf_div" style="float: left;width: 0.88rem;cursor:pointer;background-color: #6495ED;letter-spacing: 4px;border-radius: 3px;height: 0.3rem;color: #FFF;font-size: 0.16rem;text-align: center;padding-top: 0.04rem;">回放</div>
+</div>

@@ -1,0 +1,26 @@
+.handleGrade{
+	color: #0095E7;
+}
+.handleGrade:hover{
+	cursor: pointer;
+}
+.tm-label{
+	font-size: 0.16rem !important;
+	width: 0.16rem !important;
+	padding: 0px !important;
+	line-height: 0.35rem;
+}
+#son_dataChange{
+	padding:0.05rem 0.15rem;
+}
+#leadTable thead th,td:nth-child(1),td:nth-child(3),td:nth-child(4),td:nth-child(5){
+	text-align:center;
+}
+#leadTable tr{
+    height: 0.7rem;
+    line-height: 0.7rem;
+}
+
+.layui-table-view {
+    margin-top: 0.1rem !important;
+}

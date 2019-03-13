@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.patrol.mapper.RoutineMapper">
+
+   <!-- 我的巡检记录 -->
+    <select id="getMyRoutineWorks" resultType="com.gxhy.patrol.model.PatrolCatalogModel">
+		<include refid="RoutineSql"></include>
+		 ORDER BY PATROL_TM DESC  
+    </select>
+    
+    <!-- 下级巡检日志 -->
+    <select id="getSubRoutineWorks" resultType="com.gxhy.patrol.model.PatrolCatalogModel">
+        <include refid="RoutineSql"></include> 
+		 AND P.PATROL_ADCD LIKE '${adcd}%'  AND (U.JOB  IN
+		<foreach collection="arr" index="index" item="item" open="(" separator="," close=")">
+           #{item}
+        </foreach>
+        or  U.DEPTID  IN
+        <foreach collection="depts" index="index1" item="item" open="(" separator="," close=")">
+           #{item}
+        </foreach>
+        )
+		ORDER BY PATROL_TM desc 
+    </select>
+    
+     <!-- 县级查看所有人的巡检日志 -->
+    <select id="getSubRoutineWorksAll" resultType="com.gxhy.patrol.model.PatrolCatalogModel">
+         <include refid="RoutineSql"></include> 
+          ORDER BY PATROL_TM desc 
+    </select>
+    
+    <!--获取所有人的巡河日志  -->
+    <select id="getAllRoutineWorks" resultType="com.gxhy.patrol.model.PatrolCatalogModel">
+         <include refid="RoutineSql"></include> 
+		  ORDER BY PATROL_TM desc 
+    </select>
+    
+    
+    <!-- 获取轨迹 -->
+    <select id="getRoutineUrl" resultType="com.gxhy.patrol.model.PatrolCatalogModel">
+    	SELECT UUID,PATROL_PATH AS PATROLPATH FROM IOT_PATROL_BASE WHERE UUID = #{routineId}
+    </select>
+    
+    <!-- 保洁巡河 -->
+    <select id="getCleanRoutineWorks"  resultType="com.gxhy.patrol.model.PatrolCatalogModel">
+       <include refid="RoutineSql"></include>
+	   AND U.JOB=#{job}  ORDER BY PATROL_TM desc
+    </select>
+    
+      
+    <!-- 巡河记录 --> 
+      <select id="getRoutineWorks" resultType="com.gxhy.patrol.model.PatrolCatalogModel">      
+         SELECT PATROL_TM,PATROL_END_TM,PATROL_START_POINT,PATROL_END_POINT,PATROL_TM_LT,PATROL_MILEAGE  FROM IOT_PATROL_BASE
+         WHERE 1=1
+        <if test="stm != null and stm != ''">
+			AND  PATROL_TM>= #{stm}
+		</if>
+		<if test="etm != null and etm != ''">
+			AND  PATROL_TM &lt;= #{etm}
+		</if>
+		<if test="userId != null and userId != ''">
+			AND  PATROL_UID = #{userId} 
+		</if>
+      </select> 
+      
+      
+       
+    <!-- 基础sql语句 -->
+    <sql id="RoutineSql">
+        SELECT P.UUID,P.PATROL_TM AS PATROLTM,P.PATROL_UID,P.PATROL_START_ADDRESS AS patrolStartPoint,P.PATROL_END_ADDRESS 
+        AS patrolEndPoint,P.PATROL_MILEAGE as patrolMileage,P.PATROL_TM_LT as patrolTmLt,P.PATROL_ADCD,P.PATROL_PATH,P.PATROL_END_TM AS PATROLENDTM,
+        U.USER_NAME AS REPORTPUNAME,R.REH_NM AS riverNm,U.USER_NAME AS PATROLUNAME,P.RV_CD AS RIVERID,P.PATROL_UID AS patrolUid FROM IOT_PATROL_BASE P LEFT JOIN SYS_USER U ON P.PATROL_UID = U.USER_ID
+        LEFT JOIN BASE_REACH R ON R.GID = P.RV_CD
+        <where>
+        	<if test="addvcd != null and addvcd != ''">
+        		AND P.PATROL_ADCD LIKE #{addvcd} + '%'
+        	</if>
+	        <if test="patrolStartTm != null and patrolStartTm != ''">
+				AND P.PATROL_END_TM &gt;= #{patrolStartTm}
+			</if>
+			<if test="patrolEndTm != null and patrolEndTm != ''">
+				AND  P.PATROL_END_TM &lt;= #{patrolEndTm}
+			</if>
+			<if test="userId != null and userId != ''">
+				AND  P.PATROL_UID = #{userId}
+			</if>
+			<if test="keyword != null and keyword != ''">
+				AND (U.USER_NAME  LIKE '%'+ #{keyword} + '%' OR R.RV_NM LIKE '%'+ #{keyword} + '%')
+			</if>
+		</where>
+    </sql>
+    
+    <select id="getEventCountByRiverId" resultType="map">
+		select t.num,r.reh_nm from (SELECT count(1) as num, rv_cd from IOT_BUSINE_ACCEPT where rv_cd in (select r_cd from BASE_GM_RELA where gm_cd=#{gmCode}) GROUP BY rv_cd) as t
+		left JOIN 
+		BASE_REACH r
+		on r.gid = t.rv_cd
+    </select>
+</mapper>

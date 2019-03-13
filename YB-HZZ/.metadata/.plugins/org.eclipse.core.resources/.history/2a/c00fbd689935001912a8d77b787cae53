@@ -1,0 +1,159 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="riverLakeInfo/riverLakeInfo.css" rel="stylesheet" type="text/css"> 
+<script src="riverLakeInfo/riverLakeInfo.js"  type="text/javascript" ></script>
+<!-- 导入页面Dom -->
+<div class="layui-upload" id="uploadRiver" style="display: none;">
+	<div style="border:1px solid #eee;margin:0.1rem 0.2rem;padding:0.05rem 0px;">导入文件<button type="button"  id="selectFile">选择文件</button>
+	<div class="uplaod-v" style="text-align: center;"><a class="upload-a" id="importFile">导入</a></div> 
+	</div>
+	<p class='p1'><a>点击下载模板</a></p>
+	<p class='p2'>点击浏览文件后选择需要导入的Excel文件进行数据导入 </p>
+</div>
+<div class="layui-layout layui-layout-admin">
+	  <div class="layui-body">
+	      <div class="layui-tab layui-tab-card"  lay-filter="layTab">  
+		  <ul class="layui-tab-title"  >
+		      <li class="layui-this">河流信息</li>
+		      <li>河段信息</li>
+		      <li>水库信息</li>
+		      <li>塘坝信息</li>
+		      <li>湖泊信息</li>
+		  </ul>		  
+		  <form  class="tab-search" id="layerDemo">
+		        <div style="float: right;margin-right: 0.12rem;">
+		           <div class="layui-input-inline">
+			        <input  type="text" id="keyWord" class="layui-input seach-input"  placeholder="请输入河流名称" >
+			       </div>
+			       <div class="layui-input-inline">
+			          <button  data-method="reloadRiver" class="layui-btn btn-sel"  type="button">
+			             <i class="layui-icon layui-icon-search"></i>查询
+			          </button>
+			       </div>
+			       <div class="layui-input-inline">
+			           <button  data-method="add"  class="layui-btn btn-add" type="button">
+			              <i class="layui-icon layui-icon-add-circle"></i>新增
+			           </button>
+			       </div> 
+			       <div class="layui-input-inline">
+			           <button  data-method="offset" class="layui-btn btn-imp" type="button" >
+			              <i class="layui-icon layui-icon-download-circle"></i>导入
+			           </button>
+			       </div> 
+			       <div class="layui-input-inline">
+			           <button data-method="exportRiver" class="layui-btn btn-exp" type="button">
+			              <i class="layui-icon layui-icon-upload-circle"></i>导出
+			           </button>
+			       </div>
+			      <!--  <div class="layui-input-inline">
+			          <button data-method="deleteRiver" class="layui-btn btn-del" type="button">
+			             <i class="layui-icon layui-icon-delete"></i>删除
+			          </button>
+			       </div> -->
+		        </div>   
+		     </form>
+		  <div class="layui-tab-content" style="padding-top: 0px !important;">
+		    <div class="layui-tab-item layui-show">     
+		     <!--   <table    lay-filter="table_0">					  
+				   <thead>
+					    <tr>	
+					       <th lay-data="{field:'num',type:'checkbox'}"></th>
+      					   <th lay-data="{field:'id', width:'4%', sort: true,type:'numbers'}">ID</th>
+					       <th lay-data="{field:'rvCd', width:'10%', align:'center'}">河流编码</th>
+					       <th lay-data="{field:'rvNm', width:'10%', align:'left'}">河流名称</th>
+					       <th lay-data="{field:'bsnm', width:'10%', align:'center'}">所属流域</th>
+					       <th lay-data="{field:'rvLt', width:'10%', sort: true,align:'center'}">河流长度</th>
+					       <th lay-data="{field:'draArea',width:'10%',sort: true,align:'center'}">河流面积</th>
+					       <th lay-data="{field:'rvOn', width:'16%',align:'left'}">河源</th>
+					       <th lay-data="{field:'rvMh', width:'16%',align:'left'}">河口</th>
+					       <th lay-data="{field:'dt', width:'10%', align:'center'}">行政区名称</th>
+			           </tr>
+					</thead>
+		       </table>     -->
+		    </div>
+		    <div class="layui-tab-item">
+		    <table  lay-filter="table_1">					  
+				   <thead>
+					    <tr>	
+					       <th lay-data="{field:'lnum',type:'checkbox'}"></th>
+				           <th lay-data="{field:'id', width:30, sort: true,type:'numbers'}">ID</th>
+      					   <th lay-data="{field:'rehCd', width:150,align:'center'}">河段编码</th>
+					       <th lay-data="{field:'rehNm', width:150, align:'center'}">河段名称</th>
+					       <th lay-data="{field:'rehTp', width:100, align:'center'}">河流类型</th>
+					       <th lay-data="{field:'rehDt', width:100, align:'center'}">行政区</th>
+					       <th lay-data="{field:'rvNm', width:200,align:'center'}">所属河流</th>
+					       <th lay-data="{field:'rehArea',width:120, align:'center',sort: true}">流域面积</th>
+					       <th lay-data="{field:'rehLt', width:120,align:'left',sort: true}">河段长度</th>
+					       <th lay-data="{field:'rehLevel', width:100, align:'center'}">河段等级</th>
+					       <th lay-data="{field:'rehHasBoundary', width:110, align:'center'}">是否跨界</th>
+					       <th lay-data="{field:'rehOn', width:190, align:'center'}">河源所在位置</th>
+					       <th lay-data="{field:'rehMh', width:190, align:'center'}">河口所在位置</th>
+			           </tr>
+					</thead>
+		       </table> 
+		    </div>
+		    <div class="layui-tab-item">
+			    <table   lay-filter="table_2">					  
+					   <thead>
+						    <tr>	
+						       <th lay-data="{field:'rnum',type:'checkbox'}"></th>
+	      					   <th lay-data="{field:'rid', width:30, sort: true,type:'numbers'}">ID</th>
+						       <th lay-data="{field:'resCd', width:150, align:'center'}">水库代码</th>
+						       <th lay-data="{field:'resNm', width:100, align:'center'}">水库名称</th>
+						       <th lay-data="{field:'resDt', width:100, align:'center'}">行政区名称</th>
+						       <th lay-data="{field:'resTp', width:100, sort: true,align:'center'}">水库类型</th>
+						       <th lay-data="{field:'loc',  width:120, align:'center'}">所在地</th>
+						       <th lay-data="{field:'projScal', width:180,align:'left'}">工程规模</th>
+						       <th lay-data="{field:'projRank', width:100, align:'center'}">工程等级</th>
+						       <th lay-data="{field:'catA', width:100, align:'center'}">集水面积</th>
+						       <th lay-data="{field:'totV', width:180,align:'left'}">总库容</th>
+						       <th lay-data="{field:'normWz', width:100, align:'center'}">正常蓄水位</th>
+						       <th lay-data="{field:'utilV', width:100, align:'center'}">兴利库容</th>
+						       <th lay-data="{field:'deadz', width:100, align:'center'}">死水位</th>
+						       <th lay-data="{field:'deadV', width:100, align:'center'}">死库容</th>
+				           </tr>
+						</thead>
+			       </table>
+		    </div>
+		    <div class="layui-tab-item">
+		         <table   lay-filter="table_3">					  
+					   <thead>
+						    <tr>	
+						       <th lay-data="{field:'rnum',type:'checkbox'}"></th>
+	      					   <th lay-data="{field:'rid', width:30, sort: true,type:'numbers'}">ID</th>
+						       <th lay-data="{field:'damCd', width:200, align:'center'}">山塘编码</th>
+						       <th lay-data="{field:'damnme', width:200, align:'center'}">山塘名称</th>
+						       <th lay-data="{field:'wscd', width:200, align:'center'}">小流域代码</th>
+						       <th lay-data="{field:'adnm', width:200, align:'center'}">行政区名称</th>
+						       <th lay-data="{field:'lgtd',  width:120, align:'center'}">经度</th>
+						       <th lay-data="{field:'lttd', width:180,align:'left'}">纬度</th>
+						       <th lay-data="{field:'xhst', width:140, align:'center'}">容积</th>
+						       <th lay-data="{field:'height', width:140, align:'center'}">坝高</th>
+						       <th lay-data="{field:'width', width:150,align:'left'}">坝长</th>
+				           </tr>
+						</thead>
+			       </table> 
+		    </div>
+		    <div class="layui-tab-item">
+		         <table   lay-filter="table_4">					  
+				   <thead>
+					    <tr>	
+					       <th lay-data="{field:'lnum',type:'checkbox'}"></th>
+      					   <th lay-data="{field:'lid', width:30, sort: true,type:'numbers'}">ID</th>
+					       <th lay-data="{field:'lkCd', width:180, align:'center'}">湖泊代码</th>
+					       <th lay-data="{field:'lkNm', width:100, align:'center'}">湖泊名称</th>
+					       <th lay-data="{field:'lkDt', width:200, sort: true,align:'center'}">行政区名称</th>
+					       <th lay-data="{field:'plkNm',  width:200, align:'center'}">上级河湖名称</th>
+					       <th lay-data="{field:'watA', width:180,align:'left'}">水面面积</th>
+					       <th lay-data="{field:'sfwProp', width:120, align:'center'}">咸淡水属性</th>
+					       <th lay-data="{field:'avgDep', width:120, align:'center'}">平均水深</th>
+					       <th lay-data="{field:'maxDep', width:180,align:'left'}">最大水深</th>
+					       <th lay-data="{field:'wrrcd', width:120, align:'center'}">湖泊容积</th>
+					       <th lay-data="{field:'sshunm', width:130, align:'center'}">所属湖泊</th>
+			           </tr>
+					</thead>
+		       </table>  
+		    </div>
+		  </div>
+		</div>      
+	  </div>
+</div>

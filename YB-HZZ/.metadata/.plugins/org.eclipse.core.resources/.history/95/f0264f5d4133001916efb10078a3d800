@@ -1,0 +1,209 @@
+var url=WEB_ROOT+"busine/accept/";
+layui.config({
+	  base: WEB_ROOT+'/common/util/' 
+});
+layui.use('tableUtil', function() {
+	var tableGrade=layui.tableGrade,
+	gradeReload=layui.gradeReload,
+	tableUtil=layui.tableUtil,
+	toolGrade=layui.toolGrade;
+	//初始化时间
+	tableUtil.initTm("startTm","endTm",'date');
+});
+//表格
+layui.define(['jquery','table','tableUtil'],function(exports){
+	 var $ = layui.$,
+	 table=layui.table,
+	 tableUtil= layui.tableUtil;
+	 var h=tableUtil.initHeight("gradeForm");
+	 
+	 //初始化表格
+	 var option={url:url+'getEventList',id:'gradeTable',height:328,limit:10,limits:[10,20,30,40,50]};
+	 tableUtil.initTable(option);
+  exports('tableGrade',function(){});
+});	
+
+layui.define(['jquery','table'],function(exports){
+	 var $ = layui.$,
+	 table=layui.table;
+	 var count=0;
+	 var urlArr=[];
+	 //监听行单击事件（单击事件为：rowDouble）
+	  table.on('row(gradeTable)', function(obj){
+	    var data = obj.data;
+	    var html = "";
+	    html += "<p class='description_p'>事件编号1："+reverseContent(data.busineId)+"</p>";
+	    html += "<p class='description_p'>事件类型："+reverseContent(data.busineTypeNm)+"</p>";
+	    html += "<p class='description_p'>上报人："+reverseContent(data.busineUm)+"</p>";
+	    html += "<p class='description_p'>上报时间："+reverseContent(data.createTm)+"</p>";
+	    html += "<p class='description_p'>处理人："+reverseContent(data.lastHandleUserNm)+"</p>";
+	    html += "<p class='description_p'>处理时间："+reverseContent(data.updateTm)+"</p>";
+	    html += "<p class='description_p'>发生地点："+reverseContent(data.busineAddress)+"</p>";
+	    html += "<p class='description_p'>事件描述："+reverseContent(data.busineDesc)+"</p>";
+	    $('.detail_div').html(html);
+	    var result=commonUtils.get(WEB_ROOT+"/busine/accept/getBusineImgs",{"busineId":data.busineId},null);
+	    if(result.flag){
+	    	var list=result.data;
+	    	/*var url=window.location.href.split("/gxhy")[0];
+	    	alert(url);
+	    	$.each(list,function(i,v){
+	    		var paramUrl=v.split("images")[1].replace( "\\\\ ",   "/");
+	    		var ulr1=url+"/img/"+paramUrl;
+	    		var html="<a href='#' target='_blank'><img src='"+ulr1+"'/></a>";
+	    		$("#banner_list").append(html);
+	    		
+	    		
+	    		console.log(paramUrl);
+	    	});*/
+	    	 
+	    	if(result.flag){
+	    		var url=window.location.href.split("/gxhy")[0];
+				if(result.data.length>0){
+					$.each(list,function(i,v){
+						var paramUrl=v.split("images")[1].replace( "\\\\ ",   "/");
+			    		var ulr1=url+"/img/"+paramUrl;
+			        	busineEvent.urlArr.push(ulr1);	     
+					})
+					
+					busineEvent.count = busineEvent.urlArr.length;
+					busineEvent.index = 0;
+					$("#left_img").attr("src",busineEvent.urlArr[0]);
+				}else{
+					var moUrl = WEB_ROOT + "/common/images/bussine/101.png";
+			    	$("#left_img").attr("src",moUrl);
+				}
+			}else{
+				var moUrl = WEB_ROOT + "/common/images/bussine/101.png";
+		    	$("#left_img").attr("src",moUrl);
+			}
+	    }	    	
+	    getPollTimeAxis(data);
+	  });
+	 
+	//监听按钮点击事件
+	 $('#gradeForm .layui-btn').on('click', function(){
+	    var othis = $(this), method = othis.data('method');
+	    riverLakeInfo[method] ? riverLakeInfo[method].call(this, othis) : '';
+	   
+	 });
+	 //静态不可用
+	 var riverLakeInfo={
+		 reloadGrade:function(){
+			 var startTm=$("#startTm").val();
+			 var endTm=$("#endTm").val();
+		     var keyword=$("#keyword").val();
+			 table.reload("gradeTable",{
+			   	 page: {
+			   	      curr: 1
+			   	   }
+		        ,where:{keyword:keyword,startTm:startTm,endTm:endTm}
+		    });
+		 }
+	 }
+	 exports('gradeReload',riverLakeInfo);
+});
+
+//监听行工具事件
+layui.define('table',function(exports){
+	  var table=layui.table;
+	  table.on('tool(gradeTable)', function(obj){
+		  console.log(obj);
+	    if(obj.event === 'handleGrade'){
+	    	layer.open({
+	    		  type: 2,
+	    		  skin:"layui-layer-lan",
+	    		  title: '领导打分',
+	    		  area: ['60%', '85%'],
+	    		  content: WEB_ROOT+'/grade/leaderGrade.html'  
+	    		});
+	     } 
+	  });
+
+	exports('toolGrade',function(){});
+});
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+	
+	 //限定可选时间
+	 laydate.render({
+	 	elem: '#startTm'
+	 	,type: 'date'
+	     ,btns: ['clear', 'confirm']
+	 }); 
+	 laydate.render({
+	 	  elem: '#endTm'
+	 	  ,type: 'date'
+	 	  ,btns: ['clear', 'confirm']
+	 	}); 
+});
+function reverseContent(str,replaceStr){
+	if(str == null || str == undefined || str == 'null' || str == ''){
+		if(replaceStr){
+			return replaceStr;
+		}else{
+			return '';
+		}
+	}else{
+		return str;
+	}
+};
+function getPollTimeAxis(data){
+	 var busineId=data.busineId;
+		var busineUm=data.busineUm;
+		var createTm=data.createTm;
+		var busineOrigin=data.busineOrigin;
+		var result= commonUtils.get(WEB_ROOT+"/busine/accept/getTimeAxis",{busineId:busineId},null);
+		if(result.flag){
+			  if(result.data.length>0){
+				  	var html="<div class='flowChart'><div class='flowChart-left'><div class='dashed'></div></div>";
+				  	html+="<div class='flowChart-right'><div class='oneNode'><div class='check check-danger'>";
+					html+="上报人";
+					html+="</div><div class='tag-boder'><div class='tag'></div></div>";
+					html+="<div class='NodeDetail'><div class='NodeDetail-content'>";
+					html+="<p>"+reverseContent(busineUm,"匿名用户")+"&nbsp;&nbsp;&nbsp;</p><p>"+reverseContent(result.data[0].handleView,"暂无处理内容")+"</p></div>";
+					html+="<div class='NodeDetail-footer'><span>"+createTm+"</span></div></div></div></div></div>";	
+					if(busineOrigin=="hzxh"){
+						for(var i=0;i<result.data.length;i++){
+							html+="<div class='flowChart'><div class='flowChart-left'><div class='dashed'></div></div>";
+							html+="<div class='flowChart-right'><div class='oneNode'><div class='check check-danger'>";
+							var status=result.data[i].status;
+							if(status=="1"){
+								html+="未处理";
+							}else if(status=="2"){
+								html+="退回";
+							}else if(status=="3"){
+								html+="转交";
+							}else{
+								html+="处理";
+							}
+							html+="</div><div class='tag-boder'><div class='tag'></div></div>";
+							html+="<div class='NodeDetail'><div class='NodeDetail-content'>";
+							html+="<p>"+reverseContent(result.data[i].busineUm,"匿名用户")+"&nbsp;&nbsp;&nbsp;</p><p>"+reverseContent(result.data[i].handleView,"暂无处理内容")+"</p></div>";
+							html+="<div class='NodeDetail-footer'><span>"+result.data[i].handleTm+"</span></div></div></div></div></div>";				
+						}
+					}else{
+						for(var i=0;i<result.data.length;i++){
+							html+="<div class='flowChart'><div class='flowChart-left'><div class='dashed'></div></div>";
+							html+="<div class='flowChart-right'><div class='oneNode'><div class='check check-danger'>";
+							var status=result.data[i].status;
+							if(status=="1"){
+								html+="未处理";
+							}else if(status=="2"){
+								html+="退回";
+							}else if(status=="3"){
+								html+="转交";
+							}else{
+								html+="处理";
+							}
+							html+="</div><div class='tag-boder'><div class='tag'></div></div>";
+							html+="<div class='NodeDetail'><div class='NodeDetail-content'>";
+							html+="<p>"+reverseContent(result.data[i].busineUm,"匿名用户")+"&nbsp;&nbsp;&nbsp;</p><p>"+reverseContent(result.data[i].handleView,"暂无处理内容")+"</p></div>";
+							html+="<div class='NodeDetail-footer'><span>"+result.data[i].handleTm+"</span></div></div></div></div></div>";				
+						}
+					}
+					$("#timeAxis").html(html);
+			}else{
+				$("#timeAxis").html("<div style='heigth:500px;line-heigth:500px;text-align:center;'>暂无!</div>");
+			}
+	}		
+};

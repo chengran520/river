@@ -1,0 +1,142 @@
+.body{
+	background: url(../../images/hz_bj.png) no-repeat;
+    font-family:Microsoft YaHei;
+}
+a{color:#00dde4;text-decoration:none;}
+a:hover{color:#00dde4; }
+.header-div{
+    position: relative;
+    height: 0.88rem;
+}
+.img-login{
+  	    width: 1.06rem;
+    height: 0.8rem;
+}
+.header-div-img{
+	position: absolute;
+    top: 0px;
+}
+.header-div-img1{
+	    position: absolute;
+    right: 2.2rem;
+    top: 0.14rem;
+    height: 0.34rem;
+    width: 1.2rem;
+}
+.header-div-img1 img{
+	 height: 100%;
+    width: 100%;
+}
+.header-div-img2{
+	position: absolute;
+	right: 1.67rem;
+    top: 0.22rem;
+}
+.header-div-img2 img,.header-div-img3 img{
+	    width: 0.24rem;
+    height: 0.24rem;
+}
+.header-div-img3{
+	position: absolute;
+    top: 0.22rem;
+    right: 0.78rem;
+}
+.header-div-title{
+	position: absolute;
+	top: 0.1rem;
+    left: 0.88rem;
+}
+.header-div-txt{
+	position: absolute;
+    top: 0.23rem;
+}
+.user-txt{
+	right: 2.33rem;
+}
+.help-txt{
+	right:1.3rem;
+}
+.out-txt{
+	right: 0.45rem;
+}
+.header-span{
+	color: #00dde4;
+	font-size: 0.14rem;
+	
+}
+.container-fluid{
+	height: 0.88rem;
+}
+.content-div-header{
+	    height: 0.4rem;
+    position: absolute;
+    bottom: 0;
+    width:100%;
+}
+.content-div-header > img{
+	    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.content-div-header #navber-menu-ul{
+      width: max-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.navber-menu-ul>li{
+    float: left;
+   margin-right: 0.05rem;
+}
+.header-title{
+   margin: 0;
+   padding: 0;
+   display: inline-block;
+   font-size: 0.25rem;
+   color: #00dde4;
+   font-family: "Microsoft YaHei";
+   text-shadow: 0 0 0.46rem #5fefff;
+}
+.menu-img{
+	margin-bottom: 0.06rem;
+    margin-right: 0.02rem;
+        width: 0.24rem;
+    height: 0.24rem;
+        display: inline-block!important;
+}
+.a_menu{
+	font-size: 0.16rem;
+}
+/* .layui-side{
+	position:inherit;
+	top:inherit;
+	bottom: inherit;
+} */
+.layui-body{
+	top: 1.1rem;
+	bottom: inherit;
+}
+.layui-layout-admin .layui-body{
+    top: 1.1rem;
+}
+.layui-layout-admin .layui-footer{
+	height: 0.38rem;
+	line-height: 0.38rem;
+    left: 0;
+    text-align: center;
+    background-color: #2C2E35;
+    color: #BBBBBB;
+    font-size: 0.14rem;
+}
+#header-user-out{
+	cursor: pointer;
+}
+.intoColor{
+	background-color: #00dee4 !important;
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.monitor.mapper.PoolMapper">
+  <!-- 获取山塘信息 -->
+  <select id="getPools"  resultType="com.gxhy.base.monitor.model.PoolModel">
+     SELECT I.DAMCD AS damcd,I.DAMNAME AS damname,I.XHST AS xhst,I.SIGNER AS signer,B.HNNM AS hnnm,B.STLC AS stlc,
+     B.LTTD AS lttd,B.LGTD AS lgtd,B.DRNA AS drna,B.STTP AS sttp FROM  IA_C_DAMINFO  I
+     LEFT JOIN ST_STBPRP_B B
+     ON I.DAMCD=B.STCD 
+     <where>
+        <if test="keyword != null and keyword != ''">
+		 I.DAMCD  like  '%${keyword}%'  OR   I.DAMNAME  like  '%${keyword}%' 
+	    </if>
+     </where>
+     ORDER BY I.XHST  DESC
+  </select>
+  
+  <!--根据测站id获取山塘 -->
+  <select id="getPoolById"  resultType="com.gxhy.base.monitor.model.PoolModel">	 
+     SELECT I.DAMCD AS damcd,I.DAMNAME AS damname,I.XHST AS xhst,I.SIGNER AS signer,B.HNNM AS hnnm,B.STLC AS stlc,
+     B.LTTD AS lttd,B.LGTD AS lgtd,B.DRNA AS drna,B.STTP AS sttp,
+	 (SELECT B.GM_NAME FROM BASE_GMINFO 
+     LEFT JOIN  BASE_GM_RELA  R ON B.GM_CODE=R.GM_CD  WHERE R.R_CD=I.DAMCD) as userNm  FROM IA_C_DAMINFO I
+	 LEFT JOIN ST_STBPRP_B B
+	 ON I.DAMCD=B.STCD  WHERE I.DAMCD=#{id} 
+  </select>
+</mapper>

@@ -1,0 +1,124 @@
+var patrolRecord = {
+	baseHeight: '',//表格高度
+	clickRow:[],//当前点击行
+	stm:'',//开始时间
+	etm:'',//结束时间
+	 loadTable: function () {
+	    	var dataParams =  {
+	    		id:'table_patrol',//表格id
+	    		url:'routine/work/getMyRoutineWorks',//地址
+	    		height:patrolRecord.baseHeight,//表格高度
+	    		fileName:'巡检记录信息表',//导出表格名称
+	    	};
+	    	bootstrapTable.columns =[{
+	            title: '序号',
+	            align: "center",
+	            colspan: 1,
+	            width: 1,
+	            formatter: function (value, row, index) {
+	                return index + 1;
+	            }
+	        },{
+	            field: 'patrolUName',
+	            title: '巡检人',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80,
+	        },{
+	            field: 'riverNm',
+	            title: '河流名称',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80,
+	        },{
+	            field: 'patrolTm',
+	            title: '巡检起始时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'patrolEndTm',
+	            title: '巡检结束时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'patrolMileage',
+	            title: '巡检历程（m）',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'patrolSpeed',
+	            title: '巡检速度',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 100,
+	        },{
+	            field: 'unitName',
+	            title: '操作',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 60,
+	            formatter: function (value, row, index) {
+	                var html = `
+	                <a href="javascript:void(0)" onclick="patrolRecord.showFormModal('${row.uuid}')" class="table_btn table_btn_detail">详情</a>`;
+	                return html;
+	            }
+	        }];
+	    	bootstrapTable.bootstrapTableUtil(patrolRecord,dataParams);
+	    },
+	    
+	    //点击表格行
+	    onClickRow:function(row, $element, field){
+	    	patrolRecord.clickRow = row;
+	    },
+	    
+	    onLoadSuccess:function(){
+	    },
+	    showFormModal:function(uuid){
+	    	var p = $(window).height();	
+			var w = $(window).width();	
+			var toUrl = WEB_ROOT+"riverPatrol/patrolLog/trajectory.html?routineId="+uuid;
+	    	var index = layer.open({
+			  title:"巡河轨迹",
+			  type: 2,
+			  content: toUrl,
+			  area: [''+w+'px', ''+p+'px'],
+			  maxmin: true
+			});
+	    },
+	    
+}
+$(function(){
+	patrolRecord.baseHeight = $(".baseData").height() - clientSize * 0.6;
+	patrolRecord.loadTable();
+	  //  选择日期
+    $("#createDate").mouseover(function(){
+    	laydate.render({
+        	elem: '#createDate',
+        	theme: '#4d86cf',
+        	type: 'datetime',
+        	range: true,
+        	done: function(value, date){
+        		patrolRecord.stm = value.substring(0,19);
+        		patrolRecord.etm = value.substring(22);
+        	}
+        });
+    });
+    $(".queryBtn_patrol").click(function(){
+    	bootstrapTable.queryParams["patrolUName"] = $("#query_patrolUName").val();
+    	bootstrapTable.queryParams["stm"] = $("#patrolStartTm").val();
+    	bootstrapTable.queryParams["etm"] = $("#patrolEndTm").val();	
+    	$("#table_patrol").bootstrapTable('refresh');
+    });
+	
+	
+});

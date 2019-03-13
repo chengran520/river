@@ -1,0 +1,504 @@
+var riverLakeInfo = {
+	clickIndex:0,//当前加载表格
+	tabVal:'河流信息',//表格名称
+	tableUrl:'',//表格URL
+	tableColumns:[],//表格列名
+	id:'riverLakeInfo',//页面元素ID
+	type:'',//增删改查 类型
+	//查询当前应加载哪个表格  // 1:河流信息   2：河段信息  3：水库信息 4：塘坝信息  5：湖泊信息
+	queryTable:function(){
+		switch(riverLakeInfo.clickIndex){
+			case 1:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllReach';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		                return index + 1;
+		            }
+		        },{
+		            field: 'rehCd',
+		            title: '河段编码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehNm',
+		            title: '河段名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehTp',
+		            title: '河流类型',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rvNm',
+		            title: '所属河流',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rehLt',
+		            title: '河段长度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rehLevel',
+		            title: '河段等级',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehArea',
+		            title: '流域面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehHasBoundary',
+		            title: '是否跨界',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehOn',
+		            title: '河源所在位置',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehMh',
+		            title: '河口所在位置',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehDt',
+		            title: '行政区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		            formatter: function (value, row, index) {
+		                var html = `
+			               <a href="javascript:void(0)" class="table_btn table_btn_edit" onclick="riverLakeInfo.showModal(2)">修改</a>&nbsp;&nbsp;
+			               <a href="javascript:void(0)" class="table_btn table_btn_del" onclick="riverLakeInfo.showModal(0)">删除</a>&nbsp;&nbsp;`
+		                return html;
+		            }
+		        }
+		        ];
+				break;
+			case 2:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllRsvr';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		                return index + 1;
+		            }
+		        },{
+		            field: 'resCd',
+		            title: '水库代码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'resNm',
+		            title: '水库名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'resTp',
+		            title: '水库类型',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'resDt',
+		            title: '行政区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'loc',
+		            title: '所在地',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100
+		        },{
+		            field: 'projScal',
+		            title: '工程规模',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },{
+		            field: 'projRank',
+		            title: '工程等级',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },{
+		            field: 'catA',
+		            title: '集水面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'totV',
+		            title: '总库容',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'normWz',
+		            title: '正常蓄水位',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'utilV',
+		            title: '兴利库容',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'deadV',
+		            title: '死库容',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'deadz',
+		            title: '死水位',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        }];
+				break;
+			case 3:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllPond';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		                return index + 1;
+		            }
+		        },{
+		            field: 'damCd',
+		            title: '山塘编码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'damnme',
+		            title: '山塘名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'wscd',
+		            title: '小流域代码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'adnm',
+		            title: '行政区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'lgtd',
+		            title: '经度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'lttd',
+		            title: '纬度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'xhst',
+		            title: '容积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'height',
+		            title: '坝高',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'width',
+		            title: '坝长',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        }];
+				break;
+			case 4:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllLake';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		                return index + 1;
+		            }
+		        },{
+		            field: 'lkCd',
+		            title: '湖泊代码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'lkNm',
+		            title: '湖泊名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'lkDt',
+		            title: '行政区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'plkNm',
+		            title: '上级河湖',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'watA',
+		            title: '水面面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'sfwProp',
+		            title: '咸淡水属性',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'avgDep',
+		            title: '平均水深',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'maxDep',
+		            title: '最大水深',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'wrrcd',
+		            title: '湖泊容积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'sshunm',
+		            title: '所属湖泊',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        }];
+				break;
+			default:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllRiver';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		                return index + 1;
+		            }
+		        },{
+		            field: 'rvCd',
+		            title: '河流编码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rvNm',
+		            title: '河流名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'bsnm',
+		            title: '所属流域',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rvLt',
+		            title: '河流长度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'draArea',
+		            title: '河流面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rvOn',
+		            title: '河源',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'rvMh',
+		            title: '河口',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'dt',
+		            title: '行政区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        }];
+			   break;
+		}
+		//加载表格
+		riverLakeInfo.loadBasicTable();
+	},
+	
+	//加载表格
+	loadBasicTable:function(){
+		var dataParams =  {
+	    		id:'table_riverLakeInfo',//表格id
+	    		url:riverLakeInfo.tableUrl,//地址
+	    		height:$("#layui_content").height() - nowClientWidth * 64,//表格高度
+	    		fileName: riverLakeInfo.tabVal + '表',//导出表格名称
+		 };
+		bootstrapTable.sidePagination = 1;//前台分页 传1  后端分页 传0 或可不传
+		bootstrapTable.columns = riverLakeInfo.tableColumns;
+		bootstrapTable.bootstrapTableUtil(riverLakeInfo,dataParams);
+	},
+	 //显示模态框
+    showModal:function(type){
+    	riverLakeInfo.type = type;
+    	setTimeout(function(){
+    		if(type){
+	    		 formUtil.showBtn(type,riverLakeInfo);
+	    	}else{
+	    		/*var id = aRiverLong.clickRow.gmCode;//编码
+	    		var url = WEB_ROOT+'basicInfo/riverLong/deleteRiverLong?ids=' + id;
+	    		formUtil.deleteData(url,'table_' + userManager.id);*/
+	    	}
+    	},100);
+    },
+	 //type: 1新增 2编辑    id:表单ID
+    submitForm:function(){
+    	if(riverLakeInfo.type == 1){//新增
+    		formUtil.submitFormData(riverLakeInfo,WEB_ROOT+"basicInfo/riverLake/addRiver?type=1");
+        }else{//编辑
+        	formUtil.submitFormData(riverLakeInfo,WEB_ROOT+"basicInfo/riverLong/addRiver?type=2");
+        }
+    }
+}
+
+$(function(){
+	
+	//根据tab显示信息   加载表格
+	riverLakeInfo.queryTable();
+	
+	//监听tab切換
+	$(".layui-tab-title").on('click','li',function(e){
+		riverLakeInfo.clickIndex = $(this).index();
+		riverLakeInfo.tabVal = $(this).text();
+		$(this).addClass('layui-this').siblings("li").removeClass('layui-this');
+		//根据tab显示信息   加载表格
+		riverLakeInfo.queryTable();
+	});
+	
+	//表格查询
+	$(".queryBtn_table").click(function(){
+		bootstrapTable.queryParams["keyword"] = $("#query_keyWord").val();
+    	$("#table_riverLakeInfo").bootstrapTable('refresh');
+	});
+	
+	//表格数据导入
+	$(".queryBtn_import").click(function(){
+		
+	});
+});

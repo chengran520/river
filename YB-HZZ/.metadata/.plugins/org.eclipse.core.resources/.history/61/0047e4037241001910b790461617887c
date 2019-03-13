@@ -1,0 +1,37 @@
+package com.gxhy.base.basic.model;
+
+import lombok.Data;
+
+@Data
+public class ChannelModel {
+
+	private String code;
+	
+	private String name;
+	
+	private String idName; //渠道所属灌区名称
+	
+	private String idType; //渠道所属灌区类型
+	
+	private String LOC; //位置
+	
+	private String bdtm; //建成时间
+	
+	private String adag; //管理单位
+	
+	private String type; //功能类型
+	
+	private String func; //功能
+	
+	private String acfl; //实际流量
+	
+	private String chle; //渠道长度
+	
+	private String ecia; //现有控灌面积
+	
+	private String bepo; //受益人口
+	
+	private String prname;//上级渠道名称	     
+	
+	private 
+}

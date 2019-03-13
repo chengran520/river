@@ -1,0 +1,329 @@
+package com.gxhy.base.basic.controller;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.gxhy.base.basic.mapper.RiverLongMapper;
+import com.gxhy.base.basic.model.QualityModel;
+import com.gxhy.base.basic.model.ResultRiverInfoModel;
+import com.gxhy.base.basic.model.RiverLongModel;
+import com.gxhy.base.basic.service.RiverLongService;
+import com.gxhy.base.controller.BaseController;
+import com.gxhy.base.imp.ImportExeclUtil;
+import com.gxhy.base.model.RequestModel;
+import com.gxhy.base.model.ResponseModel;
+import com.gxhy.base.model.UserModel;
+import com.gxhy.shiro.SecurityUtil;
+import com.gxhy.utils.AdcdUtil;
+import com.gxhy.utils.DateUtil;
+import com.gxhy.utils.PageUtil;
+import com.gxhy.utils.QueryUtil;
+import com.gxhy.utils.StringUtil;
+
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
+@RestController
+@RequestMapping("basicInfo/riverLong")
+@SuppressWarnings("all")
+public class RiverLongController extends BaseController{
+	
+	private static final Logger logger = LoggerFactory.getLogger(RiverLakeController.class);
+	
+	@Autowired
+	private RiverLongService   riverLongService;
+	
+	/***
+     * 导入河长基本信息到数据库
+     * @param file
+     * @param request
+     * @param response
+     * @return
+     */
+	@RequestMapping(value = "/importRiverLong",method = RequestMethod.GET)
+    public Object importRiverLong(@RequestParam MultipartFile file,QueryUtil param) {
+			//导入操作
+			String name = file.getOriginalFilename();
+			List<RiverLongModel>  riverList=ImportExeclUtil.exportInfo(file,name,new RiverLongModel());//代表河流
+			int i=riverLongService.insertFileRL(riverList,param.getIndex());
+		    return ResponseModel.Success(i);   
+    }
+	
+	
+	/***
+	 * 获取所有的河长数据以及条件查询----旧
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	/*@RequestMapping(value = "/getAllRiverLong",method = RequestMethod.GET)
+    public Object getAllRiverLong(HttpServletRequest request,QueryUtil model) {
+			JSONObject map=new JSONObject();
+			List<RiverLongModel> riverLongs=null;
+			try {
+				map = InitParams(model);
+				RequestInitRanges(map,true,QueryUtil.class);
+				map.put("keyWord", model.getKeyWord());
+				map.put("gmTp", model.getIndex()+1);
+				UserModel user = (UserModel) SecurityUtil.getSessionAttr("user");
+				String adcd=user.getUserAddvcd();
+				if(StringUtils.isNotBlank(adcd)){
+					adcd = AdcdUtil.getPrefixAdcd(adcd, false);
+				}
+				map.put("adcd", adcd);
+				riverLongs=riverLongService.selectAllRiverLongs(map);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		    return ResponseModel.Success(riverLongs);   
+    }	*/
+	/***
+	 * 获取所有的河长数据以及条件查询
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/getAllRiverLong",method = RequestMethod.GET)
+    public Object getAllRiverLong(HttpServletRequest request,QueryUtil model) {
+		 logger.info("DeviceController--->getStatusList-->params:"+model);	
+		JSONObject map = new JSONObject();
+		UserModel user = SecurityUtil.getSessionUser();
+		   // map.put("userId",user.getUserId());
+		   String gmTp = request.getParameter("gmTp");
+		   String keyWord = request.getParameter("keyWord");
+		   String adLevel = request.getParameter("adLevel");
+		   if(StringUtils.isNoneBlank(keyWord)){
+			   map.put("keyWord", keyWord);
+		   }
+		   if(StringUtils.isNoneBlank(adLevel)){//行政级别
+			   map.put("adLevel", Integer.parseInt(adLevel) + 1);
+/*			   if("1".equals(adLevel)){//市级
+				   map.put("adLevel", 11);
+			   }else if("2".equals(adLevel)){//县级
+				   map.put("adLevel", 2);
+			   }else if("3".equals(adLevel)){//乡级
+				   map.put("adLevel", 3);
+			   }else if("4".equals(adLevel)){//村级
+				   map.put("adLevel", 4);
+			   }*/
+		   }
+		   map.put("gmTp", model.getIndex()+1);
+		   String adcd=user.getUserAddvcd();
+			if(StringUtils.isNotBlank(adcd)){
+				adcd = AdcdUtil.getPrefixAdcd(adcd, false);
+				map.put("adcd", adcd);
+			}
+			//分页
+			if(model.getLimit() != null && model.getPageindex() != null){
+				map.put("num",model.getPageindex());
+				map.put("size",model.getLimit());
+			}
+			
+		   map.put(RequestModel.SQLID, RiverLongMapper.class.getName() + ".selectAllRiverLongs");
+		   Page<RiverLongModel> page = riverLongService.selectList(map);
+		   return PageUtil.success(page);	
+    }	
+	
+	
+	
+	/*****
+	 * 删除一条或多个河长的信息
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteRiverLong",method = RequestMethod.POST)
+    public Object deleteRiverLong(HttpServletRequest request,QueryUtil model) {
+			int i=riverLongService.deleteRL(model);
+			return ResponseModel.Success(i);     
+    }
+	
+	
+	/**
+	 * 根据条件查询所有的河流信息
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getriverInfoList", method = RequestMethod.GET)
+	public Object getRiverInfoList(HttpServletRequest request) throws Exception {
+		JSONObject map = new JSONObject();
+		List<ResultRiverInfoModel> models=riverLongService.getRiverInfoList(map);
+		return ResponseModel.Success(models);
+	}
+	/**
+	 * echart折线图
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/echartRiver", method = RequestMethod.GET)
+	public Object echartRiver(HttpServletRequest request) throws Exception {
+		// 默认采用第一条数据
+		String stcd = request.getParameter("stcd");
+		String tm = request.getParameter("tm");
+		if(StringUtils.isNotBlank(tm)){
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        Date date = simpleDateFormat.parse(tm);
+			String etm = DateUtil.sdf.format(date);
+			String stm = DateUtil.sdf.format(DateUtil.getNextDay(date));
+			List<ResultRiverInfoModel> zlist = riverLongService.getZlist(stcd, stm, etm);
+			return ResponseModel.Success(zlist);
+		}
+		return ResponseModel.Failure("时间格式不正确");
+	}
+	
+	
+   /**
+    * 获取水质chart图表数据
+    * @param request
+    * @return
+    */
+	@RequestMapping(value = "/echartQuality", method = RequestMethod.GET)
+	public Object echartQuality(HttpServletRequest request){
+		JSONObject map = new JSONObject();
+		String quaId = request.getParameter("id");
+		String date = request.getParameter("date");
+		String sql = "";
+		String Table = "yuancheng";
+		if(StringUtils.isNotBlank(quaId)){
+			if("wt".equals(quaId)){
+				sql = "Q.WT";
+			}else if("turb".equals(quaId)){
+				sql = "Q.TURB";
+			}else if("cond".equals(quaId)){
+				sql = "Q.COND";
+			}else if("ph".equals(quaId)){
+				sql = "Q.PH";
+			}else if("dox".equals(quaId)){
+				sql = "Q.DOX";
+			}
+		}
+		if(StringUtils.isNotBlank(date)){
+			Date startTm=DateUtil.getStartToTime(date);
+			Date endTm=DateUtil.getEndToTime(date);
+			map.put("starttime", startTm);
+			map.put("endtime", endTm);
+		}
+		map.put("table", Table);
+		map.put("sql", sql);
+		map.put(RequestModel.SQLID,RiverLongMapper.class.getName() + ".getQuaValList");
+		List<QualityModel> zlist = riverLongService.selectList(map);
+		return ResponseModel.Success(zlist);
+	}
+		
+	/**
+	 * 获取各级河长的人数
+	 * @param model
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getRvLongNum", method = RequestMethod.GET)
+	public Object getRvLongNum(HttpServletRequest request){
+		List<RiverLongModel> list = riverLongService.getRvLongList();
+		String adcd = "";
+		Map<String, Integer> resuMap = new HashMap<String, Integer>();
+		int city = 0; // 市
+		int district = 0 ; //县
+		int town = 0; //乡
+		int country = 0 ;// 存
+		for (RiverLongModel riverLongModel : list) {
+			adcd = riverLongModel.getAddvcd().replaceAll("0+$", "");
+			switch(adcd.length()){
+			case 3:
+				city ++ ;
+				break;
+			case 4:
+				city ++ ;
+				break;
+			case 5:
+				district ++ ;
+				break;
+			case 6:
+				district ++ ;
+				break;
+			case 7:
+				town ++ ;
+				break;
+			case 8:
+				town ++ ;
+				break;
+			case 9:
+				town ++ ;
+				break;
+			case 10:
+				country ++ ;
+				break;
+			case 11:
+				country ++ ;
+				break;
+			case 12:
+				country ++ ;
+				break;
+			}
+		}
+		resuMap.put("city", city);
+		resuMap.put("district", district);
+		resuMap.put("town", town);
+		resuMap.put("country", country);
+		//List<Map<String,Object>> rvLongNum = riverLongService.getRvLongNum();
+		return ResponseModel.Success(resuMap);
+	}
+	
+	@RequestMapping(value = "/addRiverLeader", method = RequestMethod.POST)
+	public Object addRiverLeader(HttpServletRequest request,String gmCode,String gmName, String gmDuties, String gmMobile, String addvnm, String adLevel, String gmDutiesLev, String govType, String gmType){
+		List<RiverLongModel> list = new ArrayList<RiverLongModel>();
+		RiverLongModel model = new RiverLongModel();
+		if(StringUtil.isNotBlank(gmName)){
+			model.setGmName(gmName);
+		}
+		if(StringUtil.isNotBlank(gmDuties)){
+			model.setGmDuties(gmDuties);
+		}		
+		if(StringUtil.isNotBlank(gmMobile)){
+			model.setGmMobile(gmMobile);
+		}		
+		if(StringUtil.isNotBlank(addvnm)){
+			model.setAddvnm(addvnm);
+		}		
+		if(StringUtil.isNotBlank(adLevel)){
+			model.setAdLevel(adLevel);
+		}		
+		if(StringUtil.isNotBlank(gmDutiesLev)){
+			model.setGmDutiesLev(gmDutiesLev);
+		}		
+		if(StringUtil.isNotBlank(govType)){
+			model.setGovType(govType);
+		}		
+		if(StringUtil.isNotBlank(gmType)){
+			model.setGmType(gmType);
+		}
+		list.add(model);
+		
+		if(StringUtil.isNotBlank(gmCode)) {
+			int i=riverLongService.updateFileRL(model, 1);
+		}else {
+			int i=riverLongService.insertFileRL(list,1);
+		}
+		return ResponseModel.Success(list);
+	}
+}

@@ -1,0 +1,105 @@
+.yuan{ width:2rem; height:2rem; margin:0 auto; box-sizing:border-box; padding-top:0.2rem; text-align:center; background-color:#f1f1f1; border-radius:50%; position:relative;}
+.yuan_bl1 , .yuan_bl2 , .yuan_bl3 , .yuan_bl4{ width:100%; height:100%; border-radius:50%; position:absolute; left:0; top:0;}
+.yuan_bl1 , .yuan_bl2{ background-color:#FF7F4C; -webkit-box-shadow:0 0 0.1rem 0.1rem #fff inset; box-shadow:0 0 0.1rem 0.1rem #fff inset;}
+.yuan_bl3 , .yuan_bl4{ background-color:#f1f1f1;}
+.yuan_bl1 , .yuan_bl3{ clip:rect(0 2rem 1rem 0);}
+.yuan_bl2 , .yuan_bl4{ clip:rect(1rem 2rem 2rem 0);}
+.yuan_text{ width:1.6rem; height:1.6rem; line-height:1.6rem; box-sizing:border-box; padding-left:0.1rem; margin:0 auto; color:#FF7F4C; font-size:0.36rem; font-family:"PingFangSC-Thin","sans-serif","STHeitiSC-Light","Î¢ÈíÑÅºÚ","Microsoft YaHei"; background-color:#fff; border-radius:50%; position:relative;}
+.handleGrade{
+	color: #0095E7;
+}
+.handleGrade:hover{
+	cursor: pointer;
+}
+.tm-label{
+	font-size: 0.16rem !important;
+	width: 0.16rem !important;
+	padding: 0rem !important;
+	line-height: 0.35rem;
+}
+#son_dataChange{
+	padding:0.05rem 0.15rem;
+}
+#leadTable thead th,td:nth-child(1),td:nth-child(3),td:nth-child(4),td:nth-child(5){
+	text-align:center;
+}
+#leadTable tr{
+    height: 0.7rem;
+    line-height: 0.7rem;
+}
+
+.layui-table-view {
+    margin-top: 0.1rem !important;
+}
+.downleft_div{
+	float: left;
+	border: solid 0.01rem #ccc;
+	width: 25%;
+	height: 100%;
+	background-color: white;
+	color: white;
+	margin-right: 1%;
+}
+.downright_div{
+	float: left;
+	border: solid 0.01rem #ccc;
+	width: 68.8%;
+	height: 100%;
+	background-color: white;
+	color: white;
+}
+.bottom_div{
+	height: 45%;
+	width: 100%;
+	padding: 0.25rem;
+}
+.bottomRightLeft_div{
+	height:85%;
+	width:60%;
+	padding: 0.2rem;
+	color: black;
+	float: left;
+}
+.bottomRightRight_div{
+	height:85%;
+	width:35%;
+	padding: 0.05rem;
+	float: left;
+}
+.description_p{
+	line-height: 0.5rem;
+	font-size: 0.18rem;
+}
+.downrightheader_div{
+	width: 100%;
+	height: 10%;
+	border-bottom: solid 0.02rem #ccc;
+}
+.downrightheader_div span{
+	margin-left: 0.04rem;
+    color: #4db7f1;
+    line-height: 0.36rem;
+    font-size: 0.18rem;
+    margin-left: 0.1rem;
+    font-weight: 600;
+}
+.bottomRightbottom_div{
+	width: 85%;
+	height: 95%;
+}
+.count_div{
+	width: 22%;
+	background: white;
+	border: solid 0.01rem #ccc;
+	float: left;
+	margin: 1% 1% 1% 1.8%;
+	height: 100%;
+}
+.yuan{
+	float: left;
+	height:69%
+}
+.count_content_div{
+	color: green;
+	font-size: 0.2rem;
+}

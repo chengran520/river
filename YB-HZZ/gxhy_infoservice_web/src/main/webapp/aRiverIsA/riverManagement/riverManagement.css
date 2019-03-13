@@ -1,0 +1,43 @@
+.layui_top{
+	height:0.52rem;
+	display: flex;
+    flex-direction: row;
+}
+.layui_bottom{
+	height:calc(100% - 0.52rem);
+	width:100%;
+}
+.layui_top li{
+    background-color: #ecf1f0;
+    height: 0.52rem;
+    line-height: 0.52rem;
+    font-size: 0.18rem;
+    font-family: MicrosoftYaHei;
+    color: #7F7F7F;
+    text-align: center;
+    padding:0 0.26rem;
+    margin-right: 0.04rem;
+    cursor: pointer;
+}
+.layui_top li.active{
+	    color: #0086CF;
+    background: rgba(173,228,255,1);
+}
+
+#Form2 div.form-group{
+	height: 40px;
+    line-height: 40px;
+    width: 100%;
+    display: inline-block;
+}
+.input-group-btn .fileinput-cancel-button,.fileinput-upload{
+	display:none!important;
+}
+.modal .modal-footer {
+    border-top: 1px solid #E5E5E5;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: auto;
+}

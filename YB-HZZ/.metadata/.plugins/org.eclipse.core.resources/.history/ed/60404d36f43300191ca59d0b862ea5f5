@@ -1,0 +1,159 @@
+var index=0;
+var url=WEB_ROOT+"basicInfo/riverLong/";
+layui.config({
+	  base: WEB_ROOT+'/common/util/' 
+});
+//使用表格初始化
+layui.use(['tableUtil'], function(){
+	 var riverLongTab=layui.riverLongTab,
+	 rivForm=layui.rivForm;
+});
+layui.define(['element','tableUtil'],function(exports){
+	 var $ = layui.$,
+	 element=layui.element,
+	 tableUtil=layui.tableUtil;
+	 $("#uploadRL").hide();
+	 var h=tableUtil.initStyle("riverLongForm");
+	 $(".layui-table-box").height(h);
+	//初始化表格
+	 var option={url:url+"getAllRiverLong",id:'riverLong',height:h};
+	 tableUtil.initTable(option);   
+	//监听tab切换事件
+	 element.on('tab(riverlongTab)', function(data){	
+		  index=data.index;	
+		  var option={url:url+"getAllRiverLong?index="+index+"",id:'riverLong',height:h};
+		  tableUtil.initTable(option);
+     });  	  
+     exports('riverLongTab',function(){});
+});
+layui.define(['table','tableUtil','form'],function(exports){
+	 var $ = layui.jquery,
+	 table=layui.table,
+	 tableUtil=layui.tableUtil,
+	 form = layui.form;
+	 //监听按钮点击事件
+	 $('#riverLongForm .layui-btn').on('click', function(){
+	    var othis = $(this), method = othis.data('method');
+	    riverLongInfo[method] ? riverLongInfo[method].call(this, othis) : '';
+	 });
+	 var riverLongInfo={
+		//打开上传的弹窗
+		 offsetRL: function(othis){
+	         var type = othis.data('type');
+	         var id='riverLongForm'+type;
+	         var data={title:'数据导入',id:id,content:$('#uploadRL'),offset:type,href:"http://localhost:8080/gxhy/common/templates/RiverLongInfo.xls"};
+	         tableUtil.openFrame(data);//调用自定义模板方法
+		  	 var option={elem:'#selectRLFile',url:url+'/importRiverLong?index='+index,bindAction:'#importRLFile',tableId:'riverLong'};
+		  	 tableUtil.uploadFile(option);//调用自定义模板方法
+		  },
+		  //表格的重载
+		  reloadRL:function () { 
+			  var data={id:'riverLong',value:$("#keyWord").val()};
+			  tableUtil.reloadTable(data);//调用自定义模板方法
+		  },
+		  //删除行
+		  deleteRL:function(){
+			  var checkStatus = table.checkStatus('riverLong')
+		      ,data = checkStatus.data;
+			  if(data.length==0){
+				  layer.msg("至少选择一项需要删除的河流数据", {icon:5});
+				  return false;
+			  }else{
+				  var ids = '';
+	              layui.each(data,function(k,v){
+	            	  ids += this.gmCode+','; 
+	              });
+	              var data={url:url+'deleteRiverLong',ids:ids,tableId:'riverLong',length:data.length,num:index};
+	              tableUtil.deleteRow(data);//调用自定义模块方法
+	          }
+		  },
+		  //导出excel
+		  exportRL:function(){
+	          $.get(url+"getAllRiverLong?index="+index+"",{"keyWord":$("#keyWord").val()},function(result){
+		    		if(result.success){
+		    			var title=['名称','职务','所属行政区编码','所属行政区名称','手机号码','行政级别','河长类型','备注','主要领导','最高职务所在单位名称','单位类别','生效时间','编码'];
+	    			    table.exportFile(title,result.data, 'xls');
+		    		}
+		      });
+<<<<<<< .mine
+		  },
+		  addRiverLong:function(){			 
+			  layer.open({
+			        title:'新增用户',
+			        type: 1,
+			        area: ['650px', '500px'],
+			        fix: false, //不固定
+			        maxmin: true,
+			        content: $("#addRiverLongModel").html(),
+			        success:function(layero,index){
+			        	 form.render();
+			        	 var formData=$("#riverLongForm").serializeArray();
+			        	 var zNodes=commonUtils.get(url+"getAll",{"index":"1"},null);	
+						  if(zNodes.flag){
+							  console.log(zNodes.data);
+							  initSelectTree("demo", false, {"Y": "ps", "N": "s"},zNodes.data.menus);
+						  }
+                         console.log(formData);
+			        	 
+			        },
+			        end:function(){
+	
+			        }
+			    });
+=======
+		  },
+		  //添加河长
+		  addUser:function(){
+			  layer.open({
+			        title:'新增河长',
+			        type: 1,
+			        area: ['400px', '400px'],
+			        fix: false, //不固定
+			        maxmin: true,
+		            content:$("#add_modal"),
+		            btn: ['确定', '取消'],
+			    	yes: function(index, layero){
+			    	   var formData = $('#add_user_form').serializeArray();
+			    	   var result=commonUtils.post(WEB_ROOT+"basicInfo/riverLong/addRiverLeader",formData,false);
+			    	   if(result.flag==true){
+			 			  layer.msg("添加成功！", {icon: 1});			 
+			 		  }else{
+			 			  layer.msg("网络错误", {icon: 2});			
+			 		  }
+			    	   layer.close(index);
+			    	}
+			    	 ,btn3: function(index, layero){
+			    		 layer.close(index);
+			        },
+			    });
+		  },
+		  
+		  //修改河长
+		  updataUser:function(){
+			  layer.open({
+			        title:'修改河长',
+			        type: 1,
+			        area: ['400px', '400px'],
+			        fix: false, //不固定
+			        maxmin: true,
+		            content:$("#add_modal"),
+		            btn: ['确定', '取消'],
+			    	yes: function(index, layero){
+			    	   var formData = $('#add_user_form').serializeArray();
+			    	   var result=commonUtils.post(WEB_ROOT+"basicInfo/riverLong/addRiverLeader",formData,false);
+			    	   if(result.flag==true){
+			 			  layer.msg("修改成功！", {icon: 1});			 
+			 		  }else{
+			 			  layer.msg("网络错误", {icon: 2});			
+			 		  }
+			    	   layer.close(index);
+			    	}
+			    	 ,btn3: function(index, layero){
+			    		 layer.close(index);
+			        },
+			    });
+>>>>>>> .r8183
+		  }
+	}
+	exports('riverLong',riverLongInfo);
+});

@@ -1,0 +1,81 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="systemInfo/role/role.css" rel="stylesheet" type="text/css">
+<link href="systemInfo/role/scroll.css" rel="stylesheet" type="text/css">
+<script src="systemInfo/role/roleInfo.js"  type="text/javascript" ></script>
+<!-- 导入页面Dom -->
+<div class="layui-upload" id="uploadRole" style="display: none;">
+	<div style="border:1px solid #eee;margin:10px 20px;padding:5px 0px;">导入文件<button type="button"  id="selectRoleFile">选择文件</button>
+	<div class="uplaod-v" style="text-align: center;"><a class="upload-a" id="importRoleFile">导入</a></div> 
+	</div>
+	<p class='p1'><a>点击下载模板</a></p>
+	<p class='p2'>点击浏览文件后选择需要导入的Excel文件进行数据导入 </p>
+</div>
+<div class="layui-layout layui-layout-admin">
+	  <div class="layui-body">  
+	     <form  class="tab-search" id="roleForm">
+		        <div style="float: right;margin-right: 12px;">
+		           <div class="layui-input-inline">
+			        <input  type="text" id="keyWord" class="layui-input seach-input"  placeholder="请输入用户信息" >
+			       </div>
+	       	       <div class="layui-input-inline">
+			         <button  data-method="reloadRole" class="layui-btn btn-sel"  type="button">
+			            <i class="layui-icon layui-icon-search"></i>查询
+			         </button>
+			       </div>    
+			       <div class="layui-input-inline">
+			         <button  data-method="offsetRole" class="layui-btn btn-imp" type="button">
+			           <i class="layui-icon layui-icon-download-circle"></i>导入
+			         </button>
+			       </div>
+			        <div class="layui-input-inline">
+			          <button data-method="exportRole" class="layui-btn btn-exp" type="button">
+			             <i class="layui-icon layui-icon-upload-circle"></i>导出
+			          </button>
+			        </div>
+			        <div class="layui-input-inline">
+			          <button data-method="deleteRole" class="layui-btn btn-del" type="button">
+			            <i class="layui-icon layui-icon-delete"></i>删除
+			          </button>
+		            </div>
+		        </div>   
+		     </form>
+		      <table  lay-filter="role">					  
+				   <thead>
+					    <tr>	
+					       <th lay-data="{field:'num',type:'checkbox'}"></th>
+     					   <th lay-data="{field:'id', width:'4%', sort: true,type:'numbers'}">ID</th>
+     					   <th lay-data="{field:'roleId', width:'15%', align:'center'}">角色ID</th>
+					       <th lay-data="{field:'roleName', width:'15%', align:'center'}">角色名称</th>
+					       <th lay-data="{field:'roleDes', width:'21%', align:'center'}">角色描述</th>
+					       <th lay-data="{field:'createTime', width:'20%', align:'center'}">创建时间</th>
+					       <th lay-data="{fixed: 'right', title:'操作',align:'center', toolbar: '#barRole', width:'22%'}">操作</th>
+			           </tr>
+					</thead>
+		      </table>		      
+	   </div>
+</div>
+<!-- 工具栏-->
+    <script type="text/html" id="barRole">
+       <a class="btn-authorize" lay-event="authorize">设置权限</a>
+	</script>   
+<!-- 选择权限的按钮 -->
+<div class="layui-row" id="roleTree" style="display: none;">
+	<div class="layui-col-md11">
+ 		<div class="treeShowHideButton" onclick="search();">
+			<label id="btnShow" title="显示搜索" style="display: none;">︾</label>
+			<label id="btnHide" title="隐藏搜索" style="display: inline-block;">︽</label>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+			  <label class="layui-form-label search-label" for="key">关键字</label>
+                 <input type="text" name="key" id="key" lay-verify="title" autocomplete="off" placeholder="请输入关键字" class="layui-input search-input"   onkeypress="return onKeyPress(event)">
+               </div>
+			   <button class="layui-btn layui-btn-sm search-btn"   onclick="searchBtnTree()">搜索</button>
+		</div>
+		<div class="treeExpandCollapse">
+			<a  href="javascript:void(0);" onclick="openTree()">展开</a> /
+			<a  href="javascript:void(0);" onclick="foldTree()">折叠</a>
+		</div>
+	    <div id="roleDemo"></div>
+	</div>
+</div>

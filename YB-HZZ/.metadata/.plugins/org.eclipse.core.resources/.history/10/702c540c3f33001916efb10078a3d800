@@ -1,0 +1,156 @@
+var url=WEB_ROOT+"busine/accept/";
+layui.config({
+	  base: WEB_ROOT+'/common/util/' 
+});
+layui.use('tableUtil', function() {
+	var tableGrade=layui.tableGrade,
+	gradeReload=layui.gradeReload,
+	tableUtil=layui.tableUtil,
+	toolGrade=layui.toolGrade;
+	//初始化时间
+	tableUtil.initTm("startTm","endTm",'date');
+});
+//表格
+layui.define(['jquery','table','tableUtil'],function(exports){
+	 var $ = layui.$,
+	 table=layui.table,
+	 tableUtil= layui.tableUtil;
+	 var h=tableUtil.initHeight("gradeForm");
+	 
+	 //初始化表格
+	 var option={url:url+'getEventList',id:'gradeTable',height:328,limit:10,limits:[10,20,30,40,50]};
+	 tableUtil.initTable(option);
+  exports('tableGrade',function(){});
+});	
+
+layui.define(['jquery','table'],function(exports){
+	 var $ = layui.$,
+	 table=layui.table;
+	 //监听行单击事件（单击事件为：rowDouble）
+	  table.on('row(gradeTable)', function(obj){
+	    var data = obj.data;
+	    var html = "";
+	    html += "<p class='description_p'>事件编号1："+reverseContent(data.busineId)+"</p>";
+	    html += "<p class='description_p'>事件类型："+reverseContent(data.busineTypeNm)+"</p>";
+	    html += "<p class='description_p'>上报人："+reverseContent(data.busineUm)+"</p>";
+	    html += "<p class='description_p'>上报时间："+reverseContent(data.createTm)+"</p>";
+	    html += "<p class='description_p'>处理人："+reverseContent(data.lastHandleUserNm)+"</p>";
+	    html += "<p class='description_p'>处理时间："+reverseContent(data.updateTm)+"</p>";
+	    html += "<p class='description_p'>发生地点："+reverseContent(data.busineAddress)+"</p>";
+	    html += "<p class='description_p'>事件描述："+reverseContent(data.busineDesc)+"</p>";
+	    $('.detail_div').html(html);
+	    var result=commonUtils.get(WEB_ROOT+"/busine/accept/getBusineImgs",{"busineId":data.busineId},null);
+	    if(result.flag){
+	    	var bannerData=result.data;	
+	    	var url=window.location.href.split("/gxhy")[0];
+	    	/*$.each(list,function(i,v){
+	    		var paramUrl=v.split("images")[1].replace( "\\\\ ","/");
+	    		var ulr1=url+"/img"+paramUrl;
+	    		var html="<li><img src="+ulr1+"></li>";
+	    		$("#ul").append(html);
+	    	});*/
+	    	
+	    	if(bannerData.length==0){
+                $(".banner-wrap").addClass("hide");
+            }else{
+                for(var i=0;i<bannerData.length; i++){
+                    if(i == 0){    
+                        $(".banner-indicators").append("<li data-target='#carousel-example-generic' data-slide-to='0'  class='active'</li>")
+                    }else{
+                        $(".banner-indicators").append("<li data-target='#carousel-example-generic' data-slide-to='"+i+"'></li>")
+                    }
+                }
+                for(var i=0; i<bannerData.length;i++){
+					var paramUrl=bannerData[i].split("images")[1].replace( "\\\\ ","/");
+	                 var ulr1=url+"/img"+paramUrl;
+                      if(i == 0) {     
+                        $(".banner-carousel").append('<div class="item active">'+
+                        '<img src="'+ulr1+'">'+
+                          '</div>'
+                          );
+                    } else {
+                        $(".banner-carousel").append('<div class="item">'+
+                        '<img src="'+ulr1+'">'+
+                          '</div>'
+                          );
+                   }
+
+                }
+            }
+
+	    }	    	
+	    getPollTimeAxis(data);
+	  });
+	 
+	//监听按钮点击事件
+	 $('#gradeForm .layui-btn').on('click', function(){
+	    var othis = $(this), method = othis.data('method');
+	    riverLakeInfo[method] ? riverLakeInfo[method].call(this, othis) : '';
+	   
+	 });
+	 //静态不可用
+	 var riverLakeInfo={
+		 reloadGrade:function(){
+			 var startTm=$("#startTm").val();
+			 var endTm=$("#endTm").val();
+		     var keyword=$("#keyword").val();
+			 table.reload("gradeTable",{
+			   	 page: {
+			   	      curr: 1
+			   	   }
+		        ,where:{keyword:keyword,startTm:startTm,endTm:endTm}
+		    });
+		 }
+	 }
+	 exports('gradeReload',riverLakeInfo);
+});
+
+//监听行工具事件
+layui.define('table',function(exports){
+	  var table=layui.table;
+	  table.on('tool(gradeTable)', function(obj){
+		  console.log(obj);
+	    if(obj.event === 'handleGrade'){
+	    	layer.open({
+	    		  type: 2,
+	    		  skin:"layui-layer-lan",
+	    		  title: '领导打分',
+	    		  area: ['60%', '85%'],
+	    		  content: WEB_ROOT+'/grade/leaderGrade.html'  
+	    		});
+	     } 
+	  });
+
+	exports('toolGrade',function(){});
+});
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+	
+	 //限定可选时间
+	 laydate.render({
+	 	elem: '#startTm'
+	 	,type: 'date'
+	     ,btns: ['clear', 'confirm']
+	 }); 
+	 laydate.render({
+	 	  elem: '#endTm'
+	 	  ,type: 'date'
+	 	  ,btns: ['clear', 'confirm']
+	 	}); 
+});
+window.onload = function(){
+    function $(id){ return document.getElementById(id); }
+    //动态生成轮播图小圆点
+    var circle = document.createElement("div"); 
+    circle.setAttribute("class","circle");
+    var lis = document.getElementsByTagName("li");
+    for(var i=0; i<lis.length; i++){
+        var span = document.createElement("span");
+        span.innerHTML = i+1;
+        circle.appendChild(span);
+    }
+    $("scroll").appendChild(circle);
+
+    var spanChildren = circle.children;
+    spanChildren[0].setAttribute("class","current");
+}

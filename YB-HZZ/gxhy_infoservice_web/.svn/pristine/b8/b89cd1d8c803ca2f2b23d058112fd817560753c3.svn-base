@@ -1,0 +1,95 @@
+var res=[
+/*			{"newsTitle":'預警通知',"newsContent":'預警通知：12月全区预警河道有6条，2条黄色预警，4条橙色预警，劣Ⅴ类河道2条，相关河长要对河道预警因子详细分析。',"receviceTm":"2018-03-31 09:00"},
+			{"newsTitle":'預警通知',"newsContent":'警报警报！水位警报！请注意安全！',"receviceTm":"2018-03-31 09:00"},
+			{"newsTitle":'預警通知',"newsContent":'警报警报！水位警报！请立即转移!',"receviceTm":"2018-03-31 09:00"},
+			{"newsTitle":'預警通知',"newsContent":'警报警报！暴雨警报！请准备转移!',"receviceTm":"2018-03-31 09:00"}
+*/       ];
+
+var res2=[
+			/*{"informTitle":'宜宾市多轮驱动抓文化事业增强发展软实力',"receviceTm":"2018-03-31 09:00"},
+			{"informTitle":'山王镇三"新"举措推动四好村建设',"receviceTm":"2018-03-31 09:00"},
+			{"informTitle":'宜宾市地灾防治连续6年实现"三零"目标',"receviceTm":"2018-03-31 09:00"},
+			{"informTitle":'县发改局多举措争取资金，提高要素保障能力',"receviceTm":"2018-03-31 09:00"},
+			{"informTitle":'县发改局多举措争取资金，提高要素保障能力',"receviceTm":"2018-03-31 09:00"}*/
+       ];
+layui.config({
+	  base: WEB_ROOT+'/common/util/' 
+});
+layui.use('tableUtil', function() {
+	var showRelTable=layui.showRelTable;
+});
+//表格
+layui.define(['jquery','table'],function(exports){
+	 var $ = layui.$,
+	 table=layui.table;
+	 var h=$(".layui-body").height();
+	 var h1=h*0.3;
+	 var h2=h*0.48;
+	 table.render({
+         elem: '#newsTable'
+         ,cols: [[ //标题栏
+               {field: 'newsTitle', title: '新闻标题', width: '25%',align:'left'}
+              ,{field: 'newsContent', title: '新闻内容', width: '47%',align:'left'}
+              ,{field: 'receviceTm', title: '接收日期', width: '15%',align:'left'}
+              ,{field: 'repeat', title: '操作', width: '10%',align:'center',toolbar: '#barShowRel'}    
+        ]]
+		 ,data:res
+		 ,skin: 'nob' 
+	     ,loading:true
+	     ,height:h1
+    }); 
+	//消息通知
+	 table.render({
+         elem: '#informTable'
+         ,cols: [[ //标题栏
+               {field: 'informTitle', title: '消息内容', width: '50%',align:'left'}
+              ,{field: 'receviceTm', title: '接收日期', width: '30%',align:'left'}
+              ,{field: 'repeat', title: '操作', width: '15%',align:'center',toolbar: '#barShowRel'}    
+        ]]
+		 ,data:res2
+		 ,skin: 'line' 
+	     ,loading:true
+	     ,height:h2 - nowClientWidth * 100
+    });
+	 $('#releaseForm .layui-btn').on('click', function(){
+	    var othis = $(this), method = othis.data('method');    
+	    release[method] ? release[method].call(this, othis) : '';
+	 });
+	 var release={
+			 addRelease:function(){
+				layer.open({
+			        title:'新增信息',
+			        type: 2,
+			        area: ['650px', '500px'],
+			        fix: false, //不固定
+			        maxmin: true,
+			        content: WEB_ROOT+'/showRelease/addRelease.html',
+			        skin:"layui-layer-lan",
+			        btn: ['确定', '取消']
+		    	    ,yes: function(index, layero){
+		    	    	 layer.msg("新增信息成功", {icon: 1});
+		    		    parent.layer.close(index); 
+		    	    }
+			    });
+			},
+			searchHistory:function(){
+				layer.open({
+			        title:'历史信息',
+			        type: 2,
+			        area: ['65%', '50%'],
+			        fix: false, //不固定
+			        maxmin: true,
+			        content: WEB_ROOT+'/showRelease/detail.html',
+			        skin:"layui-layer-lan"
+			   
+			    });
+			}
+	 }
+    exports('showRelTable',function(){});
+});	
+
+$(function(){
+	console.log(nowClientWidth);
+	$("#news").height($(".layui-body").height() * 0.5 - nowClientWidth * 120);
+	$("#notice,#inform").height($(".layui-body").height() * 0.5 - nowClientWidth * 40);
+});

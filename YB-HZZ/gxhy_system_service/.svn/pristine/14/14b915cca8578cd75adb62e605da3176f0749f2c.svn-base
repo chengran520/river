@@ -1,0 +1,31 @@
+package com.gxhy.base.system.model;
+
+import java.util.Date;
+
+import com.gxhy.base.imp.IsNeeded;
+
+import lombok.Data;
+
+/**
+ * 天气表
+ * @author chengran
+ *
+ */
+@Data
+public class WeatherModel {
+   
+	@IsNeeded
+	private Double ws;//风速
+	
+	@IsNeeded	
+	private Double  wd;//风向
+	
+	@IsNeeded	
+	private Float wt;//温度
+	
+	@IsNeeded
+	private Double ht;//湿度
+	
+	@IsNeeded
+	private Date ts;//时间
+}

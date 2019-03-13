@@ -1,0 +1,302 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<link href="<%=request.getContextPath() %>/common/css/commonView.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/busine/css/busine.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/public.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/busine/css/flowChart.css" rel="stylesheet">
+<link  href="http://cache.amap.com/lbs/static/main1119.css" rel="stylesheet"/>
+<link  href="<%=request.getContextPath()%>/css/bootstrapStyle.css"  rel="stylesheet">
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&plugin=AMap.Geolocation,AMap.Geocoder&key=832085f1e357efae7eb7e34449ac1a36"></script>
+<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="<%=request.getContextPath()%>/busine/busine.js"></script>
+<script src="<%=request.getContextPath()%>/busine/ztreeBusine.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/busine/file.js"></script> --%>
+<script  src="<%=request.getContextPath()%>/module/js/jquery.ztree.core.js"></script>
+<script src="<%=request.getContextPath()%>/module/js/jquery.ztree.excheck.min.js"></script>
+<script src="<%=request.getContextPath()%>/common/js/contentPath/db.js"></script>
+<script type="text/javascript">
+ 	var WEB_ROOT = "<%=request.getContextPath() %>";
+ 	var userId="<%=session.getAttribute("userId")%>";
+ 	var state="<%=request.getParameter("state")%>";
+ 	var userjob="<%=session.getAttribute("userjob")%>";
+ 	var path = "<%=request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()%>";
+ 	var paramTp = "<%=request.getParameter("tp")%>";
+ 	var busineId="<%=request.getParameter("busineId")%>";
+</script>
+<div class="headerDiv" id="headerDiv" style="height:40px;">
+	<div class="header-content">
+		<h2 class="paramTp1">
+			<i class="fa icon-th-large"></i>
+			<c><a style="text-decoration: none;color:#000;" href="<%=request.getContextPath()%>/busine/busine.jsp">涓氬姟鍙楃悊</a></c>
+		</h2>
+		
+		<h2 class="paramTp2">
+			<i class="fa icon-th-large"></i>
+			  <c>
+				<a style="text-decoration: none;" href="javascript:history.back(-1)">宸ヤ綔鍙�</a>
+				<span style="margin-left: 5px;margin-right: 5px;">></span>
+					涓氬姟鍙楃悊
+			 </c>
+		</h2>
+	</div> 
+</div>
+<div style="height: 92%;overflow: hidden;">
+	  <div class="count_left" >
+	    <div class="circleDiv" id="untreatedBusine">
+		 	<div class="cicle">
+		 		<img class="cicel_img_p" src="<%=request.getContextPath() %>/common/images/bussine/dbevent.png"/>
+		 		<div class="superscript"><span id="noCount">0</span></div>
+		 	</div>
+		 	<div class="marginDIV">寰呭鐞嗕簨浠�</div>
+		</div> 
+		<div class="circleDiv" id="handledBusine">
+		 	<div class="cicle">
+		 		<img class="cicel_img_p" src="<%=request.getContextPath() %>/common/images/bussine/ybevent.png"/>
+		 		<div class="superscript"><span id="handleCount">0</span></div>
+		 	</div>
+		 	<div class="marginDIV">宸插鐞嗕簨浠�</div> 
+		</div>
+     </div>
+	 <div class="tab_right">
+         	<div class="form-inline" style="margin-top:5px;">
+					<div class="col-xs-2.2" style="display: inline;">
+						<div class="input-group">
+						  <span class="input-group-addon" >浜嬩欢缂栧彿:</span>
+						  <input type="text" class="form-control" id="busineId"  placeholder="璇疯緭鍏ヤ簨浠剁紪鍙�">
+						</div>
+					</div>
+					<div class="col-xs-2.2" style="display: inline; ">
+						<div class="input-group">
+							<div class="input-group-addon">涓婃姤浜�:</div>
+							<input id="busineUNm" type="text" class="form-control"  placeholder="璇疯緭鍏ヤ笂鎶ヤ汉">
+						</div>
+					</div>
+					<div class="col-xs-2.2" style="display: inline;">
+						<div class="input-group">
+							<div class="input-group-addon">浜嬩欢鏉ユ簮:</div>
+							 <select class="form-control"  id="busineTypeO" style="margin-right:10px;">
+						         <option selected='selected'  value=''>------璇烽�夋嫨  ------</option>
+						         <option value='hzxh'>娌抽暱宸℃渤</option>
+						         <option value='gzjb'>鍏紬涓炬姤</option>
+						         <option value='zfjg'>鎵ф硶鐩戠</option>
+						     </select>
+						</div>
+					</div>
+					<button id="queryBusine" class="btn btn-primary" style="background-color: #3699fe;border: 0px;margin-left:10px;" type="button">
+					<span class="glyphicon glyphicon-search "></span>&nbsp;鏌�&nbsp;璇�
+				</button>
+				<button  id="refreshBusine"   class="btn btn-primary" type="button" style="background-color:#EE82EE;border: 0px;">
+					<span class="glyphicon glyphicon-refresh" ></span>&nbsp;鍒�&nbsp;鏂�
+				</button> 				
+			</div>
+			<div class="test1">	
+			  <table id="patrol_busine"  style="text-overflow:ellipsis;">
+					<thead>
+						<tr>
+				             <th field="busineId" width="25" align="center">浜嬩欢缂栧彿</th>
+				             <th field="busineOrigin" width="20" align="center" >鏉ユ簮</th>
+				             <th field="busineType"  width="20" align="center">浜嬩欢绫诲瀷</th>
+				             <th field="busineUnm"  width="20" align="center" formatter="busineEvent.formatUser">涓婃姤浜哄憳</th>
+				             <th field="busineUid"  width="20" hidden="true">涓婃姤浜哄憳id</th>
+				             <th field="createTm"  width="30" align="center" formatter="busineEvent.formatDate">涓婃姤鏃堕棿</th>
+				             <th field="busineAddress"  width="40" align="center">浜嬩欢鍦扮偣</th>
+				             <th field="busineStatusNm"  width="10" align="center" formatter="busineEvent.formatBusineColor">浜嬩欢鐘舵��</th>
+				             <th field="busineStatus"  width="10" hidden="true">鐘舵��</th>
+				             <th field="originId"  width="10" hidden="true">鐘舵��</th>
+				             <th field="dept"  width="10" hidden="true">鐘舵��</th>
+				             <th field="job"  width="10" hidden="true">鐘舵��</th>
+				             <th field="lastHandleUserId"  width="10" hidden="true">涓婃澶勭悊浜篿d</th>
+				             <th field="status"  width="20" hidden="true" hidden="true">娴佺▼鐘舵��</th>
+				             <th field="repeat" width="15" align="center"  formatter="busineEvent.formatBusineRepeat">鎿嶄綔</th>
+						</tr>
+					</thead>
+				</table> 
+			</div>
+	</div>
+	<div class="deltal_rigth">
+		<div style="float: left;width: 50%;height: 100%;border-right: 1px solid #DDD;">
+			<div class="deltal_div_info">浜嬩欢璇︽儏</div>
+			<div id="container_div">
+			  <div id="leftContent" onclick="busineEvent.next()">
+			  		<img id="left_img"  style='cursor:pointer;'>
+			  </div>
+			    <div id="rightContent">
+			      	 <div class="deltal_content">
+			         	<span>浜嬩欢缂栫爜锛�</span>
+			         	<span id="busineId2"></span>
+			         </div>
+			         <div class="deltal_content">
+			         	<span>浜嬩欢鏉ユ簮锛�</span>
+			         	<span id="busineOri2"></span>
+			         </div>
+			     	 <div class="deltal_content">
+			         	<span>浜嬩欢绫诲瀷锛�</span>
+			         	<span id="busineTy2"></span>
+			         </div>
+			     	 <div class="deltal_content">
+			         	<span>涓婃姤浜哄憳锛�</span>
+			         	<span id="busineUN2"></span>
+			         </div>
+			     	 <div class="deltal_content">
+			          	<span>涓婃姤鏃堕棿锛�</span>
+			         	<span id="createT2"></span>
+			         </div>
+			     	 <div class="deltal_content">
+			          	<span>涓婃姤鍦扮偣锛�</span>
+			         	<span id="busineAddress2"></span>
+			         </div>
+			     	 <div class="deltal_content">
+			          	<span>浜嬩欢鎻忚堪锛�</span>
+			       	    <span id="busineDesc2"></span> 
+			         </div>
+			    </div>
+			  </div>
+		</div>	
+		<div style="float: left;width: 50%;height: 100%;">
+			<div class="work_div_info">浜嬩欢娴佺▼</div>
+			<div id="timeAxis"></div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="busineModel"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  style="overflow-y: hidden;">
+	<div class="modal-dialog">
+		<div class="modal-content" style="width:750px;">
+			<div class="modal-header" style="padding:10px;background-color: #009f95;color: #fff;">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="font-size: 32px;margin-right: 10px;">脳</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">瀹℃牳</h4>
+			</div>
+			<div class="modal-body">
+			  <div class="container-fluid">
+			    <div class="row">
+			      <div class="col-md-6">
+			        <input type="hidden" value="" id="busineUid">
+			         <input type="hidden" value="" id="busineOrgin">
+			         <input type="hidden" value="" id="orginId">
+			         <input type="hidden" value="" id="status">
+			         <input type="hidden" value="" id="busineStatus">
+			         <input type="hidden" value="" id="handleUserIdOne">
+			     	 <table class="modal_tab" style="font-size: 14px;color: #000;">
+			     	 	<tr>
+			     	 		<td>浜嬩欢缂栫爜锛�</td>
+			     	 		<td><p id="busineIdS" style="width:100px;"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>浜嬩欢鏉ユ簮锛�</td>
+			     	 		<td><p id="busineOri"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>浜嬩欢绫诲瀷锛�</td>
+			     	 		<td ><p id="busineTypeS"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>&nbsp;&nbsp;&nbsp;&nbsp;鎶ュ憡浜猴細</td>
+			     	 		<td><p id="busineUN"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>涓婃姤鏃堕棿锛�</td>
+			     	 		<td><p id="createT"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>浜嬩欢鍦扮偣锛�</td>
+			     	 		<td><p id="busineAddress"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>浜嬩欢鎻忚堪锛�</td>
+			     	 		<td><p id="busineDesc"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>涓婃姤鍥剧墖锛�</td>
+			     	 		<td><p id="url"></p></td>
+			     	 	</tr>
+			     	 	<%-- <tr id="reportImg">
+			     	 		<td><p style="width:100px;padding-top:10px;">鎰忚鍥剧墖锛�</p></td>
+			     	 		<td style="padding-top:10px;">
+			     	 		     <input type="hidden" value="" id="workflowId">
+			     	 		      <input type="hidden" value="" id="busineI">
+			     	 		     <img id="imgI"  src="<%=request.getContextPath()%>/common/images/bussine/a11.png" style="width:60px;heigth:60px;"  onclick="F_Open_dialog();">
+			     	 		     <input type="file" id="file_input"   style="display:none"/>
+	     	 		             <p style="color: #666;">鏈�澶氫笂浼�3寮犲浘鐗�</p>					
+			     	 		</td>
+			     	    </tr> --%>
+			     	 	<tr id="view">
+			     	 		<td>澶勭悊鎰忚锛�</td>
+			     	 		<td><textarea rows="3" cols="30" id="handleView"></textarea></td>
+			     	 	</tr>
+			     	 	
+			     	 </table>
+			      </div>
+			      <div class="col-md-6" style="width:330px;heigth:100px;margin-left:55%;border: 2px solid #eee; " id="container">
+			      </div>
+			    </div>
+			      
+			  </div>
+			</div>
+		
+			<div class="modal-footer" id="foot">
+				<button  class="btn btn-default btns" id="checkBusine" type="button">
+				    &nbsp;澶�&nbsp;鐞�
+				</button>
+				<button class="btn btn-default btns" id="deliverBusine" type="button">
+					&nbsp;杞�&nbsp;浜�
+				</button>
+				<button  class="btn btn-default btns" id="invalidBusine" type="button">
+				    &nbsp;鏃�&nbsp;鏁�
+				</button>
+				<!-- <button class="btn btn-default btns" id="returnBusine"  type="button">
+					&nbsp;閫�&nbsp;鍥�
+				</button> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 杞氦閫夋嫨浜洪〉闈� -->
+<div class="modal fade" id="busineUserModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: hidden;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="width:700px;height:auto;overflow-y: auto;overflow-x: hidden;">
+			<div class="modal-header" style="padding:10px;background-color: #009f95;color: #fff;">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="font-size: 32px;margin-right: 10px;">脳</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">杞氦浜哄憳</h4>
+			</div>
+			<div class="modal-body" style="height:450px;">
+				<div>
+				    <span  class='titlespan'>鐭冲煄鍘挎垚鍛樺崟浣�</span>
+				    <span  class='titlespan' style="padding-left:340px;">澶勭悊浜哄憳</span>
+				</div>    
+				<div class="col-xs-5" style="margin-top:10px;border: 1px solid #000;padding-right:0px;height:400px;">
+			        <ul id="busineZtree"  class="ztree" style="margin-top:0;overflow: auto;height:400px">
+			        </ul>
+			    </div>
+			    <div  class="col-xs-1"  style="margin-top:200px;margin-right:15px;"> 
+			       <img src="<%=request.getContextPath()%>/common/images/bussine/addicon.jpg" style="width:45px;height:45px;">
+			    </div>
+			    <div class="col-xs-5" style="margin-top:10px;border: 1px solid #000;padding-right:0px;height:400px;">
+			       <input  id="resultUser" type="hidden" value="">
+			       <ul class="ztree" style="margin-top:0;overflow: auto;height:400px;color:red;font-weight:bold;" id="busineUserName"> 
+			       </ul>
+			    </div>
+			</div>
+			<div class="modal-footer" id="foot">
+				<button class="btn btn-default btns" id="retuBusine" type="button" style="color: #333;background-color: #fff;border-color: #adadad;"  data-dismiss="modal">
+					&nbsp;鍏�&nbsp;闂�
+				</button>
+				<button  class="btn btn-default btns" id="conBusine" type="button">
+				    &nbsp;纭�&nbsp;瀹�
+				</button>
+			</div>
+		</div>
+	</div>
+  <div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+if(parseInt(paramTp)){
+	$(".paramTp1").hide();
+	$(".paramTp2").show();
+}
+</script>

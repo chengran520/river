@@ -1,0 +1,530 @@
+var riverLakeInfo = {
+	clickIndex:0,//当前加载表格
+	tabVal:'河流信息',//表格名称
+	tableUrl:'',//表格URL
+	tableColumns:[],//表格列名
+	id:'riverLakeInfo',//页面元素ID
+	clickRow:'',
+	type:'',//增删改查 类型
+	//查询当前应加载哪个表格  // 1:河流信息   2：河段信息  3：水库信息 4：塘坝信息  5：湖泊信息
+	queryTable:function(){
+		switch(riverLakeInfo.clickIndex){
+			case 1:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllReach';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		                var pageSize = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+		                var pageNumber = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+		                return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+		            }
+		        },{
+		            field: 'rehCd',
+		            title: '河段编码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehNm',
+		            title: '河段名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rvNm',
+		            title: '所属河流',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rehLt',
+		            title: '河段长度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rehLevel',
+		            title: '河段等级',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehArea',
+		            title: '流域面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehHasBoundary',
+		            title: '是否跨界',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehOn',
+		            title: '河源所在位置',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rehMh',
+		            title: '河口所在位置',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        }
+		        ];
+				break;
+			case 2:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllRsvr';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		            	  var pageSize = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+			              var pageNumber = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+			              return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+		            }
+		        },{
+		            field: 'code',
+		            title: '水库代码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'name',
+		            title: '水库名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'type',
+		            title: '水库类型',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'village',
+		            title: '所在地',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100
+		        },{
+		            field: 'tegr',
+		            title: '工程规模',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },{
+		            field: 'endGrad',
+		            title: '工程等级',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },{
+		            field: 'watShedArea',
+		            title: '集水面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'vol',
+		            title: '总库容',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'watLev',
+		            title: '正常蓄水位',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'benResCap',
+		            title: '兴利库容',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'deadCap',
+		            title: '死库容',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        },
+		        {
+		            field: 'elev',
+		            title: '死水位',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 60,
+		        }];
+				break;
+			case 3:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllPond';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		            	 var pageSize = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+			             var pageNumber = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+			             return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+		            }
+		        },{
+		            field: 'damCd',
+		            title: '山塘编码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'damnme',
+		            title: '山塘名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'wscd',
+		            title: '小流域代码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'adnm',
+		            title: '行政区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'lgtd',
+		            title: '经度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'lttd',
+		            title: '纬度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'xhst',
+		            title: '容积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'height',
+		            title: '坝高',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'width',
+		            title: '坝长',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        }];
+				break;
+			case 4:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getChannelList';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		            	var pageSize = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+			            var pageNumber = $('#table_riverLakeInfo').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+			            return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+		            }
+		        },{
+		            field: 'code',
+		            title: '渠道代码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'name',
+		            title: '渠道名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'idName',
+		            title: '所属灌区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'idType',
+		            title: '所属灌区类型',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'adag',
+		            title: '管理单位',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'func',
+		            title: '功能',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'acfl',
+		            title: '实际流量',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'chle',
+		            title: '渠道长度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'ecia',
+		            title: '现有控灌面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'bepo',
+		            title: '受益人口',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'bdtm',
+		            title: '建成时间',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        }];
+				break;
+			default:
+				riverLakeInfo.tableUrl = WEB_ROOT + 'basicInfo/riverLake/getAllRiver';
+				riverLakeInfo.tableColumns = [{
+		            title: '序号',
+		            align: "center",
+		            colspan: 1,
+		            width: 1,
+		            formatter: function (value, row, index) {
+		                return index + 1;
+		            }
+		        },{
+		            field: 'rvCd',
+		            title: '河流编码',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'rvNm',
+		            title: '河流名称',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'bsnm',
+		            title: '所属流域',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rvLt',
+		            title: '河流长度',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'draArea',
+		            title: '河流面积',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80
+		        },{
+		            field: 'rvOn',
+		            title: '河源',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'rvMh',
+		            title: '河口',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 100,
+		        },{
+		            field: 'dt',
+		            title: '行政区',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		        },{
+		            field: 'field',
+		            title: '操作',
+		            align: 'center',
+		            sortable: true,
+		            colspan: 1,
+		            width: 80,
+		            formatter: function (value, row, index) {
+		                var html = `
+			               <a href="javascript:void(0)" class="table_btn table_btn_edit" onclick="riverLakeInfo.showModal(2)">修改</a>&nbsp;&nbsp;
+			               <a href="javascript:void(0)" class="table_btn table_btn_del" onclick="riverLakeInfo.showModal(0)">删除</a>&nbsp;&nbsp;`
+		                return html;
+		            }		          
+				 }
+		        ];
+			   break;
+		}
+		//加载表格
+		riverLakeInfo.loadBasicTable();
+	},
+	onClickRow: function(row,$element,field){
+		riverLakeInfo.clickRow = row;
+    },
+	//加载表格
+	loadBasicTable:function(){
+		var dataParams =  {
+	    		id:'table_riverLakeInfo',//表格id
+	    		url:riverLakeInfo.tableUrl,//地址
+	    		height:$("#layui_content").height() - nowClientWidth *74,//表格高度
+	    		fileName: riverLakeInfo.tabVal + '表',//导出表格名称
+	    		pagination:1,
+		 };
+		bootstrapTable.columns = riverLakeInfo.tableColumns;
+		bootstrapTable.bootstrapTableUtil(riverLakeInfo,dataParams);
+	},
+	 //显示模态框
+    showModal:function(type){
+    	riverLakeInfo.type = type;
+    	setTimeout(function(){
+    		if(type){
+	    		 formUtil.showBtn(type,riverLakeInfo);
+	    	}else{
+	    		var id = riverLakeInfo.clickRow.rvCd;//编码
+	    		var url = WEB_ROOT+'basicInfo/riverLake/deleteRiverLake?ids=' + id;
+	    		formUtil.deleteData(url,'table_riverLakeInfo');
+	    	}
+    	},100);
+    },
+	 //type: 1新增 2编辑    id:表单ID
+    submitForm:function(){
+    	formUtil.submitFormData(riverLakeInfo,WEB_ROOT+"basicInfo/riverLake/addRiver?type="+riverLakeInfo.type+"");
+    }
+}
+
+$(function(){
+    //清空查询参数
+	bootstrapTable.clearParams();
+	//根据tab显示信息   加载表格
+	riverLakeInfo.queryTable();
+	commonZtree.ztree("menuZtree",false,WEB_ROOT+"adcd/getUserAdcdZtree");
+	//监听tab切換
+	$(".layui-tab-title").on('click','li',function(e){
+		riverLakeInfo.clickIndex = $(this).index();
+		riverLakeInfo.tabVal = $(this).text();
+		$(this).addClass('layui-this').siblings("li").removeClass('layui-this');
+	    //清空查询参数
+		bootstrapTable.clearParams();
+		$("#table_riverLakeInfo_toolbar #keyWord").val('');
+		$("#table_riverLakeInfo_toolbar #hnnm").val('');
+		$("#table_riverLakeInfo_toolbar #pmenuId").val('');
+		$("#table_riverLakeInfo_toolbar #pmenuIdName").val('');
+		//根据tab显示信息   加载表格
+		riverLakeInfo.queryTable();
+	});
+	
+	//表格查询
+	$(".queryBtn_table").click(function(){
+		bootstrapTable.queryParams["keyWord"] = $("#table_riverLakeInfo_toolbar #keyWord").val();
+		//bootstrapTable.queryParams["rvNm"] = $("#table_riverLakeInfo_toolbar #rvNm").val();
+		bootstrapTable.queryParams["hnnm"] = $("#table_riverLakeInfo_toolbar #hnnm").val();
+		bootstrapTable.queryParams["addvcd"] = $("#table_riverLakeInfo_toolbar #pmenuId").val();	
+    	$("#table_riverLakeInfo").bootstrapTable('refresh');
+	});
+    
+	$("#pmenuIdName").on("change",function(){
+		   if($("#pmenuIdName").val()==""){
+			   $("#pmenuId").val("");
+		   }
+	});
+	//表格数据导入
+	$(".queryBtn_import").click(function(){
+		 $("#modal_riverUpload").modal("show");
+		 formUtil.uploadFile("uploadRiverLake",WEB_ROOT+"/basicInfo/riverLake/importRiverLake",2);
+		$("#uploadRiverLake").on("fileuploaded", function(e, data) {
+			if (data.response.success ==true) {
+				formUtil.successTip("上传成功!");
+				 $("#modal_riverUpload").modal("hide"); 
+			} else {
+				formUtil.successTip("上传失败!");
+			}
+		});			
+	});
+});
+

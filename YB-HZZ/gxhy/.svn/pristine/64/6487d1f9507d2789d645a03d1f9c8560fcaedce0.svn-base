@@ -1,0 +1,14 @@
+html,body,#loadurl{
+	height: 100%;
+	width:100%;	
+}
+#conter-div-info{
+	position: relative;
+    height: 100%;
+    width: 100%;
+    top: .22rem;
+}
+.base_content {
+	height: 100%;
+    background: #fff;
+}

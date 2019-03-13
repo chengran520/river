@@ -1,0 +1,88 @@
+package com.gxhy.base.monitor.service;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.gxhy.base.mapper.BaseMapper;
+import com.gxhy.base.model.RequestModel;
+import com.gxhy.base.model.UserModel;
+import com.gxhy.base.monitor.mapper.DataMonitorMapper;
+import com.gxhy.base.monitor.model.RvAdcdModel;
+import com.gxhy.base.monitor.model.StBprpBModel;
+import com.gxhy.base.monitor.model.StRiverB;
+import com.gxhy.base.monitor.model.StRvUser;
+
+@Service
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public class DataMonitorSerivce extends BaseMapper{
+	
+	/**
+	 * 查询所有河道信息
+	 * @param is_follow 
+	 * @param model
+	 * @throws Exception 
+	 * @throws Exception 
+	 */
+	public List<StRiverB> getRiverDataInfo(String key,UserModel user) throws Exception{
+		JSONObject map = new JSONObject();
+		map.put(RequestModel.SQLID, DataMonitorMapper.class.getName() + ".getRiverDataInfo");
+		map.put("key", key);
+		map.put("userId", user.getUserId());
+		List<StRiverB> list= this.selectLists(map);
+		return list;
+	}
+	
+	/**
+	 * 获取河流下对应河长
+	 * @param rvCd
+	 * @return
+	 */
+	public List<StRvUser> getAdcdRiverByRvUser(String rvCd){
+		JSONObject map = new JSONObject();
+		map.put(RequestModel.SQLID, DataMonitorMapper.class.getName() + ".getAdcdRiverByRvUser");
+		map.put("rvCd", rvCd);
+		List<StRvUser> list= this.selectLists(map);
+		return list;
+	}
+	
+	/**
+	 * 获取所有的测站
+	 * @param map 
+	 * @param map2 
+	 * @return
+	 */
+	public List<StBprpBModel> getStBprpBInfo(String type) {	
+		JSONObject map = new JSONObject();
+		map.put("type", type);
+		map.put(RequestModel.SQLID, DataMonitorMapper.class.getName() + ".getStBprpBInfo");
+		List<StBprpBModel> list= this.selectLists(map);
+		return list;
+	}
+	
+	/**
+	 * 获取所有的测站
+	 * @param map 
+	 * @param map2 
+	 * @return
+	 */
+	public List<RvAdcdModel> getAllAdcdRv(String adcd,String addvcd,String type) {	
+		JSONObject map = new JSONObject();
+		map.put("adcd", adcd);
+		map.put("addvcd", addvcd);
+		if("1".equals(type)){
+			map.put(RequestModel.SQLID, DataMonitorMapper.class.getName() + ".getAllAdcdRv");
+		}else if("2".equals(type)){
+			map.put(RequestModel.SQLID, DataMonitorMapper.class.getName() + ".getAllBaseInfo");
+		}else if("4".equals(type)){
+			map.put(RequestModel.SQLID, DataMonitorMapper.class.getName() + ".getAllCountInfo");
+		}else{
+			map.put(RequestModel.SQLID, DataMonitorMapper.class.getName() + ".getAllAdcdRvUser");
+		}
+		List<RvAdcdModel> list= this.selectLists(map);
+		return list;
+	}
+	
+}

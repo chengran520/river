@@ -1,0 +1,171 @@
+package com.gxhy.base.basic.service;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.gxhy.base.basic.mapper.RiverLakeMapper;
+import com.gxhy.base.basic.model.LakeModel;
+import com.gxhy.base.basic.model.PondModel;
+import com.gxhy.base.basic.model.ReachModel;
+import com.gxhy.base.basic.model.ReservoirModel;
+import com.gxhy.base.basic.model.RiverModel;
+import com.gxhy.base.imp.ImportExeclUtil;
+import com.gxhy.base.mapper.BaseMapper;
+import com.gxhy.base.model.RequestModel;
+import com.gxhy.utils.QueryUtil;
+import com.gxhy.utils.StringUtil;
+
+
+@Service
+@SuppressWarnings("all")
+public class RiverLakeService extends BaseMapper{
+
+	public int importFile(HttpServletRequest request, int index) {
+			JSONObject map = new JSONObject();
+			 MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+	         Iterator iter=multiRequest.getFileNames(); 
+	         while(iter.hasNext()){
+	            MultipartFile file=multiRequest.getFile(iter.next().toString());
+	            String name = file.getOriginalFilename(); 
+	            switch (index) {
+				case 0:
+					List<RiverModel>  riverList=ImportExeclUtil.exportInfo(file,name,new RiverModel());//代表河流
+					map.put("list", riverList);
+					map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".insertRiver");
+					break;
+				case 1:
+					List<ReachModel>  reachList=ImportExeclUtil.exportInfo(file,name,new ReachModel());//河段
+					map.put("list", reachList);
+					map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".insertReach");
+					break;
+				case 2:
+					List<ReservoirModel> rsvrList=ImportExeclUtil.exportInfo(file,name,new ReservoirModel());//水库
+					map.put("list", rsvrList);
+					map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".insertRsvr");
+					break;
+				case 3:
+					List<PondModel> pondList=ImportExeclUtil.exportInfo(file,name,new PondModel());//塘坝
+					map.put("list", pondList);
+					map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".insertPond");
+					break;
+				case 4:
+					List<LakeModel>  lakeList=ImportExeclUtil.exportInfo(file,name,new LakeModel());//湖泊
+					map.put("list", lakeList);
+					map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".insertLake");	
+					break;
+				}	
+	         }    
+			
+ 			return  this.insert(map);
+	}
+
+	public int deleteRiver(QueryUtil model) {
+		int index=model.getIndex();
+		JSONObject map = new JSONObject();
+		List<String> list= Arrays.asList(model.getIds().split(","));
+		map.put("list", list);
+		switch (index) {
+		case 0:
+			map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".deleteRivers");
+			break;
+		case 1:
+			map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".deleteReachs");
+			break;
+		case 2:
+			map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".deleteRsvrs");
+			break;
+		case 3:
+			map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".deletePonds");
+			break;
+		case 4:
+			map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".deleteLakes");
+			break;
+		default:
+			break;
+		}	
+		return this.delete(map);
+	}
+	
+	public Page<RiverModel> selectAllRivers(JSONObject map) {
+		map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".selectRivers");
+		return  this.selectList(map);
+    }
+	
+	public Page<RiverModel> selectAllLakes (JSONObject map) {
+		map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".selectLakes");
+		return  this.selectList(map);
+	}
+
+	public Page<RiverModel> selectAllReachs(JSONObject map) {
+		map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".selectReachs");
+		return  this.selectList(map);
+	}
+	
+	public List<RiverModel> selectBaseReachs(JSONObject map) {
+		map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".baseReachs");
+		return  this.selectLists(map);
+	}
+
+	public Page<RiverModel> selectAllRsvrs(JSONObject map) {
+		map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".selectRsvrs");
+		return  this.selectList(map);
+	}
+
+	public Page<RiverModel> selectAllPonds(JSONObject map) {
+		map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".selectPonds");
+		return  this.selectList(map);
+	}
+   
+	public int saveOrUpdateRiver(RiverModel model, int type) {
+		JSONObject map = new JSONObject();	
+		if(type==1){	
+			List<RiverModel> models=new ArrayList<RiverModel>();
+			models.add(model);
+			map.put("list",models);
+			map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".insertRiver");
+			return this.insert(map);
+		}else{
+			map.put("rvCd", model.getRvCd());
+			map.put("rvNm", model.getRvNm());
+			map.put("bsnm", model.getBsnm());
+			map.put("stbk", model.getStbk());
+			map.put("rvLt", model.getRvLt());
+			map.put("draArea", model.getDraArea());
+			map.put("prvCd", model.getPrvCd());
+			map.put("prvNm",model.getPrvNm());
+			map.put("rvOn", model.getRvOn());
+			map.put("rvOnLgtd", model.getRvOnLgtd());
+			map.put("rvOnLttd", model.getRvOnLttd());
+			map.put("rvMh", model.getRvMh());
+			map.put("rvMhLgtd", model.getRvMhLgtd());
+			map.put("rvMhLttd", model.getRvOnLttd());
+			map.put("rvFlow", model.getRvFlow());
+			map.put("addvcd", model.getAddvcd());
+			map.put(RequestModel.SQLID,RiverLakeMapper.class.getName() + ".updateRiver");
+			return this.update(map);
+		}
+		
+	}
+}

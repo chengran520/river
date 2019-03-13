@@ -1,0 +1,53 @@
+.layui-form-label {
+    font-size: 0.16rem !important;
+}
+.menu_input {
+	width: 1.3rem;
+	height: 0.37rem;
+	float: left;
+	background:rgba(255,255,255,1);
+	border-radius: 4px;
+    box-shadow: 0px 3px 9px 0px #DBDBDB;
+    font-size: 0.16rem;
+    font-family: MicrosoftYaHei;
+    border:1px solid rgba(190, 226, 244, 1);
+    border-radius: 3px;
+}
+.lable_div_before{
+	width:0.87rem;
+	height:0.35rem;
+	background:rgba(243,251,255,1);
+	border:1px solid rgba(190, 226, 244, 1);
+	font-size: 0.14rem;
+	float: left;
+    line-height: 0.35rem;
+    text-align: center;
+    font-family: MicrosoftYaHei;
+    border-radius: 3px;
+}
+.lable_div_behind{
+	width:1.74rem;
+	height:0.35rem;
+	background:rgba(243,251,255,1);
+	border:1px solid rgba(190, 226, 244, 1);
+	font-size: 0.14rem;
+	float: left;
+	border-radius: 3px;
+}
+.menu_select{
+	width:1.74rem;
+	height:0.37rem;
+	background:rgba(255,255,255,1);
+	border:1px solid rgba(190, 226, 244, 1);
+	font-size: 0.14rem;
+	float: left;
+	border-radius: 3px;
+}
+.right_div{
+	margin-right: 0.15rem;
+}
+#country_select,#town_select{
+	width: 1.23rem;
+}
+
+

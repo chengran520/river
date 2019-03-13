@@ -1,0 +1,15 @@
+package com.gxhy.base.basic.model;
+
+/**
+ * 巡查图片
+ * @author chengran
+ *
+ */
+public  class BusineImgModel {
+  
+	private String busineId;//
+	
+	private String url;
+	
+	
+}

@@ -1,0 +1,41 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="eventCenter/seo/seo.css" rel="stylesheet" type="text/css">
+<script src="eventCenter/select/select.js"  type="text/javascript" ></script>
+ <div class="layui-body">  
+     <form  class="tab-search" id="gradeForm">
+     	  <img   src="common/images/leftMenu/line.png"/>
+	       <span>综合查询</span>
+	 </form>
+	 <div style='height:40%;width:100%'>
+	 	  <div id="table_patrol_toolbar" class="toolbar">
+                    <form class="form-inline" id="toolbar_form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">起始时间:</span>
+                                <input class="form-control busineUnm" name="startTm" id="startTm"  placeholder="请输入上报人">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">结束时间:</span>
+                                <input class="form-control busineUnm" name="endTm" id="endTm"  placeholder="请输入上报人">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">上报类型:</span>
+                                <select class="form-control busineUnm" name="busineType" id="busineType"  placeholder="请输入上报人"></select>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">处理状态:</span>
+                                <input class="form-control busineUnm" name="type" id="type"  placeholder="请输入上报人">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary queryBtn_table"><span
+                                class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询
+                        </button>
+                    </form>
+                </div>
+                <table id="table_select" class="table table-hover">
+
+                </table>
+	</div>
+
+</div>
+

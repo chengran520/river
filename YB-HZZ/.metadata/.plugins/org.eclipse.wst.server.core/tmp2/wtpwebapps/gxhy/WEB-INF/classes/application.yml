@@ -1,0 +1,37 @@
+#######sql server db connon#####
+spring: 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    base: 
+      jdbc-url: jdbc:sqlserver://118.190.154.40:1433;databasename=HZZWY_SYS_DB
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      username: sa
+      password: gxhy2017@123
+    hydro: 
+      jdbc-url: jdbc:sqlserver://118.190.154.40:1433;databasename=GXHY_SYS_DB
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      username: sa
+      password: gxhy2017@123
+    druid:
+      initial-size: 5 #初始化大小
+      max-active: 10 #最大
+      min-idle: 5 #最小
+      max-wait: 60000 # 配置获取连接等待超时的时间
+      pool-prepared-statements: true # 打开PSCache，并且指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1
+      validation-query-timeout: 60000
+      test-on-return: false
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 100000 # 配置一个连接在池中最小生存的时间，单位是毫秒
+mybatis:  
+  configuration:  
+    map-underscore-to-camel-case: true          
+system-params:
+  image-uri: E:/rcxh/app/images
+  fileAddres: E:/rcxh/file/
+      

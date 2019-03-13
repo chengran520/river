@@ -1,0 +1,202 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="eventCenter/seo/seo.css" rel="stylesheet" type="text/css">
+<script src="eventCenter/seo/busine.js"  type="text/javascript" ></script>
+<script src="common/layui/lay/modules/laydate.js"  type="text/javascript" ></script>
+ <div class="layui-body">  
+     <form  class="tab-search" id="gradeForm">
+     	  <img   src="common/images/leftMenu/line.png"/>
+	       <span>综合查询</span>
+	       <div style="float: right;margin-right: 12px;">
+	           <div class="layui-input-inline">
+		         <input type="text" class="layui-input seach-input" id="startTm"  autocomplete="off"  placeholder="开始时间" style="width: 122px;">
+		       </div>
+		       <div class="layui-input-inline">
+		          <label class="layui-form-label tm-label">至</label>
+		       </div>
+		       <div class="layui-input-inline">
+		         <input type="text" class="layui-input seach-input" id="endTm"  autocomplete="off"  placeholder="结束时间" style="width: 122px;">
+		       </div>
+	           <div class="layui-input-inline">
+		         <input  type="text" id="keyword" class="layui-input seach-input"  placeholder="请输入上报人名称或处理人名称" >
+		       </div>
+		       <div class="layui-input-inline">
+		          <button  data-method="reloadGrade" class="layui-btn btn-sel"  type="button">
+		             <i class="layui-icon layui-icon-search"></i>查询
+		          </button>
+		       </div>
+	        </div>
+	 </form>
+	 <div style='height:40%;'>
+		<table id="patrol_busine"  style="text-overflow:ellipsis;">
+				<thead>
+					<tr>
+			             <th field="busineId" width="25" align="center">事件编号</th>
+			             <th field="busineOrigin" width="20" align="center" >来源</th>
+			             <th field="busineType"  width="20" align="center">事件类型</th>
+			             <th field="busineUnm"  width="20" align="center" formatter="busineEvent.formatUser">上报人员</th>
+			             <th field="busineUid"  width="20" hidden="true">上报人员id</th>
+			             <th field="createTm"  width="30" align="center">上报时间</th>
+			             <th field="busineAddress"  width="40" align="center">事件地点</th>
+			             <th field="busineStatusNm"  width="10" align="center" formatter="busineEvent.formatBusineColor">事件状态</th>
+			             <th field="busineStatus"  width="10" hidden="true">状态</th>
+			             <th field="originId"  width="10" hidden="true">状态</th>
+			             <th field="dept"  width="10" hidden="true">状态</th>
+			             <th field="job"  width="10" hidden="true">状态</th>
+			             <th field="lastHandleUserId"  width="10" hidden="true">上次处理人id</th>
+			             <th field="status"  width="20" hidden="true" hidden="true">流程状态</th>
+			             <th field="repeat" width="15" align="center"  formatter="busineEvent.formatBusineRepeat">操作</th>
+					</tr>
+				</thead>
+			</table>
+	</div>
+
+	<div class='bottom_div'>
+		<div class='downleft_div'>
+		<div class='downrightheader_div'><span>事件流程</span></div>
+			<!-- <img src='eventCenter/seo/image/event1.png' style='width: 100%; height: 100%;'/> -->
+			<div id="timeAxis"></div>
+		</div>
+		<div class='downright_div'>
+			<div class='downrightheader_div'><span>事件详情</span></div>
+			<div class='bottomRightLeft_div detail_div'>   
+			</div>
+			<div class='bottomRightRight_div'>
+			  <div id="leftContent" onclick="next()">
+		  		<img id="left_img"  style='cursor:pointer;'>
+		      </div>
+			</div>
+			
+		</div> 
+	</div> 
+</div>
+
+<div class="modal fade" id="busineModel"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  style="overflow-y: hidden;">
+	<div class="modal-dialog">
+		<div class="modal-content" style="width:750px;height:800px;">
+			<div class="modal-header" style="padding:10px;background-color: #009f95;color: #fff;">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="font-size: 32px;margin-right: 10px;">×</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">审核</h4>
+			</div>
+			<div class="modal-body">
+			  <div class="container-fluid">
+			    <div class="row">
+			      <div class="col-md-6">
+			        <input type="hidden" value="" id="busineUid">
+			         <input type="hidden" value="" id="busineOrgin">
+			         <input type="hidden" value="" id="orginId">
+			         <input type="hidden" value="" id="status">
+			         <input type="hidden" value="" id="busineStatus">
+			         <input type="hidden" value="" id="handleUserIdOne">
+			     	 <table class="modal_tab" style="font-size: 14px;color: #000;">
+			     	 	<tr>
+			     	 		<td>事件编码：</td>
+			     	 		<td><p id="busineIdS" style="width:100px;"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>事件来源：</td>
+			     	 		<td><p id="busineOri"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>事件类型：</td>
+			     	 		<td ><p id="busineTypeS"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>&nbsp;&nbsp;&nbsp;&nbsp;报告人：</td>
+			     	 		<td><p id="busineUN"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>上报时间：</td>
+			     	 		<td><p id="createT"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>事件地点：</td>
+			     	 		<td><p id="busineAddress"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>事件描述：</td>
+			     	 		<td><p id="busineDesc"></p></td>
+			     	 	</tr>
+			     	 	<tr>
+			     	 		<td>上报图片：</td>
+			     	 		<td><p id="url"></p></td>
+			     	 	</tr>
+			     	 	<tr id="reportImg">
+			     	 		<td><p style="width:100px;padding-top:10px;">意见图片：</p></td>
+			     	 		<td style="padding-top:10px;">
+			     	 		     <input type="hidden" value="" id="workflowId">
+			     	 		      <input type="hidden" value="" id="busineI">
+			     	 		     <img id="imgI"  src="<%=request.getContextPath()%>/common/images/bussine/a11.png" style="width:60px;heigth:60px;"  onclick="F_Open_dialog();">
+			     	 		     <input type="file" id="file_input"   style="display:none"/>
+	     	 		             <p style="color: #666;">最多上传3张图片</p>					
+			     	 		</td>
+			     	    </tr>
+			     	 	<tr id="view">
+			     	 		<td>处理意见：</td>
+			     	 		<td><textarea rows="3" cols="30" id="handleView"></textarea></td>
+			     	 	</tr>
+			     	 	
+			     	 </table>
+			      </div>
+			    </div>
+			      
+			  </div>
+			</div>
+		     
+			<div class="modal-footer" id="foot">
+				<button  class="btn btn-default btns" id="checkBusine" type="button">
+				    &nbsp;处&nbsp;理
+				</button>
+				<button class="btn btn-default btns" id="deliverBusine" type="button">
+					&nbsp;转&nbsp;交
+				</button>
+				<button  class="btn btn-default btns" id="invalidBusine" type="button">
+				    &nbsp;无&nbsp;效
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 转交选择人页面 -->
+<div class="modal fade" id="busineUserModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: hidden;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="width:700px;height:auto;overflow-y: auto;overflow-x: hidden;">
+			<div class="modal-header" style="padding:10px;background-color: #009f95;color: #fff;">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="font-size: 32px;margin-right: 10px;">×</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">转交人员</h4>
+			</div>
+			<div class="modal-body" style="height:450px;">
+				<div>
+				    <span  class='titlespan'>石城县成员单位</span>
+				    <span  class='titlespan' style="padding-left:340px;">处理人员</span>
+				</div>    
+				<div class="col-xs-5" style="margin-top:10px;border: 1px solid #000;padding-right:0px;height:400px;">
+			        <ul id="busineZtree"  class="ztree" style="margin-top:0;overflow: auto;height:400px">
+			        </ul>
+			    </div>
+			    <div  class="col-xs-1"  style="margin-top:200px;margin-right:15px;"> 
+			       <img src="<%=request.getContextPath()%>/common/images/bussine/addicon.jpg" style="width:45px;height:45px;">
+			    </div>
+			    <div class="col-xs-5" style="margin-top:10px;border: 1px solid #000;padding-right:0px;height:400px;">
+			       <input  id="resultUser" type="hidden" value="">
+			       <ul class="ztree" style="margin-top:0;overflow: auto;height:400px;color:red;font-weight:bold;" id="busineUserName"> 
+			       </ul>
+			    </div>
+			</div>
+			<div class="modal-footer" id="foot">
+				<button class="btn btn-default btns" id="retuBusine" type="button" style="color: #333;background-color: #fff;border-color: #adadad;"  data-dismiss="modal">
+					&nbsp;关&nbsp;闭
+				</button>
+				<button  class="btn btn-default btns" id="conBusine" type="button">
+				    &nbsp;确&nbsp;定
+				</button>
+			</div>
+		</div>
+	</div>
+  <div>
+</div>
+</div>

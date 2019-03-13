@@ -1,0 +1,151 @@
+var index=0;
+var url=WEB_ROOT+"system/role/";
+layui.config({
+	  base: WEB_ROOT+'/common/util/' 
+});
+var tableId="role";
+
+//使用表格初始化
+layui.use(['tableUtil'], function(){
+	 var roleTable=layui.roleTable,
+	 toolTable=layui.toolTable;
+	 
+});
+layui.define(['tableUtil'],function(exports){
+	 var $ = layui.$,
+	 tableUtil=layui.tableUtil;
+	 $("#uploadRole").hide();
+	 var h=tableUtil.initHeight("roleForm");
+	 $(".layui-table-box").height(h);
+	//初始化表格
+	 var option={url:url+"getAllRole",id:tableId,height:h - 40};
+	 tableUtil.initTable(option); 	  
+     exports('roleTable',function(){});
+});
+layui.define(['table','tableUtil'],function(exports){
+	 var $ = layui.jquery,
+	 table=layui.table,
+	 tableUtil=layui.tableUtil;
+	 //监听按钮点击事件
+	 $('#roleForm .layui-btn').on('click', function(){
+	    var othis = $(this), method = othis.data('method');
+	    roleInfo[method] ? roleInfo[method].call(this, othis) : '';
+	 });
+	 var roleInfo={
+		//打开上传的弹窗
+		offsetRole: function(othis){
+	         var type = othis.data('type');
+	         var id='roleForm'+type;
+	         var data={title:'数据导入',id:id,content:$('#uploadRole'),offset:type,href:"http://localhost:8080/gxhy/common/templates/RoleInfo.xls"};
+	         tableUtil.openFrame(data);//调用自定义模板方法
+		  	 var option={elem:'#selectRoleFile',url:url+'importRoleFile',bindAction:'#importRoleFile',tableId:tableId};
+		  	 tableUtil.uploadFile(option);//调用自定义模板方法
+		  },
+		  //表格的重载
+		  reloadRole:function () { 
+			  var data={id:tableId,value:$("#keyWord").val()};
+			  tableUtil.reloadTable(data);//调用自定义模板方法
+		  },
+		  //删除行
+		  deleteRole:function(){
+			  var checkStatus = table.checkStatus(tableId)
+		      ,data = checkStatus.data;
+			  if(data.length==0){
+				  layer.msg("至少选择一项需要删除的数据", { icon: 5 });
+				  return false;
+			  }else{
+				  var ids = '';
+	              layui.each(data,function(k,v){
+	            	  ids += this.roleId+','; 
+	              });
+	             alert(ids);
+	              var data={url:url+'deleteRole',ids:ids,tableId:tableId,length:data.length,num:index};
+	              tableUtil.deleteRow(data);//调用自定义模块方法
+	          }
+		  },
+		  //导出excel
+		  exportRole:function(){
+	          $.get(formatRiver.formatName(index,url+'getAll'),{"keyWord":$("#keyWord").val()},function(result){
+		    		if(result.success){
+		    			var title=formatRiver.exportFormat(index);
+	    			    table.exportFile(title,result.data, 'xls');
+		    		}
+		    	});
+		  }
+		  
+	}
+	exports('roleInfo',roleInfo);
+});
+
+layui.define('table',function(exports){
+	  var table=layui.table;
+	//监听行工具事件
+	  table.on('tool('+tableId+')', function(obj){
+		var roleId=obj.data.roleId;
+	    if(obj.event === 'authorize'){	    	
+	    	  layer.open({
+		            type:1,
+		            title:"分配权限",
+		            area: ['16%','400px'],
+		            content:$("#roleTree").html(),
+		            btn: ['确定', '清除', '取消'],
+			    	yes: function(index, layero){
+			    	   var ids=$("#roleDemo input").val();//获取所有的权限
+			    	   var data={"ids":ids,"keyWord":roleId};
+			    	   var result=commonUtils.post(url+"saveRolePers",data,null);
+			    	   if(result.flag==true){
+			 			  layer.msg("授权成功！", {icon: 1});			 
+			 		  }else{
+			 			  layer.msg("网络错误", {icon: 2});			
+			 		  }
+			    	   layer.close(index);
+			    	}
+			    	,btn2: function(index, layero){
+			    		checkAllNodes("roleDemoTree",false);
+			    		return false;
+			    	 }
+			    	 ,btn3: function(index, layero){
+			    		 layer.close(index);
+			    	 }
+		        });
+	    	  var zNodes=commonUtils.get(WEB_ROOT+"system/menu/getAllPermission",{"keyWord":roleId},null);	
+			  if(zNodes.flag){
+				  initSelectTree("roleDemo", true, {"Y": "ps", "N": "s"},zNodes.data.menus,1); 
+				    //复选框的回显
+				   selectNode(zNodes.data.pers,"roleDemoTree",roleDemo);				 
+			  }	    	 
+	     } 
+	  });
+
+	exports('toolTable',function(){});
+});
+function  openTree(){
+	openFoldTree("roleDemoTree",true);
+}
+function  foldTree(){
+	openFoldTree("roleDemoTree",false);
+}
+function search($this) {
+	$('.layui-form-item').slideToggle(200);
+	$('#btnShow').toggle();
+	$('#btnHide').toggle();
+	$('#keyword').focus();
+}
+//搜索节点并高亮显示
+
+function searchBtnTree() {
+	var key = $(".layui-layer-content #key").val();
+    if (key != null) {
+    	findsearchTree(key,"roleDemoTree");
+    }else{
+        layer.msg("请输入搜索条件", {icon: 2});	
+    }
+}
+function onKeyPress(e){
+	var key = $(".layui-layer-content #key").val();
+    if (e.keyCode == "13") {
+    	findsearchTree(key,"roleDemoTree");
+    }else{
+    	layer.msg("请输入搜索条件", {icon: 2});	
+    }
+}

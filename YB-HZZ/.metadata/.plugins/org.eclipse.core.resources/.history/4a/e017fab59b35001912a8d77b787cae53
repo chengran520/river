@@ -1,0 +1,216 @@
+var index=0;
+var url=WEB_ROOT+"system/user/";
+layui.config({
+	  base: WEB_ROOT+'/common/util/' 
+});
+var userTableId="user";
+//使用表格初始化
+layui.use(['tableUtil'], function(){
+	 var UserTable=layui.UserTable,
+	 toolUser=layui.toolUser;
+});
+layui.define(['tableUtil'],function(exports){
+	 var $ = layui.$,	 
+	 tableUtil=layui.tableUtil;
+	 $("#uploadUser").hide();
+	 tableUtil.showBtns();//根据权限显示按钮
+	 var h=tableUtil.initHeight("UserForm");
+	 $(".layui-table-box").height(h);
+	//初始化表格
+	 var option={url:url+"getAllUser",id:userTableId,height:h};
+	 tableUtil.initTable(option); 	  
+     exports('UserTable',function(){});
+});
+layui.define(['table','tableUtil'],function(exports){
+	 var $ = layui.jquery,
+	 table=layui.table,
+	 tableUtil=layui.tableUtil;
+	 //监听按钮点击事件
+	 $('#UserForm .layui-btn').on('click', function(){
+	    var othis = $(this), method = othis.data('method');
+	    riverLakeInfo[method] ? riverLakeInfo[method].call(this, othis) : '';
+	 });
+	 var riverLakeInfo={
+		//打开上传的弹窗
+		offsetUser: function(othis){
+			$("#uploadUser").show();
+	         var type = othis.data('type');
+	         var id='UserForm'+type;
+	         var data={title:'数据导入',id:id,content:$('#uploadUser'),offset:type,href:"http://localhost:8080/gxhy/common/templates/UserInfo.xls"};
+	         tableUtil.openFrame(data);//调用自定义模板方法
+		  	 var option={elem:'#selectUserFile',url:url+'importUserInfo',bindAction:'#importUserFile',tableId:userTableId};
+		  	 tableUtil.uploadFile(option);//调用自定义模板方法
+		  },
+		  //表格的重载
+		  reloadUser:function () { 
+			  var data={id:userTableId,value:$("#keyWord").val()};
+			  tableUtil.reloadTable(data);//调用自定义模板方法
+		  },
+		  //删除行
+		  deleteUser:function(){
+			  var checkStatus = table.checkStatus(userTableId)
+		      ,data = checkStatus.data;
+			  if(data.length==0){
+				  layer.msg("至少选择一项需要删除的用户信息", { icon: 5 });
+				  return false;
+			  }else{
+				  var ids = '';
+	              layui.each(data,function(k,v){
+	            	  ids += this.uuid+','; 
+	              });	             
+	              var data={url:url+'deleteUser',ids:ids,tableId:userTableId,length:data.length,num:index};
+	              tableUtil.deleteRow(data);//调用自定义模块方法
+	          }
+		  },
+		  //导出excel
+		  exportUser:function(){
+	          $.get(formatRiver.formatName(index,url+'getAll'),{"keyWord":$("#keyWord").val()},function(result){
+		    		if(result.success){
+		    			var title=formatRiver.exportFormat(index);
+	    			    table.exportFile(title,result.data, 'xls');
+		    		}
+		    	});
+		  },
+		  addUser:function(){
+			  layer.open({
+			        title:'新增用户',
+			        type: 1,
+			        area: ['400px', '400px'],
+			        fix: false, //不固定
+			        maxmin: true,
+		            content:$("#add_modal"),
+		            btn: ['确定', '取消'],
+			    	yes: function(index, layero){
+			    	   var formData = $('#add_user_form').serializeArray();
+			    	   var result=commonUtils.post(WEB_ROOT+"system/user/addUser",formData,false);
+			    	   if(result.flag==true){
+			 			  layer.msg("添加成功！", {icon: 1});			 
+			 		  }else{
+			 			  layer.msg("网络错误", {icon: 2});			
+			 		  }
+			    	   layer.close(index);
+			    	}
+			    	 ,btn3: function(index, layero){
+			    		 layer.close(index);
+			        },
+			    });
+		  }
+		  
+	}
+	exports('riverLake',riverLakeInfo);
+});
+
+layui.define('form',function(exports){
+	var form=layui.form;
+	form.render();
+	//监听行工具事件
+	  form.on("checkbox('add_user_form')"), function(obj){
+		  if(obj.event === 'sex_f'){
+			  $('#sex_f').attr('checked',true);
+			  $('#sex_m').attr('checked',false);
+		  }else{
+			  $('#sex_m').attr('checked',true);
+			  $('#sex_f').attr('checked',false);
+		  }
+	  };
+	  exports('toolAddUser',function(){});
+});
+
+layui.define('table',function(exports){
+	  var table=layui.table;
+	//监听行工具事件
+	  table.on('tool('+userTableId+')', function(obj){
+		var userId=obj.data.userId;
+		var uuid = obj.data.uuid;
+	    if(obj.event === 'setrole'){	    	
+	    	  layer.open({
+		            type:1,
+		            title:"设置角色",
+		            area: ['16%','400px'],
+		            content:$("#userTree").html(),
+		            btn: ['确定', '清除', '取消'],
+			    	yes: function(index, layero){
+			    	   var ids=$("#userDemo input").val();//获取所有的角色
+			    	   var data={"ids":ids,"keyWord":userId};
+			    	   var result=commonUtils.post(WEB_ROOT+"system/role/saveUserRoles",data,null);
+			    	   if(result.flag==true){
+			 			  layer.msg("授权成功！", {icon: 1});			 
+			 		  }else{
+			 			  layer.msg("网络错误", {icon: 2});			
+			 		  }
+			    	   layer.close(index);
+			    	}
+			    	,btn2: function(index, layero){
+			    		checkAllNodes("userDemoTree",false);
+			    		return false;
+			    	 }
+			    	 ,btn3: function(index, layero){
+			    		 layer.close(index);
+			    	 }
+		        });
+	    	  
+	    	  var zNodes=commonUtils.get(WEB_ROOT+"system/role/getAllRoles",{"keyWord":userId},null);	
+			  if(zNodes.flag){
+				  initSelectTree("userDemo", true, {"Y": "ps", "N": "s"},zNodes.data.roles,1); 
+				    //复选框的回显
+				   selectNode(zNodes.data.pers,"userDemoTree",userDemo);			 
+			  }
+	     }else if(obj.event === 'setpwd'){
+	    	 console.log(uuid);
+	    	  layer.open({
+		            type:1,
+		            title:"设置密码",
+		            skin:"layui-layer-lan",
+		            area: ['16%','400px'],
+		            content:$("#pwd_modal"),
+		            btn: ['确定', '取消'],
+			    	yes: function(index, layero){
+			    	   var userPasswd = $('#pwd').val();
+			    	   if(!userPasswd){
+			    		  return false; 
+			    	   }
+			    	   var data={"uuid":uuid,"userPasswd":userPasswd};
+			    	   var result=commonUtils.get(WEB_ROOT+"/system/user/updateUser", data, null);
+			    	   if(result.flag==true){
+			 			  layer.msg("修改成功！", {icon: 1});			 
+			 		  }else{
+			 			  layer.msg("网络错误", {icon: 2});			
+			 		  }
+			    	   layer.close(index);
+			    	}
+			    	 ,btn2: function(index, layero){
+			    		 layer.close(index);
+			    	 }
+		        });
+	     } 
+	  });
+
+	exports('toolUser',function(){});
+});
+function getReBackVal(id){
+	return $('#'+id).val();
+}
+function searchRole(){
+	 $('.layui-form-item').slideToggle(200);
+		$('#btnUserShow').toggle();
+		$('#btnUserHide').toggle();
+		$('#keyRole').focus();
+ }
+//搜索节点并高亮显示
+ function searchRoleBtn() {
+ 	var key = $(".layui-layer-content #keyRole").val();
+     if (key != null) {
+     	  findsearchTree(key,"userDemoTree");
+     }else{
+         layer.msg("请输入搜索条件", {icon: 2});	
+     }
+ }
+ 
+ function onKeyPress(e){
+ 	var key = $(".layui-layer-content #keyRole").val();
+     if (e.keyCode == "13") {
+     	findsearchTree(key,"roleDemoTree");
+     }else{
+     	layer.msg("请输入搜索条件", {icon: 2});	
+     }
+ }

@@ -1,0 +1,161 @@
+var index=0;
+var url=WEB_ROOT+"basicInfo/riverLake/";
+var formatRiver={
+		formatName:function(index,param){
+			  var str="";
+			  switch(index){
+		        case 0:
+		        	str='River';
+		        	break;
+		        case 1:
+		        	str='Reach';
+		        	break;
+		        case 2:
+		        	str='Rsvr';	
+		        	break;
+		        case 3:
+		        	str='Pond';			        	
+		        	break;
+		        case 4:
+		        	str='Lake';
+		        	break;
+		        default:break; 
+	         }
+		  if(param.indexOf("get")!=-1){
+			  return  param+str;
+		  }else{
+			  return str+param;
+		  } 
+	  },
+	  exportFormat:function(index){
+		  var title="";
+		  switch (index) {
+			case 0:
+				title=['河流编码','河流名称','所属水系','所属流域','河流岸别','河流长度','河流面积','上级河流编码','上级河流名称','河源','河源经度','河源纬度','河口','河口经度','河口纬度','流经地','行政区','行政区名称'];
+				break;
+			case 1:
+				title=['河段编码','河段名称','河流类型','行政区编码','行政区','所属河流编码','所属河流名称','流域面积','河段长度','河段等级','是否跨界','河源所在位置','河源经度','河源纬度','河口所在位置','河口所在位置','河口纬度','流经地'];
+				break;
+			case 2:
+				title=['水库代码','水库名称','行政区代码','行政区名称','水库类型','集水面积','防洪高水位','所在地','建成年月','工程规模','工程等级','水库等级','水库级别','上级河湖编码','上级河湖名称','设计洪水位','总库容','调洪库容','正常蓄水位','校核蓄水位','兴利库容','防洪限制水位','防洪限制水位库容','死水位','死库容','水库调节方式','最小下泄流量','左上角经度','左上角纬度','右上角经度','右上角纬度'];
+				break;
+			case 3:
+				title=['山塘编码','山塘名称','小流域代码','行政区划代码','行政区名称','经度','纬度','容积','坝高','坝长'];
+				break;
+			case 4:
+				title=['湖泊代码','湖泊名称','行政区编码','行政区名称','上级河湖编码','上级河湖名称','水面面积','咸淡水属性','湖片级别','平均水深','最大水深','湖泊容积','所属湖泊','左上角经度','左上角纬度','右上角经度','右上角纬度','备注'];
+				break;
+			default:
+				break;
+	      }
+		  return title;
+	  }
+}
+layui.config({
+	  base: WEB_ROOT+'/common/util/' 
+});
+//使用表格初始化
+layui.use(['tableUtil'], function(){
+	 var layTab=layui.layTab;	 
+});
+layui.define(['element','tableUtil'],function(exports){
+	 var $ = layui.$,
+	 element=layui.element,
+	 tableUtil=layui.tableUtil;
+	 $("#uploadRiver").hide();
+	 var h=tableUtil.initStyle("layerDemo");
+	 $(".layui-table-box").height(h);
+	//初始化表格
+	 var addvcd=$('#menuLeft-ul').find('li').eq(0).attr("data-param");
+	 var paramUrl="";
+	 if(addvcd!=null){
+		 paramUrl=formatRiver.formatName(index,url+"getAll")+"?addvcd="+addvcd+"";
+	 }else{
+		 paramUrl=formatRiver.formatName(index,url+"getAll");
+	 }
+	 var option={url:paramUrl,id:'table_'+index,height:h};
+	 tableUtil.initTable(option); 
+	 //监听tab切换事件
+	 element.on('tab(layTab)', function(data){	
+		  index=data.index;				 
+		  var option={url:formatRiver.formatName(index,url+'getAll'),id:'table_'+index,height:h};
+		  tableUtil.initTable(option);
+     }); 	  
+     exports('layTab',function(){});
+});
+layui.define(['table','tableUtil'],function(exports){
+	 var $ = layui.jquery,
+	 table=layui.table,
+	 tableUtil=layui.tableUtil;
+	 //监听按钮点击事件
+	 $('#layerDemo .layui-btn').on('click', function(){
+	    var othis = $(this), method = othis.data('method');
+	    riverLakeInfo[method] ? riverLakeInfo[method].call(this, othis) : '';
+	 });
+	 var riverLakeInfo={
+		//打开上传的弹窗
+		offset: function(othis){
+	         var type = othis.data('type');
+	         var id='layerDemo'+type;
+	         var fileName=formatRiver.formatName(index,"Info");
+	         var data={title:'数据导入',id:id,content:$('#uploadRiver'),offset:type,href:"http://localhost:8080/gxhy/common/templates/"+fileName+".xls"};
+	         tableUtil.openFrame(data);//调用自定义模板方法
+		  	 var option={elem:'#selectFile',url:url+'/importRiverLake?index='+index,bindAction:'#importFile',tableId:'table_'+index};
+		  	 tableUtil.uploadFile(option);//调用自定义模板方法
+		  },
+		  //表格的重载
+		  reloadRiver:function () { 
+			  var data={id:'table_'+index,value:$("#keyWord").val()};
+			  tableUtil.reloadTable(data);//调用自定义模板方法
+		  },
+		  //删除行
+		  deleteRiver:function(){
+			  var tableId='table_'+index;
+			  var checkStatus = table.checkStatus(tableId)
+		      ,data = checkStatus.data;
+			  if(data.length==0){
+				  layer.msg("至少选择一项需要删除的河流数据", { icon: 5 });
+				  return false;
+			  }else{
+				  var ids = '';
+	              layui.each(data,function(k,v){
+	            	  var value="";
+	            	  switch (index) {
+							case 0:
+								value=this.rvCd;
+								break;
+							case 1:
+								value=this.rehCd;
+								break;
+							case 2:
+								value=this.resCd;
+								break;
+							case 3:
+								value=this.damCd;
+								break;
+							case 4:
+								value=this.lkCd;
+								break;
+							default:
+								break;
+					  }
+	            	  ids += value+','; 
+	              });
+	             
+	              var data={url:url+'deleteRiverLake',ids:ids,tableId:tableId,length:data.length,num:index};
+	              tableUtil.deleteRow(data);//调用自定义模块方法
+	          }
+		  },
+		  //导出excel
+		  exportRiver:function(){
+	          $.get(formatRiver.formatName(index,url+'getAll'),{"keyWord":$("#keyWord").val()},function(result){
+		    		if(result.success){
+		    			var title=formatRiver.exportFormat(index);
+	    			    table.exportFile(title,result.data, 'xls');
+		    		}
+		    	});
+		  }
+	}
+	exports('riverLake',riverLakeInfo);
+});
+ 

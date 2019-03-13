@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+</head>
+<body>
+<!--content内容开始-->
+<div class="layui-body base_content">
+	<div id="table_projectManage_toolbar" class="toolbar">
+	       <form class="form-inline" id="toolbar_form">
+	           <div class="form-group">
+	           	   <div class="input-group">
+	                   <span class="input-group-addon">项目名称:</span>
+	                   <input class="form-control" name="projectName" id="projectName" placeholder="请输入项目名称">
+	               </div>
+	              <div class="input-group">
+	                   <span class="input-group-addon">项目类型:</span>
+	                   <select class="form-control" name="type_project" id="type_project">
+	                   		<option value="1">岸线管理保护</option>
+	                   	</select>
+	               </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">结束时间:</span>
+	                   <input class="form-control" name="startTm" id="startTm"  placeholder="请选择开始时间">
+	               </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">结束时间:</span>
+	                   <input class="form-control" name="endTm" id="endTm"  placeholder="请选择结束时间">
+	               </div>
+	           </div>
+	           <button type="button" class="btn btn-primary queryBtn_table"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	           <button type="button" class="btn btn-primary queryBtn_add"><span class="glyphicon glyphicon-plus"></span>&nbsp;新&nbsp;增</button>
+	       </form>
+	   </div>
+   <table id="table_projectManage" class="table table-hover">
+
+   </table>
+</div>
+<!--content内容结束-->
+<script src="supervision/projectManage/projectManage.js" type="text/javascript" ></script>
+
+</body>
+</html>

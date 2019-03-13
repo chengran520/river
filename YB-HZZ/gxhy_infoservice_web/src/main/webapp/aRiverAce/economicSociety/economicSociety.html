@@ -1,0 +1,33 @@
+<!-- 领导打分 -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="aRiverAce/economicSociety/economicSociety.css" rel="stylesheet" type="text/css">
+<script src="aRiverAce/economicSociety/economicSociety.js"  type="text/javascript" ></script>
+<div class="layui-body">
+    <form  class="tab-search" id="gradeForm">
+        <img   src="common/images/leftMenu/line.png"/>
+        <span>社会经济情况</span>
+        <div style="float: right;margin-right: 12px;">
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input seach-input" id="startTm"  autocomplete="off"  placeholder="开始时间" style="width: 122px;">
+            </div>
+            <div class="layui-input-inline">
+                <label class="layui-form-label tm-label">至</label>
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input seach-input" id="endTm"  autocomplete="off"  placeholder="结束时间" style="width: 122px;">
+            </div>
+            <div class="layui-input-inline">
+                <input  type="text" id="keyWord" class="layui-input seach-input"  placeholder="请输入河流名称" >
+            </div>
+            <div class="layui-input-inline">
+                <button  data-method="reloadGrade" class="layui-btn btn-sel"  type="button">
+                    <i class="layui-icon layui-icon-search"></i>查询
+                </button>
+            </div>
+        </div>
+    </form>
+    <table  class="layui-table"  id="gradeTable"  lay-filter="gradeTable" style="display: none;"></table>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="handleGrade" lay-event="handleGrade">查看详情</a>
+</script>

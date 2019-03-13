@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+    <link rel="stylesheet" href="riverPatrol/patrolLog/patrolLog.css">
+</head>
+<body>
+<!--content内容开始-->
+<div class="baseData layui-body">
+    <div class="baseData_content fr">
+        <div class="baseData_title title_size">
+            <p>综合查询</p>
+        </div>
+        <div class="baseDataBox">
+            <div class="bottombox">
+           		<div class="content_top">
+	                <div id="table_patrol_toolbar" class="toolbar">
+	                    <form class="form-inline" id="toolbar_form">
+	                        <div class="input-group">
+                                <span class="input-group-addon">起始时间:</span>
+                                <input class="form-control busineUnm" name="startTm" id="startTm"  placeholder="请选择开始时间">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">结束时间:</span>
+                                <input class="form-control busineUnm" name="endTm" id="endTm"  placeholder="请选择结束时间">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">上报类型:</span>
+                                <select class="form-control busineUnm" name="busineType" id="busineType"></select>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">处理状态:</span>
+                                <select  class="form-control busineUnm" id="type">
+						          <option disabled="disabled" selected="selected" value="">请选择</option>
+						          <option value="">全部</option>
+				      	          <option value="1">已处理</option>
+				      	          <option value="2">未处理</option>
+				      	          <option value="3">处理中</option>
+				      	          <option value="4">无效</option>
+				      	          <option value="5">执法</option>
+			                    </select>
+                            </div>   
+	                        <button type="button" class="btn btn-primary queryBtn_patrol"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	                    </form>
+	                </div>
+	                <table id="table_select" class="table table-hover">	
+	                </table>
+	            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--content内容结束-->
+<script type="text/javascript" src="eventCenter/select/select.js"></script>
+</body>
+</html>

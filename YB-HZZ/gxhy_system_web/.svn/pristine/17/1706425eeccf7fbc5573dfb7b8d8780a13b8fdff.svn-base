@@ -1,0 +1,19 @@
+.layui-layer-content {
+	overflow: auto;
+}
+.layui-layer-content::-webkit-scrollbar {
+	width: 7px;
+	height: 1px;
+}
+
+.layui-layer-content::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	background: #535353;
+}
+
+.layui-layer-content::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
+	background: #ccc;
+}

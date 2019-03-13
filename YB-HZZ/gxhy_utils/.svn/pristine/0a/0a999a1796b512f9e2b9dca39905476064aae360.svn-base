@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.adcd.mapper.AdcdMapper">
+  <resultMap id="BaseResultMap" type="com.gxhy.base.model.AdcdModel">
+    <result column="ADDVCD" jdbcType="VARCHAR" property="addvcd" />
+    <result column="ADDVNM" jdbcType="VARCHAR" property="addvnm"/>
+  </resultMap>
+  
+    <!-- 根据user表中的userid查询用户和单位信息 --> 
+   <select id="getAdcdNm" resultMap="BaseResultMap">  
+      SELECT ADDVCD,ADDVNM FROM AD_CD_B WHERE 1 = 1 
+      <if test="adcd != null and adcd != ''">
+      		AND ADDVCD LIKE '%${adcd}%'
+      </if>
+      ORDER BY ADDVCD 
+   </select>
+   
+   <select id="getAddvnms" resultType="string">
+		select ADDVNM from AD_CD_B where ADDVCD = #{addvcdA}
+		UNION ALL
+		select ADDVNM from AD_CD_B where ADDVCD = #{addvcdB}
+		UNION ALL
+		select ADDVNM from AD_CD_B where ADDVCD = #{addvcdC}
+		UNION ALL
+		select ADDVNM from AD_CD_B where ADDVCD = #{addvcdD}
+	</select>
+	
+	<!-- 获取当前用户行政区下所有下级 -->
+	<select id="getUserAdcdZtree" resultMap="BaseResultMap">
+		 SELECT ADDVCD,ADDVNM FROM AD_CD_B WHERE ADDVCD LIKE '${adcd}%' order by ADDVCD
+	</select>
+</mapper>
+

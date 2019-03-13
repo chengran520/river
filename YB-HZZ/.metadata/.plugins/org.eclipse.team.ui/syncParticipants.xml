@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syncparticipants>
+<participant displayName="SVN (/gxhy, /gxhy_base_service, /gxhy_check_service, /gxhy_check_web, /gxhy_compre_service, /gxhy_compre_web, /gxhy_hydro_service, /gxhy_infoservice_service, /gxhy_infoservice_web, /gxhy_system_service, /gxhy_system_web, /gxhy_tourriver_service, /gxhy_tourriver_web, /gxhy_utils, /parent)" id="org.tigris.subversion.subclipse.participant" secondary_id="1550804875663">
+<data root="false">
+<org.eclipse.team.ui.TEAMSUBSRCIBERSETTINGS org.eclipse.team.ui.SCOPE_TYPE="ResourceScope">
+<org.eclipse.team.ui.TEAMSUBSRCIBER_REFRESHSCHEDULE org.eclipse.team.ui.CTX_REFRESHSCHEDULE_ENABLED="false" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_INTERVAL="3600" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_RUNONCE="false"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_base_service"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_check_service"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_check_web"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_compre_service"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_compre_web"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_hydro_service"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_infoservice_service"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_infoservice_web"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_system_service"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_system_web"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_tourriver_service"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_tourriver_web"/>
+<resource_scope_roots resource_scope_root_resource="/gxhy_utils"/>
+<resource_scope_roots resource_scope_root_resource="/parent"/>
+</org.eclipse.team.ui.TEAMSUBSRCIBERSETTINGS>
+</data>
+</participant>
+</syncparticipants>

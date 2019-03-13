@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.basic.mapper.NewsTrendsMapper">
+   <!--新增消息  -->
+   <insert id="insertMsg" parameterType="com.gxhy.base.basic.model.MsgModel">
+     INSERT INTO IOT_MSG_IFNO(MSG_ID,MSG_CONTENT,SEND_TM,SEND_USER,SEND_USER_ID,MSG_TYPE,MSG_TITLE)
+     VALUES(#{msgId},#{msgContent},#{sendTm},#{sendUser},#{sendUserId},#{msgType},#{msgTitle})
+   </insert>
+   
+   <!--查询文件  -->
+   <select id="selectFile" resultType="string">
+     SELECT FILE_URL  FROM IOT_FILE_MANAGE  WHERE FILE_ID=#{fileId}
+   </select>
+   
+   
+   <!-- 新增文件 -->
+   <insert id="insertFile">
+     INSERT INTO IOT_FILE_MANAGE(FILE_ID,FILE_NAME,FILE_SYMBOL,FILE_TYPE,CRETE_TM,FILE_ORG,FILE_ATTR_TYPE,REMARK,FILE_URL,FILE_USER)
+     VALUES(#{fileId},#{fileName},#{fileSymbol},#{fileType},#{creteTm},#{fileOrg},#{fileAttrType},#{remark},#{fileUrl},#{fileUser})
+   </insert>
+   
+   <!--更新文件  -->
+   <update id="updateFile">
+     UPDATE IOT_FILE_MANAGE SET FILE_NAME=#{fileName},FILE_SYMBOL=#{fileSymbol},FILE_TYPE=#{fileType},CRETE_TM=#{creteTm},FILE_ORG=#{fileOrg},
+     FILE_ATTR_TYPE=#{fileAttrType},REMARK=#{remark},FILE_USER=#{fileUser}  WHERE  FILE_ID=#{fileId}
+   </update>
+   
+   <!--获取文件信息列表-->
+   <select id="getFiles" resultType="com.gxhy.base.basic.model.FileModel">
+      SELECT FILE_NAME AS fileName,FILE_SYMBOL AS fileSymbol,FILE_TYPE AS fileType,CRETE_TM AS creteTm,FILE_ORG AS fileOrg,FILE_ATTR_TYPE 
+      AS fileAttrType,REMARK AS remark,FILE_URL AS fileUrl,FILE_USER AS  fileUser FROM IOT_FILE_MANAGE F      
+      LEFT JOIN SYS_USER U
+      ON F.FILE_USER=U.USER_ID
+      WHERE U.USER_ADDVCD IN 	
+      <foreach collection="list" item="item" index="index" open="("  close=")" separator=",">
+			#{item}
+	  </foreach>
+	   OR FILE_USER=#{userId}
+	  ORDER BY CRETE_TM DESC
+   </select>
+   
+   <!-- 查询所有的消息 -->
+   <select id="getMsgs" resultType="com.gxhy.base.basic.model.MsgModel">
+     SELECT MSG_CONTENT AS msgContent,SEND_TM AS sendTm,SEND_USER AS sendUser,MSG_TYPE AS msgType,MSG_TITLE AS  msgTitle FROM IOT_MSG_IFNO
+     WHERE 1=1
+      <if test="startTm != null and startTm != ''">
+   		AND SEND_TM &gt;= #{startTm}
+      </if>
+      <if test="endTm != null and endTm != ''">
+   		AND SEND_TM &lt;= #{endTm}
+      </if>
+       ORDER BY SEND_TM DESC
+   </select>
+</mapper>

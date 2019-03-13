@@ -1,0 +1,166 @@
+<link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" type="text/css">
+<link rel="stylesheet" href="aRiverIsA/riverManagement/riverManagement.css" type="text/css">
+<div id="content_box">
+    <div id="container" tabindex="0"></div>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">河湖治理标准</li>
+            <li>六大治理主要任务</li>
+            <li>河湖治理六大清单</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <ul>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理标准</span><span>2019-01-15</span></li>
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖六大治理主要任务</span><span>2019-01-15</span></li>
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                    <li><span>岷江河湖治理六大清单</span><span>2019-01-15</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="right-box">
+        <h4>河段列表</h4>
+        <div class="input-box">
+            <select>
+                <option>河流</option>
+            </select>
+            <button>搜索</button>
+        </div>
+        <ul class="rightList">
+            <li class="selected">
+                <span></span>
+                <div>
+                    <p>岷江翠屏山区段</p>
+                    <p><span>长度：</span><span>11842.08m</span></p>
+                </div>
+            </li>
+            <li>
+                <span></span>
+                <div>
+                    <p>岷江翠屏山区段</p>
+                    <p><span>长度：</span><span>11842.08m</span></p>
+                </div>
+            </li>
+            <li>
+                <span></span>
+                <div>
+                    <p>岷江翠屏山区段</p>
+                    <p><span>长度：</span><span>11842.08m</span></p>
+                </div>
+            </li>
+            <li>
+                <span></span>
+                <div>
+                    <p>岷江翠屏山区段</p>
+                    <p><span>长度：</span><span>11842.08m</span></p>
+                </div>
+            </li>
+            <li>
+                <span></span>
+                <div>
+                    <p>岷江翠屏山区段</p>
+                    <p><span>长度：</span><span>11842.08m</span></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- UI组件库 1.0 -->
+<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="aRiverIsA/riverManagement/riverManagement.js"></script>
+<script>
+	function onApiLoaded(){
+	   var map = new AMap.Map('container', {
+	      resizeEnable: true,
+	      zoom: 9,
+	      center:[104.630825,28.760189]
+	  });
+	  new AMap.DistrictSearch({
+	      extensions:'all',
+	      subdistrict:1,
+	      level: 'city'  //查询行政级别为 市
+	  }).search('宜宾市',function(status,result){
+	  	console.log("查询行政级别为 市",result);
+	      // 外多边形坐标数组和内多边形坐标数组
+	      var outer = [
+	          new AMap.LngLat(-360,90,true),
+	          new AMap.LngLat(-360,-90,true),
+	          new AMap.LngLat(360,-90,true),
+	          new AMap.LngLat(360,90,true),
+	      ];
+	      var holes = result.districtList[0].boundaries;
+	      var pathArray = [
+	          outer
+	      ];
+	      pathArray.push.apply(pathArray,holes)
+	      var polygon = new AMap.Polygon( {
+	          pathL:pathArray,
+	          strokeColor: '#0e94ea',
+	          strokeWeight: 5,
+	          fillColor: '#fff',
+	          fillOpacity: 0.1
+	      });
+	      polygon.setPath(pathArray);
+	      console.log("地图：",polygon);
+	      map.add(polygon);
+	      
+	      var icon = new AMap.Icon({
+              image: "aRiverIsA/riverManagement/site.png",
+              size: new AMap.Size(50, 50)
+          });
+          var marker = new AMap.Marker({
+              icon: icon,
+              position: [104.608683,28.775558],
+          });
+          map.add(marker);
+          marker.setLabel({
+              //修改label相对于maker的位置
+              offset: new AMap.Pixel(-10, 5),
+              content: "<div class='info' id='info'><h4>岷江区段</h4><p>河段长度：3公里</p><p>负责人：王浩</p></div>"
+          });
+	  });
+	 }
+	  var url = 'https://webapi.amap.com/maps?v=1.4.12&key=83eba31f57f44a667b8a0a4888ca0693&plugin=AMap.DistrictSearch&callback=onApiLoaded';
+	  var jsapi = document.createElement('script');
+	  jsapi.charset = 'utf-8';
+	  jsapi.src = url;
+	  document.head.appendChild(jsapi);
+</script>

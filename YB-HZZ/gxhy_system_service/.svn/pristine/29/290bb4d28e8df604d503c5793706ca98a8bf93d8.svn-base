@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.system.mapper.SysUserMapper">
+	<!-- 增加用户 -->
+	<insert id="insertUser">
+		insert into SYS_USER (UUID,USER_ID,USER_NAME,USER_PASSWD,USER_WECHAT,USER_PHONE,USER_SEX,USER_ADDVCD,CREATE_TM,
+		UPDATE_TM,IS_LOPC,IS_LOAPP)values
+		<foreach collection="list" item="item" index="index" separator=",">	 
+			(#{item.uuid},#{item.userId},#{item.userName},#{item.userPasswd},#{item.userWechat},#{item.userPhone},#{item.userSex},
+			#{item.userAddvcd},#{item.createTm},#{item.updateTm},#{item.isLopc},#{item.isLoapp})
+		</foreach> 
+	</insert>
+    
+    <!--查询所有的用户  -->
+    <select id="getAllUser" resultType="com.gxhy.base.model.UserModel">
+         SELECT U.UUID AS uuid,U.USER_ID AS userId,U.USER_NAME AS userName,U.USER_WECHAT AS userWechat,U.USER_PHONE AS userPhone,
+         U.USER_SEX AS userSex,U.CREATE_TM AS createTm,D.ADDVNM AS addvnm
+         FROM SYS_USER U LEFT JOIN AD_CD_B  D
+		 ON U.USER_ADDVCD=D.ADDVCD
+		 <where>
+		        1=1
+		    <if test="keyWord != null and keyWord != ''">
+				and U.USER_ID LIKE '%${keyWord}%'  OR U.USER_NAME  LIKE '%${keyWord}%'
+			</if>
+		    <if test="adcd != null and adcd != ''">
+				AND  U.USER_ADDVCD LIKE '%${adcd}%'
+			</if>
+			
+			
+		 </where>
+    </select>
+
+	<update id="updateUser">
+		UPDATE SYS_USER SET USER_PASSWD = #{userPasswd} WHERE UUID = #{uuid}
+	</update>
+
+    <!--删除河段信息-->
+  <delete id="deleteUsers"  parameterType="java.util.List">
+      DELETE FROM SYS_USER  WHERE UUID IN
+    <foreach collection="list" item="item" index="index"  open="("   close=")" separator=",">	 
+       #{item}
+	</foreach>
+  </delete>
+
+
+
+</mapper>

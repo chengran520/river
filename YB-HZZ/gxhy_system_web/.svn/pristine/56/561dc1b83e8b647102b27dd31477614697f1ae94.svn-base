@@ -1,0 +1,139 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="systemInfo/permission/permission.js" type="text/javascript"></script>
+<!-- 导入页面Dom -->
+<div class="layui-upload" id="uploadMenu" style="display: none;">
+	<div
+		style="border: 1px solid #eee; margin: 10px 20px; padding: 5px 0px;">
+		导入文件
+		<button type="button" id="selectMenuFile">选择文件</button>
+		<div class="uplaod-v" style="text-align: center;">
+			<a class="upload-a" id="importMenuFile">导入</a>
+		</div>
+	</div>
+	<p class='p1'>
+		<a>点击下载模板</a>
+	</p>
+	<p class='p2'>点击浏览文件后选择需要导入的Excel文件进行数据导入</p>
+</div>
+
+<div class="layui-layout layui-layout-admin">
+	<div class="layui-body">
+		<form class="tab-search persform" id="menuForm">
+			<div style="float: right; margin-right:12px;">
+				<div class="layui-input-inline">
+					<input type="text" id="keyWord" class="layui-input seach-input" placeholder="请输入用户信息">
+				</div>
+				<div class="layui-input-inline">
+					<button data-method="addMenu"  class="layui-btn btn-add" type="button">
+						<i class="layui-icon layui-icon-search"></i>新增
+					</button>
+				</div>
+				<div class="layui-input-inline">
+					<button data-method="reloadMenu" class="layui-btn btn-sel" type="button">
+						<i class="layui-icon layui-icon-search"></i>查询
+					</button>
+				</div>
+				<div class="layui-input-inline">
+					<button data-method="offsetMenu" class="layui-btn btn-imp" type="button">
+						<i class="layui-icon layui-icon-download-circle"></i>导入
+					</button>
+				</div>
+				<div class="layui-input-inline">
+					<button data-method="exportMenu" class="layui-btn btn-exp" type="button">
+						<i class="layui-icon layui-icon-upload-circle"></i>导出
+					</button>
+				</div>
+				<div class="layui-input-inline">
+					<button data-method="deleteMenu" class="layui-btn btn-del" type="button">
+						<i class="layui-icon layui-icon-delete"></i>删除
+					</button>
+			    </div>
+			</div>
+		</form>
+		<table lay-filter="menu">
+			<thead>
+				<tr>
+					<th lay-data="{field:'num',type:'checkbox'}"></th>
+					<th lay-data="{field:'id', width:'4%', sort: true,type:'numbers'}">ID</th>
+					<th lay-data="{field:'permisId', width:'13%', align:'center'}">权限ID</th>
+					<th lay-data="{field:'permisNm', width:'15%', align:'center'}">权限名称</th>
+					<th lay-data="{field:'ppermisId', width:'22%', align:'center'}">权限描述</th>
+					<th lay-data="{field:'menuUrl', width:'25%', align:'center'}">链接地址</th>
+					<th lay-data="{field:'createTime', width:'18%', align:'center'}">创建时间</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+
+<!-- 选择角色的按钮 -->
+<div class="layui-row" id="popSearchRoleTest" style="display: none;">
+	<div class="layui-col-md11">
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend>基本信息</legend>
+		</fieldset>
+		<form class="layui-form" action="" lay-filter="example">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">资源编码</label>
+					<div class="layui-input-block">
+						<input type="text" name="permisId" lay-verify="title"
+							autocomplete="off" placeholder="请输入资源编码" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">资源名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="permisNm" lay-verify="title"
+							autocomplete="off" placeholder="请输入资源名称" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">链接(Href)</label>
+					<div class="layui-input-block">
+						<input type="text" name="menuUrl" lay-verify="title"
+							autocomplete="off" placeholder="请输入链接地址" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">排序</label>
+					<div class="layui-input-block">
+						<input type="text" name="sort" lay-verify="title"
+							autocomplete="off" placeholder="请输入序号" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">上级菜单</label>
+					<div class="layui-input-block">
+						<div id="demo" class="layui-form-select select-tree">
+							<div class="layui-select-title">
+								<input id="demoShow" type="text" name="ppermisNm"
+									placeholder="请选择" value="" class="layui-input" readonly=""
+									style="width: 170px;"> <i class="layui-edge"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<fieldset class="layui-elem-field layui-field-title">
+				<legend>其他信息</legend>
+			</fieldset>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">描述</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" class="layui-textarea" name="desc"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="perForm">立即提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,24 @@
+package com.gxhy.base.basic.model;
+import java.util.Date;
+import lombok.Data;
+
+/**
+ * 新闻动态
+ *
+ */
+@Data
+public class NewsTrendsModel {
+
+	private String newsId;//新闻id
+	
+	private String newsTitle;//新闻标题
+	
+	private String newContent;//新闻内容
+	
+	private Date creatTime;//创建时间
+	
+	private String publishUnit;//发布单位
+	
+	private int type;
+
+}

@@ -1,0 +1,29 @@
+.layui_top{
+	height:0.52rem;
+	display: flex;
+    flex-direction: row;
+}
+.layui_bottom{
+	height:calc(100% - 0.52rem);
+	width:100%;
+}
+.layui_top li{
+    background-color: #ecf1f0;
+    height: 0.52rem;
+    line-height: 0.52rem;
+    font-size: 0.18rem;
+    font-family: MicrosoftYaHei;
+    color: #7F7F7F;
+    text-align: center;
+        padding: 0 0.26rem;
+        margin-right: 0.04rem;
+            cursor: pointer;
+}
+.layui_top li.active{
+	color: #0086CF;
+    background: rgba(173,228,255,1);
+}
+
+.fixed-table-body {
+    overflow-x: hidden;
+}

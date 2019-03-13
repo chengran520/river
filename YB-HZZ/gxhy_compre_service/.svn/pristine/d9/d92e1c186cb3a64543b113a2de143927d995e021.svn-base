@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.monitor.mapper.ReservoirMapper">
+  <!-- 获取水库信息 -->
+  <select id="getRvvrs"  resultType="com.gxhy.base.monitor.model.ReservoirModel">
+     SELECT W.RES_CD AS resCd,W.RES_NM AS resName,W.RES_ADCD AS resAdcd,W.RES_DT AS resDt,W.RES_TP AS resTp,W.LOC AS loc,
+     W.COMP_YM AS compYm,W.PROJ_RANK AS projRank,W.DES_FZ AS desFz,W.TOT_V AS totV,W.NORM_WZ AS normWZ,W.UTIL_V AS utilV,
+     W.FS_Z AS fsZ,W.DEAD_V AS deadV,W.DEAD_Z AS deadZ,W.RES_LEVEL AS resLevel, B.STTP AS sttp
+     FROM  WR_RES_B  W
+     LEFT JOIN ST_STBPRP_B B
+     ON W.RES_CD=B.STCD
+     <where>
+        <if test="keyword != null and keyword != ''">
+		   W.RES_CD  like  '%${keyword}%'  OR   W.RES_NM  like  '%${keyword}%' 
+	    </if>
+     </where>
+       ORDER BY W.TOT_V  DESC
+  </select>
+  
+  <!--获取某个水库的基本信息  -->
+  <select id="getRvvrById" resultType="com.gxhy.base.monitor.model.ReservoirModel">     
+	 SELECT W.RES_CD AS resCd,W.RES_NM AS resName,W.RES_ADCD AS resAdcd,W.RES_DT AS resDt,W.RES_TP AS resTp,W.LOC AS loc,
+     W.COMP_YM AS compYm,W.PROJ_RANK AS projRank,W.DES_FZ AS desFz,W.TOT_V AS totV,W.NORM_WZ AS normWZ,W.UTIL_V AS utilV,
+     W.FS_Z AS fsZ,W.DEAD_V AS deadV,W.DEAD_Z AS deadZ,W.RES_LEVEL AS resLevel,(SELECT B.GM_NAME FROM BASE_GMINFO   B 
+     LEFT JOIN  BASE_GM_RELA  R ON B.GM_CODE=R.GM_CD  WHERE R.R_CD=W.RES_CD) AS resUser
+     FROM WR_RES_B W LEFT JOIN BASE_GM_RELA U
+	ON W.RES_CD=U.GM_CD
+	LEFT JOIN ST_STBPRP_B B
+	ON W.RES_CD=B.STCD
+	WHERE W.RES_CD=#{id} 
+  </select>
+</mapper>

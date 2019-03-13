@@ -1,0 +1,53 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="eventCenter/seo/seo.css" rel="stylesheet" type="text/css">
+<script src="eventCenter/seo/busine.js"  type="text/javascript" ></script>
+<script src="eventCenter/seo/ztreeBusine.js"  type="text/javascript" ></script>
+ <div class="layui-body">  
+     <form  class="tab-search" id="gradeForm">
+     	  <img   src="common/images/leftMenu/line.png"/>
+	       <span>我的事件</span>
+	 </form>
+	 <div style='height:40%;width:100%'>
+	 	  <div id="table_patrol_toolbar" class="toolbar">
+                    <form class="form-inline" id="toolbar_form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">上报人:</span>
+                                <input class="form-control busineUnm" name="query_busineId" id="query_busineId"  placeholder="请输入上报人">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">上报人:</span>
+                                <input class="form-control busineUnm" name="query_busineUnm" id="query_busineUnm"  placeholder="请输入上报人">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary queryBtn_table"><span
+                                class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询
+                        </button>
+                    </form>
+                </div>
+                <table id="table_patrol" class="table table-hover">
+
+                </table>
+	</div>
+
+	<div class='bottom_div'>
+		<div class='downleft_div'>
+		<div class='downrightheader_div'>
+		    <span>事件流程</span></div>
+			<div id="timeAxis"></div>
+		</div>
+		<div class='downright_div'>
+			<div class='downrightheader_div'>
+			<span>事件详情</span></div>
+			<div class='bottomRightLeft_div detail_div'>   
+			</div>
+			<div class='bottomRightRight_div'>
+			  <div id="leftContent" onclick="next()">
+		  		<img id="left_img"  style='cursor:pointer;width: 0.3rem;height: 2.5rem;'>
+		      </div>
+			</div>
+			
+		</div> 
+	</div> 
+</div>
+

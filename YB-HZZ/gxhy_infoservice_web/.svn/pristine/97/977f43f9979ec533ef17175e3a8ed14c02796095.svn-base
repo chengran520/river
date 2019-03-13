@@ -1,0 +1,66 @@
+<!--  展示发布-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="showRelease/showRelease.css" rel="stylesheet" type="text/css">
+<script src="showRelease/showRelease.js"  type="text/javascript" ></script>
+<div class="layui-body" style="overflow: hidden;">
+       <button data-method="addRelease"  class="layui-btn btn-add" type="button">
+         <i class="layui-icon layui-icon-add-circle"></i>新增发布
+      </button>
+	<div class="layui-row layui-row_top">
+	  <div class="layui-col-md12">
+	     <div class="layui-card">
+	          <div class="layui-card-header">
+	          		新闻中心 
+			          <button data-method="searchHistory" class="layui-btn btn-sel" type="button">
+			          	查看历史<i class="layui-icon layui-icon-right"></i>
+			          </button>
+	          </div>
+	          <div class="layui-card-body" id="news">
+	            <table  class="layui-table"  id="newsTable"  lay-filter="newsTable" style="display: none;" ></table>
+	          </div>
+         </div>
+	  </div>
+	</div>
+    <div class="layui-row">
+	    <div class="layui-col-md3">
+	      <div class="layui-card">
+	          <div class="layui-card-header">
+	          	河长制公告
+			          <button data-method="searchHistory" class="layui-btn btn-sel" type="button">
+			         	查看历史<i class="layui-icon layui-icon-right"></i>
+			          </button>
+	          </div>
+	          <div class="layui-card-body" id="notice">
+	             <ul>
+	                <li style="text-align: center;font-size: 0.14rem;color: #999;">无数据</li>
+<!-- 	                <li><i class="layui-icon layui-icon-next"></i><span>宜宾市建平化工有设备整改...</span><span class="creTm">2018-03-04</span></li>
+	                <li><i class="layui-icon layui-icon-next"></i><span>宜宾市建平化工有设备整改...</span><span class="creTm">2018-03-04</span></li>
+	                <li><i class="layui-icon layui-icon-next"></i><span>宜宾市建平化工有设备整改...</span><span class="creTm">2018-03-04</span></li>
+	                <li><i class="layui-icon layui-icon-next"></i><span>宜宾市建平化工有设备整改...</span><span class="creTm">2018-03-04</span></li>
+	                <li><i class="layui-icon layui-icon-next"></i><span>宜宾市建平化工有设备整改...</span><span class="creTm">2018-03-04</span></li>
+	                <li><i class="layui-icon layui-icon-next"></i><span>宜宾市建平化工有设备整改...</span><span class="creTm">2018-03-04</span></li>	            
+	                <li><i class="layui-icon layui-icon-next"></i><span>宜宾市建平化工有设备整改...</span><span class="creTm">2018-03-04</span></li>	            
+ -->	             </ul>
+	          </div>
+          </div>
+	    </div>
+	    <div class="layui-col-md9" style="padding-left:15px;">
+	      <div class="layui-card">
+	          <div class="layui-card-header">
+	          	   	消息通知
+		          <button data-method="searchHistory" class="layui-btn btn-sel" type="button">
+		          		查看历史<i class="layui-icon layui-icon-right"></i>
+		          </button>
+	          </div>
+	          <div class="layui-card-body" id="inform">
+	             <table  class="layui-table"  id="informTable"  lay-filter="informTable" style="display: none;" ></table>
+	          </div>
+          </div>
+	    </div>
+    </div>
+</div>
+<script type="text/html" id="barShowRel">
+       <a class="" lay-event=""><i class="layui-icon layui-icon-search"></i></a>
+       <a class="" lay-event=""><i class="layui-icon layui-icon-delete"></i></a>
+       <a class="" lay-event=""><i class="layui-icon layui-icon-download-circle"></i></a>
+</script>

@@ -1,0 +1,34 @@
+<link href="eventCenter/seo/seo.css" rel="stylesheet" type="text/css">
+<script src="eventCenter/seo/busine.js"  type="text/javascript" ></script>
+<script src="eventCenter/seo/ztreeBusine.js"  type="text/javascript" ></script>
+<script src="common/layui/lay/modules/laydate.js"  type="text/javascript" ></script>
+ <div class="layui-body">  
+     <form  class="tab-search" id="gradeForm">
+     	  <img   src="common/images/leftMenu/line.png"/>
+	       <span>缁煎悎鏌ヨ</span>
+	 </form>
+	 <div style='height:40%;width:100%'>
+	 	  <div id="table_patrol_toolbar" class="toolbar">
+                    <form class="form-inline" id="toolbar_form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">涓婃姤浜哄憳:</span>
+                                <select class="form-control busineUnm" name="query_busineUnm" id="query_busineUnm">
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">璧锋鏃堕棿:</span>
+                                <input class="form-control" name="createDate" id="createDate" type="text" placeholder="璇烽�夋嫨鏁呴殰鏃ユ湡">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary queryBtn_table"><span
+                                class="glyphicon glyphicon-search"></span>&nbsp;鏌�&nbsp;璇�
+                        </button>
+                    </form>
+                </div>
+                <table id="table_select" class="table table-hover">
+
+                </table>
+	</div>
+</div>
+

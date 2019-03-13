@@ -1,0 +1,41 @@
+var zTree;
+ var zNodes;
+ var busineData;
+ var users=[];
+$(function(){  
+    $("#deliverBusine").click(function(){
+    	$("#busineModel").modal('hide');
+		 $("#busineUserModel").modal();
+		 $("#busineUserName").empty();
+		 $("#resultUser").val("");
+		 users=[];
+    	/*var zNodes= commonUtils.get(WEB_ROOT+ "busine/accept/getUsers",null,null);
+		if(zNodes.flag){
+			busineData=zNodes.data;	
+			console.log(busineData);
+			$.fn.zTree.init($("#busineZtree"), setting, busineData);		  
+		}
+    	*/
+		 var zNodes=commonUtils.get(WEB_ROOT+"busine/accept/getUsers",null,null);	
+		  if(zNodes.flag){
+			  initSelectTree("busineZtree", true, {"Y": "ps", "N": "s"},zNodes.data,1); 
+			 
+		  }
+    });
+});  
+//回掉选中事件
+function zTreeBeforeCheck(treeId, treeNode){
+	  var checked = treeNode.checked;
+	  if(!checked){
+		  if(treeNode.pid!=null&&treeNode.pid!=""){
+			  $("#busineUserName").append("<li id="+treeNode.id+" style='color:red;font-weight:bold;'>"+treeNode.name+"<li>");
+			  users.push(""+treeNode.id+"");
+			  $("#resultUser").val(users);
+		  }
+	  }else{
+		  $("#busineUserName li").remove("li[id="+treeNode.id+"]");
+		  users.remove(""+treeNode.id+"");
+		  $("#resultUser").val(users);
+	  }
+	  return true;
+}  

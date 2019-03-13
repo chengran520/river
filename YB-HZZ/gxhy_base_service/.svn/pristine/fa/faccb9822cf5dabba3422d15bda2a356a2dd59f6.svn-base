@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.mapper.BaseUsersMapper">
+	<!-- 通过用户名和密码，验证用户是否存在 -->
+	<select id="isUsersShiro" resultType="com.gxhy.base.model.UserModel">
+		 select U.USER_ID userId,U.USER_NAME userName,U.USER_ADDVCD userAddvcd,AD.ADDVNM,U.GM_CODE AS GMCODE from SYS_USER U LEFT JOIN AD_CD_B AD ON U.USER_ADDVCD=AD.ADDVCD where (U.USER_ID=#{userId} or U.USER_PHONE=#{userId}) and U.USER_PASSWD=#{userPwd}
+	</select>
+</mapper>

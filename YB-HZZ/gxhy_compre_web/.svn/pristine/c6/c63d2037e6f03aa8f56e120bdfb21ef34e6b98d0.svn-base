@@ -1,0 +1,160 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="compre/css/compre.css" >
+<!-- <script type="text/javascript" src="compre/js/index.js"></script> -->
+<script type="text/javascript" src="compre/js/compre.js"></script>
+<!-- <script type="text/javascript" src="compre/charts/indexChart.js"></script> -->
+<div id="layui-compre-div-firt">
+	 <div class="layui-row" id="layui-row-firstdiv">
+	   <div class="layui-col-sm3" style="height: 40px;text-align: center;">
+	     <div class="grid-demo grid-demo-bg1" style="line-height: 40px;">
+	     	今日天气。最高温度6°C，最低温度-4°C
+	     </div>
+	   </div>
+	   <div class="layui-col-sm9" style="height: 40px">
+	     <div  id="demo" class="grid-demo grid-demo-bg1" style="line-height: 40px;overflow:hidden;height:40px;">
+	     	<ul class="mingdan" id="holder" >
+			   <li><a href="#">預警通知：12月全区预警河道有6条，2条黄色预警，4条橙色预警，劣Ⅴ类河道2条，相关河长要对河道预警因子详细分析。</a></li>
+			   <li><a href="#">警报警报！水位警报！请注意安全！</a></li>
+			   <li><a href="#">警报警报！水位警报！请立即转移!</a></li>
+			   <li><a href="#">警报警报！暴雨警报！请准备转移!</a></li>
+		    </ul>
+	     </div>
+	   </div>
+	 </div>
+	 <div class="layui-row layui-div-firt">
+	   <div class="layui-col-sm3">
+	      <div class="layui-col-sm12">
+	    	 <div id="taskChart"></div>
+	  	 </div>
+	      <div class="layui-col-sm12" style="margin-top:0.15rem;">
+	         <div class="btn-video" style="margin-top: 0.2rem;margin-right: 0.3rem;"  id="riverMore">更多</div>
+	    	 <div id="riverChart"></div>
+	  	 </div>
+	   </div>
+	   <div class="layui-col-sm9">
+	     <div id="map_gis" style="margin-top: 0.2rem;margin-left: 0.2rem; height: 93.5%;width: 97%;"></div>
+	   </div>
+	   <div class="tab-tl-div">
+			<div class="tab-div-img">
+				<span style="width: 70%;float: left;margin: 0.04rem 0 0 0.06rem;">图例</span>
+				<img id="img2" class="show_img" style="display: none;" src="compre/images/add.png">
+				<img id="img1" class="show_img" src="compre/images/del.png">
+			</div>
+			<div id="divImg"> 
+				<label class="demo--label"><input class="demo--radio" type="checkbox" checked="checked" name="demo-checkbox1" value="pp">
+			        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" src="common/images/river/pp_0.png">雨情
+			    </label>
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="pw">
+			        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="common/images/river/sewage.png">排污口
+			    </label>
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox2" checked="checked" value="zz">
+			        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" src="common/images/river/river.png">水情
+			    </label>
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="">
+			        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="common/images/river/pollution.png">污染源
+			    </label>
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox4" checked="checked" value="sz">
+			        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" src="common/images/river/shuiz.png">水质
+			    </label>
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="sy">
+			        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="common/images/river/waterIntake.png">取水口
+			    </label>
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox5" checked="checked" value="sp">
+			        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" style="height: 14px;" src="common/images/river/video.png">视频
+			    </label>
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="">
+			        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="common/images/river/waterArea.png">水功能区
+			    </label>			    
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="">
+			        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="common/images/river/punch.png">灌区
+			    </label>
+			   
+			    <label class="demo--label">
+			        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="">
+			        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="common/images/river/waterLine.png">水域岸线
+			    </label>
+		    </div>
+		</div>	   
+	</div>
+	 <div class="layui-row layui-div-two">
+	   <div class="layui-col-sm3" id="qj-col-sm">
+	     <div class="grid-demo grid-demo-bg1">
+	        <ul class='rhomboid'>
+				<li class="active">WT</li>
+				<li>TURB</li>
+				<li>COND</li>
+				<li>PH</li>
+				<li>DOX</li>
+			</ul>	        
+    		<div id="QualityChart"></div>
+	     </div>
+	   </div>
+	   <div class="layui-col-sm3">
+	      <div class="tab-busine"><span>月统计</span><span>周统计</span></div>
+	      <div id="busineChart"></div>
+	   </div>
+	   <div class="layui-col-sm3" id='xunhe_div'>
+	     <div class="patrol-title">
+	        <div class="patrol-title-1">巡河统计</div>
+	        <ul class="patrol-title-ul">
+		        <li><span>河长总数</span><span><font class="bgNum" id="hzNum"></font><font>人</font></span></li>
+		        <li><span>河流总数</span><span><font class="bgNum" id="rivNum"></font><font>条</font></span></li>
+	        </ul> 
+	      </div> 
+	      <div  class="scroll">
+	      	<table id="patrol-table">
+	           <thead>
+	             <tr>
+	                <th class="patrol-a">巡河人</th>
+	                <th class="patrol-b">管制河流</th>
+	                <th class="patrol-a">巡河时长</th>
+	                <th class="patrol-b">巡河里程</th>
+	              </tr>
+	           </thead>
+	           <tbody id="patrol-tbody">
+	              <tr>
+	                 <td class="patrol-a">刘中伯</td>
+	                 <td class="patrol-b">顺河下游</td>
+	                 <td class="patrol-a">6分10秒</td>
+	                 <td class="patrol-b">1525.11m</td>
+	              </tr>
+	              <tr>
+	                 <td  class="patrol-a">邓前卫</td>
+	                 <td  class="patrol-b">球溪河</td>
+	                 <td  class="patrol-a">11分10秒</td>
+	                 <td  class="patrol-b">2455.11m</td>
+	              </tr>
+	              <tr>
+	                 <td class="patrol-a">何元垓</td>
+	                 <td class="patrol-b">顺河二段</td>
+	                 <td class="patrol-a">6分10秒</td>
+	                 <td class="patrol-b">2565.31m</td>
+	              </tr>
+	              <tr>
+	                 <td class="patrol-a">何永宏</td>
+	                 <td class="patrol-b">顺河上游</td>
+	                 <td class="patrol-a">11分10秒</td>
+	                 <td class="patrol-b">2455.11m</td>
+	              </tr>
+	           </tbody>
+	        </table>
+	      </div> 
+	   </div>
+	   <div class="layui-col-sm3" style="background-size: 99% 100%;">
+	       <div class="grid-demo" style="width:95%; height:90%;text-align: center;margin-left: 0.1rem;padding-top:0.2rem;">
+	           <div class="btn-video" id="btn-movie">进入视频</div>
+	           <video    autoplay="autoplay"   style="width:95%; height:90%;object-fit: fill;">
+			     <source src="compre/video/movie.mp4" type="video/mp4"  />
+		      </video>
+	       </div>
+	   </div>
+	</div>
+</div>

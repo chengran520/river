@@ -1,0 +1,134 @@
+var patrolRecord = {
+	clickRow:[],//当前点击行
+	stm:'',//开始时间
+	etm:'',//结束时间
+	 loadTable: function () {
+	    	var dataParams =  {
+	    		id:'table_patrol',//表格id
+	    		url:'routine/work/getMyRoutineWorks',//地址
+	    		height:$(window).height() - clientSize * 1.2,//表格高度
+	    		fileName:'巡检记录信息表',//导出表格名称
+	    		sidePagination:0,
+	    	};
+	    	bootstrapTable.columns =[{
+	            title: '序号',
+	            align: "center",
+	            colspan: 1,
+	            width: 1,
+	            formatter: function (value, row, index) {
+	            	var pageSize = $('#table_patrol').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条	            	
+		            var pageNumber = $('#table_patrol').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+		            return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+	            }
+	        },{
+	            field: 'patrolUName',
+	            title: '巡检人',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80,
+	        },{
+	            field: 'riverNm',
+	            title: '河流名称',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80,
+	        },{
+	            field: 'patrolTm',
+	            title: '巡检起始时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'patrolEndTm',
+	            title: '巡检结束时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'patrolMileage',
+	            title: '巡检历程（m）',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'patrolSpeed',
+	            title: '巡检速度(m/s)',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 100,
+	        },{
+	            field: 'unitName',
+	            title: '操作',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 60,
+	            formatter: function (value, row, index) {
+	                var html = `
+	                <a href="javascript:void(0)" onclick="patrolRecord.showFormModal('1','${row.uuid}')" class="table_btn table_btn_detail">轨迹</a>
+	                <a href="javascript:void(0)" onclick="patrolRecord.showFormModal('2','${row.uuid}')" class="table_btn table_btn_detail">事件</a>`;
+	                return html;
+	            }
+	        }];
+	    	bootstrapTable.bootstrapTableUtil(patrolRecord,dataParams);
+	    },
+	    
+	    //点击表格行
+	    onClickRow:function(row, $element, field){
+	    	patrolRecord.clickRow = row;
+	    },
+	    
+	    onLoadSuccess:function(){
+	    },
+	    showFormModal:function(type,uuid){
+	    	var p = $(window).height()-150;	
+	    	var w = $(window).width()-150;	
+	    	if(type == 1){
+	    		var toUrl = WEB_ROOT+"riverPatrol/patrolLog/trajectory.html?routineId="+uuid;
+	    		var index = layer.open({
+	    			title:"巡河轨迹",
+	    			type: 2,
+	    			content: toUrl,
+	    			area: [''+w+'px', ''+p+'px'],
+	    			maxmin: true
+	    		});
+	    	}else{
+	    		//$('#modal_damage').modal('show');
+/*	    		var toUrl = WEB_ROOT+"eventCenter/subSeo/seo.html?riverId="+uuid+"&patrolUid="+patrolUid;
+	    		var index = layer.open({
+	    			title:"我的事件",
+	    			skin:"layui-layer-dialog-open",
+	    			type: 2,
+	    			content: toUrl,
+	    			area: [''+w+'px', ''+p+'px'],
+	    			maxmin: true
+	    		});*/
+	    		var toUrl = "eventCenter/seo/seo.html?patrolId="+uuid;
+	    		$('#navber-menu-ul').children('li:eq(3)').find('a').click();
+	    		$('#menuLeft-ul').children('li:eq(0)').find('a').attr('data-url',toUrl);
+	    		$('#menuLeft-ul').children('li:eq(0)').find('a').click();
+	    	}
+	    },
+	    
+}
+$(function(){
+	  //清空查询参数
+	bootstrapTable.clearParams();
+	patrolRecord.loadTable();
+	  //  选择日期
+	formatter_date_utils.initDatePicker2("startTm","endTm");
+	
+    $(".queryBtn_patrol").click(function(){
+    	bootstrapTable.queryParams["keyword"] = $("#query_patrolUName").val();
+    	bootstrapTable.queryParams["startTm"] = $("#patrolStartTm").val();
+    	bootstrapTable.queryParams["endTm"] = $("#patrolEndTm").val();
+    	$("#table_patrol").bootstrapTable('refresh');
+    });
+	
+});

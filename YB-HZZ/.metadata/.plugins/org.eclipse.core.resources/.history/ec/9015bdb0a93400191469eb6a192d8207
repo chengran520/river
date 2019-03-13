@@ -1,0 +1,274 @@
+.handleGrade {
+	color: #0095E7;
+}
+
+.handleGrade:hover {
+	cursor: pointer;
+}
+
+.tm-label {
+	font-size: 0.16rem !important;
+	width: 0.16rem !important;
+	padding: 0px !important;
+	line-height: 0.35rem;
+}
+
+#son_dataChange {
+	padding: 0.05rem 0.15rem;
+}
+
+#leadTable thead th, td:nth-child(1), td:nth-child(3), td:nth-child(4),
+	td:nth-child(5) {
+	text-align: center;
+}
+
+#leadTable tr {
+	height: 0.7rem;
+	line-height: 0.7rem;
+}
+
+.layui-table-view {
+	margin-top: 0.1rem !important;
+}
+
+.downleft_div {
+	float: left;
+	border: solid 1px #ccc;
+	width: 25%;
+	height: 100%;
+	background-color: white;
+	color: white;
+	margin-right: 1%;
+}
+
+.downright_div {
+	float: left;
+	border: solid 1px #ccc;
+	width: 70%;
+	height: 100%;
+	background-color: white;
+	color: white;
+	overflow: auto;
+}
+
+.bottom_div {
+	height: 45%;
+	width: 100%;
+	padding: 0.25rem;
+}
+
+.bottomRightLeft_div {
+	height: 85%;
+	width: 60%;
+	padding: 0.2rem;
+	color: black;
+	float: left;
+}
+
+.bottomRightRight_div {
+	height: 70%;
+	width: 20%;
+	padding: 0.05rem;
+	float: left;
+}
+
+.description_p {
+	line-height: 200%;
+	font-size: 0.16rem;
+}
+
+.downrightheader_div {
+	width: 100%;
+	height: 10%;
+	border-bottom: solid 2px #ccc;
+}
+
+.downrightheader_div span {
+	margin-left: 4px;
+	color: #4db7f1;
+	line-height: 0.36rem;
+	font-size: 0.18rem;
+	margin-left: 0.1rem;
+}
+
+#timeAxis {
+	margin: 0 auto;
+	/* padding-right: 3px; */
+	position: relative;
+	height: 86%;
+	overflow: auto;
+	color: black;
+	padding: .3rem;
+}
+
+.flowChart {
+	display: flex;
+	margin-bottom: .5rem;
+}
+
+.flowChart-left {
+	width: 0.5rem;
+	flex-shrink: 0;
+}
+
+.flowChart .dashed {
+	width: 0px;
+	height: 100%;
+	margin-left: 50%;
+	border-left-style: dashed;
+	border-left-color: darkgray;
+	border-left-width: 2px;
+}
+
+.flowChart-right {
+	flex-grow: 1;
+}
+
+.flowChart .oneNode {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 93%;
+	margin-bottom: 1%;
+}
+
+.flowChart .check-danger {
+	    background-color: rgb(228, 108, 35);
+    border: 4px solid rgb(250, 166, 122);
+       width: max-content;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.12rem;
+}
+
+.tag-boder {
+	width: 0;
+	height: 0;
+	border: 0.12rem solid;
+	border-style: dashed;
+	border-color: transparent gainsboro transparent transparent;
+	position: relative;
+	left: -0.1rem;
+}
+
+.tag {
+	width: 0;
+	height: 0;
+	border: 0.14rem solid;
+	border-style: dashed;
+	border-color: transparent white transparent transparent;
+	position: absolute;
+	left: -0.13rem;
+	top: -0.14rem;
+}
+
+.flowChart .NodeDetail {
+	background-color: white;
+	margin-left: -0.09rem;
+	flex-grow: 1;
+	border: 1px solid gainsboro;
+	border-radius: 3px;
+	padding-right: 3%;
+	height: 99%;
+	padding-top: 1%;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 1px 1px 3px gainsboro;
+}
+
+.NodeDetail-content {
+	flex-grow: 1;
+}
+
+.NodeDetail-content p {
+	margin: 0;
+	padding: 0;
+	line-height: 2;
+	text-indent: 2em;
+	text-align: justify;
+	font-size: 0.14rem;
+}
+
+.getclolr {
+	font-size: 0.12rem;
+	color: red;
+}
+
+.NodeDetail-footer {
+	margin-top: 0px;
+}
+
+.NodeDetail-footer span {
+	font-size: 0.12rem;
+	font-weight: 100;
+	color: rgb(104, 104, 104);
+	float: right;
+}
+/* �ֲ�ͼ */
+#banner{
+    width:350px;
+    height:280px;
+    /* position:absolute;
+    top:50%;
+    margin-top:-140px;
+    left:50%;
+    margin-left:-260px; */
+}
+.pic img{
+    position:absolute;
+}
+.tabs{
+    position:absolute;
+    bottom:0.1rem;
+    left:2rem;
+}
+.tabs li{
+    width:0.2rem;
+    height:0.2rem;
+    border:2px solid #fff;
+    float:left;
+    margin-left:0.05rem;
+    border-radius:100%;
+
+}
+/* .btn{
+    width:30px;
+    height:50px;
+    background-color:rgba(0,0,0,.5);
+    color:#fff;
+    font-size:30px;
+    line-height:50px;
+    text-align:center;
+    position:absolute;
+    top:50%;
+    margin-top:-25px;
+    cursor:pointer;
+} */
+/* .btn:hover{
+    background-color:rgba(0,0,0,.8);
+    color:red;
+} */
+.btn1{
+    left:0;
+}
+.btn2{
+    right:0;
+}
+.bg{
+    background-color:red;
+}
+.modal-dialog{
+ width: 100%;
+    height: 100%;	
+}  
+.modal-content{
+	    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.modal-title{
+	    font-size: 0.18rem;
+}
+.modal-header .close {
+    margin-top: -6px;
+}

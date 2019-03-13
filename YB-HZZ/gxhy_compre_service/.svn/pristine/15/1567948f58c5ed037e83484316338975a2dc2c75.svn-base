@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.monitor.mapper.DataMonitorMapper">
+	<resultMap id="RiverModelMap" type="com.gxhy.base.monitor.model.StRiverB">
+		<result column="RV_CD" jdbcType="VARCHAR" property="rvCd" />
+		<result column="RV_NM" jdbcType="VARCHAR" property="rvNm" />
+		<result column="HNNM" jdbcType="VARCHAR" property="hnnm" />
+		<result column="BSNM" jdbcType="VARCHAR" property="bsnm" />
+		<result column="STBK" jdbcType="VARCHAR" property="stbk" />
+		<result column="RV_LT" jdbcType="DOUBLE" property="rvlt" />
+		<result column="DRA_AREA" jdbcType="DOUBLE" property="draArea" />
+		<result column="P_RV_CD" jdbcType="VARCHAR" property="prvCd" />
+		<result column="P_RV_NM" jdbcType="VARCHAR" property="prvNm" />
+		<result column="RV_ON" jdbcType="VARCHAR" property="rvOn" />
+		<result column="RV_ON_LGTD" jdbcType="DECIMAL" property="rvOnLgtd" />
+	    <result column="RV_ON_LTTD" jdbcType="DECIMAL" property="rvOnLttd" />
+		<result column="RV_MH" jdbcType="VARCHAR" property="rvMh" />
+		<result column="RV_MH_LGTD" jdbcType="DECIMAL" property="rvMhLgtd" />
+	    <result column="RV_MH_LTTD" jdbcType="DECIMAL" property="rvMhLttd" />
+		<result column="ADDVCD" jdbcType="VARCHAR" property="addvcd" />
+		<result column="ADDVNM" jdbcType="VARCHAR" property="addvnm" />
+		<result column="CRT_TM" jdbcType="TIMESTAMP" property="crtTm" />
+		<result column="UPD_TM" jdbcType="TIMESTAMP" property="updTm" />
+		<result column="OPER_USER" jdbcType="VARCHAR" property="operUser" />
+		<result column="PREW_ADDES" jdbcType="VARCHAR" property="prewAddes" />
+		<result column="DT" jdbcType="VARCHAR" property="dt" />
+	</resultMap>
+	
+    <resultMap id="StbprpBModelMap" type="com.gxhy.base.monitor.model.StBprpBModel">
+		<result column="STCD" jdbcType="VARCHAR" property="stcd" />
+		<result column="STNM" jdbcType="VARCHAR" property="stnm" />
+		<result column="RVNM" jdbcType="VARCHAR" property="rvnm" />
+	  	<result column="LGTD" jdbcType="DECIMAL" property="lgtd" />
+	  	<result column="LGTD" jdbcType="DECIMAL" property="lgtd" />
+	    <result column="STLC" jdbcType="VARCHAR" property="stlc" />
+	    <result column="ESSTYM" jdbcType="VARCHAR" property="esstym" />
+	    <result column="ADDVCD" jdbcType="VARCHAR" property="addvcd" />
+	    <result column="ADDVNM" jdbcType="VARCHAR" property="addvnm" />
+	    <result column="STTP" jdbcType="VARCHAR" property="sttp" />
+	    <result column="DRP" jdbcType="DECIMAL" property="drp" />
+	    <result column="Z" jdbcType="DECIMAL" property="z" />
+	    <result column="PTM" jdbcType="TIMESTAMP" property="ptm" />
+	    <result column="ZTM" jdbcType="TIMESTAMP" property="ztm" />
+	    <result column="USFL" jdbcType="VARCHAR" property="channerId" />
+	</resultMap>
+	
+	
+	<resultMap id="RvUserMap" type="com.gxhy.base.monitor.model.StRvUser">
+		<result column="RV_CD" jdbcType="VARCHAR" property="rvCd" />
+		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+		<result column="USER_NM" jdbcType="VARCHAR" property="userNm" />
+		<result column="USERPHONE" jdbcType="VARCHAR" property="userPhone" />
+		<result column="SEX" jdbcType="VARCHAR" property="sex" />
+	</resultMap>
+	
+	<!-- 获取河道信息 -->
+    <select id="getRiverDataInfo"  resultMap="RiverModelMap">
+		SELECT distinct B.RV_CD,B.RV_NM,B.HNNM,B.BSNM,B.STBK,B.RV_LT,B.DRA_AREA,B.P_RV_CD,B.P_RV_NM,B.RV_ON,B.RV_ON_LGTD,B.RV_ON_LTTD,B.RV_MH,B.RV_MH_LGTD,B.RV_MH_LTTD
+		,B.RV_MH,B.RV_MH_LGTD,B.RV_MH_LTTD,B.ADDVCD,B.CRT_TM,B.UPD_TM,B.OPER_USER,B.PREW_ADDES,A.ADDVNM FROM ST_RIVER_B B  inner join BASE_GM_RELA R on B.RV_CD = R.R_CD
+	    LEFT JOIN AD_CD_B A  ON A.ADDVCD=B.ADDVCD WHERE 1 = 1 
+		<if test="userId != null and userId != ''">		
+			AND R.GM_CD = #{userId}
+		</if>
+		<if test="key != null and key != ''">
+			 AND (B.RV_CD LIKE '%${key}%' OR B.RV_NM LIKE '%${key}%')
+		</if>
+		<if test="adcd != null and adcd != ''">
+			AND B.ADDVCD LIKE '%${adcd}%'
+		</if>
+   </select>
+   
+   <!-- 获取河道信息对应的测站基础信息 -->
+    <select id="getStBprpBInfo"  resultMap="StbprpBModelMap">
+		SELECT * FROM (
+		SELECT B.STCD,B.STNM,B.RVNM,B.LGTD,B.LTTD,B.ADDVCD,(select ADDVNM FROM AD_CD_B D WHERE D.ADDVCD = B.ADDVCD) AS ADDVNM,B.STTP,B.USFL AS channerId,Q.TM AS PTM,
+		Q.DRP,S.TM AS ZTM,S.Z FROM ST_STBPRP_B B LEFT JOIN (SELECT R.STCD,R.TM,R.DRP FROM  ST_PPTN_R R ,(SELECT P.STCD,MAX(TM) TM FROM ST_PPTN_R P GROUP BY P.STCD) S WHERE  
+		R.STCD = S.STCD AND R.TM = S.TM ) Q ON B.STCD = Q.STCD LEFT JOIN (SELECT R.STCD,R.TM,R.Z FROM  ST_RIVER_R R ,(SELECT P.STCD,MAX(TM) TM FROM ST_RIVER_R P GROUP BY P.STCD) S
+		WHERE  R.STCD = S.STCD AND R.TM = S.TM ) S ON B.STCD = S.STCD
+		 ) T  where  1=1
+        <if test="type != null and type != ''">
+			AND T.STTP =#{type} AND T.STCD='FWG4876'
+		</if>
+	  ORDER BY(CASE STTP WHEN 'SZ' THEN 2 WHEN 'SP' THEN 1 ELSE '' END) DESC
+	   
+   </select>
+     
+    <select id="getAdcdRiverByRvUser" resultMap="RvUserMap">		
+		SELECT R.R_CD,R.GM_CD,B.GM_NAME,U.USER_PHONE AS USERPHONE,U.USER_SEX AS SEX   FROM BASE_GM_RELA R 
+		LEFT JOIN  BASE_GMINFO  B		
+		ON R.GM_CD=B.GM_CODE
+		LEFT JOIN  SYS_USER U 
+		ON R.GM_CD = U.USER_ID 	WHERE R.TYPE=1
+		<if test="rvCd != null and rvCd !=''">
+			AND R.R_CD = #{rvCd} 
+		</if>
+	</select>
+ </mapper>

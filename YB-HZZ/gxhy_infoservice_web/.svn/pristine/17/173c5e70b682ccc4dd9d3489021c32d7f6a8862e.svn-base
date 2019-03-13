@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一河一档</title>
+    <link rel="stylesheet" href="aRiverAce/waterResource/waterResource.css" type="text/css">
+</head>
+<body>
+<!--content内容开始-->
+<div class="layui-body" id="layui-content">  
+	 <ul class="layui_top" id="layui_top">
+	 	<li id="1" class="active">水资源动态台账</li>
+	 	<li id="2">水域岸线动态台账</li>
+	 	<li id="3">水环境动态台账</li>
+	 	<li id="4">水生态动态台账</li>
+	 </ul>
+	  <div class="layui_bottom">
+	<div id="table_water_toolbar" class="toolbar" style="margin-top:0.1rem;">
+	       <form class="form-inline" id="toolbar_form">
+	           <div class="form-group">
+	           <div class="input-group">
+                        <span class="input-group-addon">行政区:</span>              
+                        <input class="form-control"  id="pmenuIdName" type="text" placeholder="请选择行政区"  onclick="commonZtree.showMenu();">
+					    <input name="pmenuId" id="pmenuId"  type="hidden">
+					    <div id="menuContent" class="menuContent" style="display: none; position: absolute;z-index:999;background-color: #eee;">
+					        <ul id="menuZtree" class="ztree" style="margin-top:0;"></ul>
+					    </div>	
+                   </div>
+                   <div class="input-group">
+                       <span class="input-group-addon">河流(湖泊)名称:</span>
+                       <input class="form-control" name="query_rvNm" id="query_rvNm"  placeholder="请输入河流(湖泊)名称" style="width: 1.6rem;max-width: 1.6rem;">
+                   </div>
+                   
+			   </div>
+	           <button type="button" class="btn btn-primary queryBtn_table"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	           <!--  <button id="btn_addTable" class="btn btn-primary" type="button">
+						<span class="glyphicon glyphicon-plus" ></span>&nbsp;新&nbsp;增
+					</button>	
+					  <button id="btn_submitTable" class="btn btn-primary" type="button">
+						<span class="glyphicon glyphicon-ok" ></span>&nbsp;保&nbsp;存
+					</button>	
+					  <button id="btn_removeTable" class="btn btn-primary" type="button">
+						<span class="glyphicon glyphicon-remove" ></span>&nbsp;刪&nbsp;除
+					</button> -->	
+	       </form>
+	   </div>
+   <table id="table_water" class="table table-hover">
+   </table>
+</div>
+</div>
+		
+<!--content内容结束-->
+<script type="text/javascript" src="aRiverAce/waterResource/waterResource.js"></script>
+</body>
+</html>
+
+
+

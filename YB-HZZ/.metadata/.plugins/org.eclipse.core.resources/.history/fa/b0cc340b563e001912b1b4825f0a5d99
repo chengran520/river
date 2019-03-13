@@ -1,0 +1,163 @@
+var role = {
+	 clickRow:[],//当前点击行
+	 id:"role",
+	 loadTable: function () {
+	    	var dataParams =  {
+	    		id:'table_role',//表格id
+	    		url:WEB_ROOT+ 'system/role/getAllRole',//地址
+	    		height:$(window).height() - clientSize * 1.5,//表格高度
+	    		fileName:'综合查询信息表',//导出表格名称
+	    	};
+	    	bootstrapTable.columns =[{
+	            title: '序号',
+	            align: "center",
+	            colspan: 1,
+	            width: 1,
+	            formatter: function (value, row, index) {
+	            	 var pageSize = $('#table_role').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+		             var pageNumber = $('#table_role').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+		             return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+	            }
+	        },{
+	            field: 'roleId',
+	            title: '角色Id',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80,
+	        },{
+	            field: 'roleName',
+	            title: '角色名称',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'roleDes',
+	            title: '角色描述',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'createTime',
+	            title: '创建时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'updateTime',
+	            title: '更新时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 100,
+	            formatter: function (value, row, index) {
+	            	 var html = `
+		               <a href="javascript:void(0)" class="table_btn table_btn_edit" onclick="role.showModal(3)">设置权限</a>&nbsp;&nbsp;
+		               <a href="javascript:void(0)" class="table_btn table_btn_del" onclick="role.showModal(2)">修改</a>&nbsp;&nbsp;
+		               <a href="javascript:void(0)" class="table_btn table_btn_del" onclick="role.showModal(4)">删除</a>&nbsp;&nbsp;`
+	                return html;
+	            }	            
+	          }
+	        ];
+	    	bootstrapTable.bootstrapTableUtil(role,dataParams);
+	    },
+	    //点击表格行
+	    onClickRow:function(row, $element, field){
+	    	role.clickRow = row;
+	    },
+	    //显示模态框
+	    showModal:function(type){
+	    	 setTimeout(function(){  
+	    	    if(type==1){	    	    	
+	  				formUtil.showBtn(type,role);
+	    	    }else if(type==2){	    	    	
+	  				formUtil.showBtn(type,role);
+	  				$("#roleId").attr("readonly","readonly");
+	    	    }else if(type==3){
+	    	    	$("#modal_setPession").modal('show');
+		    		 var zNodes=commonUtils.get(WEB_ROOT+"system/menu/getAllPermission",{"keyWord":role.clickRow.roleId},null);	
+					 if(zNodes.flag){
+						  initSelectTree("perssonDemo", true, {"Y": "ps", "N": "s"},zNodes.data.menus,1); 
+						    //复选框的回显
+						  console.log(zNodes.data.pers);
+						   selectNode(zNodes.data.pers,"perssonDemoTree",perssonDemo);				 
+					  }	
+	    	    }else{
+	    	    	 layer.confirm('确认删除此角色吗？', {icon: 3, title:'提示'},  function(index){
+				          /*$.ajax({
+				        	  url:option.url,
+				              type:'post',
+				              dataType:'json',
+				              data:{
+				                  ids:option.ids,
+				                  index:option.num
+				              },
+				              success: function(result){
+				            	  layer.msg("刪除信息成功", { icon: 1});
+				            	  layui.table.reload(""+option.tableId+""); //更新成功刷新当前数据表格 分页默认为当前页
+				              },
+				              error:function (res) {
+				                  layer.alert('网络错误!');
+				              }
+				          });*/
+	    	    		 layer.confirm('确认删除此角色吗？', {
+	    	    			 btn: ['确定','取消'] 
+	    	    			 }, function(){
+	    	    				var id = role.clickRow.roleId;//编码
+	   	    		    		var url = WEB_ROOT+'system/role/deleteRole?ids=' + id;
+	   	    		    		formUtil.deleteData(url,'table_riverLakeInfo');
+	    	    			 }, function(){
+	    	    			});
+	    	    		 
+				      }); 
+	    	    }
+	    	 },100);
+	    },
+	    //type: 1新增 2编辑    id:表单ID
+	    submitForm:function(type){
+	    	switch (type) {
+			case 1:
+				formUtil.submitFormData(role,WEB_ROOT+"/system/role/addRole");
+				break;
+			case 3:
+			   var ids=$("#perssonDemo input").val();//获取所有的权限
+	    	   var data={"ids":ids,"keyWord":$("#roleId").val()};
+	    	   var result=commonUtils.post(WEB_ROOT+"system/role/saveRolePers",data,null);
+	    	   if(result.flag==true){
+	 			  layer.msg("授权成功！", {icon: 1});		
+	 			 $("#modal_setPession").modal('hide');
+	 		   }else{
+	 			  layer.msg("网络错误", {icon: 2});			
+	 		   }
+			   break;    	
+	       }
+	    }
+}
+$(function(){
+	bootstrapTable.clearParams();
+	role.loadTable();
+	
+	//表格数据导入
+	$(".queryBtn_import").click(function(){
+		 $("#modal_roleUpload").modal("show");
+		 formUtil.uploadFile("uploadRole",WEB_ROOT+"/system/role/importRoleFile",2);
+		$("#uploadRole").on("fileuploaded", function(e, data) {
+			if (data.response.success ==true) {
+				formUtil.successTip("上传成功!");
+				 $("#modal_roleUpload").modal("hide"); 
+				 $("#table_role").bootstrapTable('refresh');
+			} else {
+				formUtil.successTip("上传失败!");
+			}
+		});			
+	});	
+	
+	//表格查询
+	$(".queryBtn_select").click(function(){
+		bootstrapTable.queryParams["keyWord"] = $("#table_select_toolbar #keyword").val();
+    	$("#table_role").bootstrapTable('refresh');
+	});
+});

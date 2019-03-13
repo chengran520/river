@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.basic.mapper.QualityMapper">
+   <resultMap id="QualityModelMap" type="com.gxhy.base.basic.model.QualityModel">
+		<result column="WT"     jdbcType="DOUBLE" property="wt" />
+		<result column="TURB"   jdbcType="DOUBLE" property="turb" />
+		<result column="COND"     jdbcType="DOUBLE" property="cond" />
+	    <result column="PH"   jdbcType="DOUBLE" property="ph" />
+		<result column="DOX"    jdbcType="DOUBLE" property="dox" />
+		<result column="sj"  jdbcType="VARCHAR" property="spt" />
+	</resultMap>
+	
+	<!--查询所有的测站  -->
+	<select id="getQualityList" resultType="com.gxhy.base.basic.model.QualityModel">		
+    SELECT TOP 20 WT AS wt,PH AS ph,COND AS cond,TURB AS turb,DOX as dox,sj AS spt,(SELECT STCD FROM ST_STBPRP_B  WHERE STTP='SZ')AS stcd,
+    (SELECT STNM FROM ST_STBPRP_B  WHERE STTP='SZ')AS stnm,(SELECT STLC FROM ST_STBPRP_B  WHERE STTP='SZ') AS stlc,'SZ' AS sttp FROM
+    YUANCHENG where 1=1 	
+        <if test="starttime != null and starttime != ''">
+			 AND sj >= #{starttime}
+		</if>
+		<if test="endtime != null and endtime != ''">
+			 AND sj &lt;= #{endtime}
+		</if>
+		ORDER BY SJ DESC 
+	</select>
+	
+	<!-- 查询指定的指标 -->
+	<select id="getQuaValList" resultMap="QualityModelMap">
+	    SELECT
+	    <if test="sql != null and sql != ''">
+	    	${sql}
+	    </if>
+	    ,q.sj  FROM ${table} Q WHERE 1 = 1
+	    <if test="starttime != null">
+			 AND sj >= #{starttime}
+		</if>
+		<if test="endtime != null">
+			 AND sj &lt;= #{endtime}
+		</if> 
+	    order by Q.SJ ASC
+	</select>
+	
+</mapper>

@@ -1,0 +1,51 @@
+.title-1{
+	height:0.3rem;
+	line-height: 0.3rem;
+	font-size: 0.16rem;
+	color:#0099FF;
+	background-color: #fff;
+	border-bottom: 3px solid #ccc;
+	padding-left:0.3rem;
+}
+.layui-table-view{
+	margin-top:0px !important; 
+}
+.layui-table-box{
+	padding:0px !important;
+	margin:0px 40px;
+}
+.chart-1 {
+    margin: 0.06rem 0 0 0.47rem;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.chart-span {
+    border: 1px solid #00a9ec;
+    float: left;
+    margin: 0.06rem 0 0 0px;
+    width: 0.53rem;
+    padding: 0 0 0 0.05rem;
+    text-align: center;
+    cursor: pointer;
+}
+.active {
+    background-color: #00a9ec;
+    color: #fff;
+}
+.monitor-div{
+	width:40%;
+	height:0.8rem;
+	background-color: #E6F4FD;
+	margin:0.1rem;
+	float: left;
+}
+.clor{
+	color: #33363F;
+}
+.monitor-div .layui-col-md5,.monitor-div .layui-col-md7{
+	padding:0.15rem;
+}
+.monitor-div > div > img{
+	width:0.53rem;
+	height:0.53rem;
+}

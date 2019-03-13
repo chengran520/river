@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.hydro.mapper.RiverMapper">
+
+	<select id="riverChart" resultType="com.gxhy.hydro.model.RiverModel">
+		select STCD,TM,Z from
+		ST_RIVER_R where STCD = #{stcd} and TM &gt;= #{stm} and Tm &lt;=
+		#{etm} order by TM
+	</select>
+
+	<!-- 国汛预警APP-水情信息(查询最新一小时水位) -->
+	<select id="getRiverList" resultType="com.gxhy.hydro.model.RiverModel">
+		SELECT DISTINCT	a.STCD,	a.STNM,	a.STLC,	a.STTP,	a.RVNM,	a.HNNM,	a.BSNM,	a.ADDVCD,a.FRGRD,a.ADMAUTH,a.LGTD,a.LTTD,ST.DEVID,c.z,c.q,c.tm 
+			FROM	st_stbprp_b a
+			JOIN IOT_DEVI_ST ST ON ST.STCD = a.STCD
+			INNER JOIN (
+				SELECT ISNULL(r.z, 0) as z,	r.q,r.tm,r.stcd FROM  st_river_r r,
+					(SELECT	stcd,MAX (tm) tm,MAX (z) z	FROM st_river_r	GROUP BY	stcd) b
+				WHERE	r.stcd = b.stcd	 AND r.tm = b.tm
+			) c ON a.stcd = c.stcd			
+		WHERE	1 = 1
+		AND a.ADDVCD LIKE '${addvcd}%'
+	<!-- 	AND  c.tm &gt;= DATEADD(hh,-1,getdate())
+	    AND  c.tm &lt;= CONVERT(varchar,GETDATE(),120) -->
+		<if test="stcd != null and stcd != ''">
+			AND a.STCD=#{stcd}
+		</if>
+		<if test="keyword !=null and keyword !=''">
+		and  (a.STCD like '%${keyword}%' OR a.STNM LIKE '%${keyword}%' OR ST.DEVID LIKE '%${keyword}%')
+		 </if> 
+<!-- 		 <if test="stm != null and stm != ''">
+			and c.tm >= #{stm}
+		</if>
+		<if test="etm != null and etm != ''">
+			and c.tm &lt;= #{etm}
+		</if> -->
+		ORDER BY c.TM DESC
+	</select>
+	
+	<select id="water" resultType="double">
+		select top 1 ISNULL(Z, ZT) DRP from ST_RIVER_R where STCD = #{stcd} ORDER BY TM DESC
+	</select>
+	
+</mapper>
+

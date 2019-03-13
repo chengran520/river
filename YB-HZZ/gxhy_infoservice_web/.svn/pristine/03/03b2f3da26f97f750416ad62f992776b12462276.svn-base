@@ -1,0 +1,279 @@
+var showRelease = {
+	type : '',//增删改查 类型
+	id : '',//页面元素ID
+	showModal : function(type, isMsg) {
+		showRelease.type = type;
+		setTimeout(function() {
+			if (!isMsg) {
+				showRelease.id = "fileManage";
+				formUtil.showBtn(type, showRelease);
+				//初始化上传文件
+				formUtil.uploadFile("myFile", WEB_ROOT + "news/addFileUpload",1);
+				$("#myFile").on("fileuploaded", function(e, data) {
+					var res = data.response;
+					$("#fileId").val(res.message);
+					if (res.success ==true) {
+						formUtil.successTip("上传成功!");
+					} else {
+						formUtil.successTip("上传失败!");
+					}
+				});				
+			} else {
+				showRelease.id = "showRelease";
+				formUtil.showBtn(type, showRelease);
+			}
+			
+		}, 100);
+	},
+	submitForm : function(type) {
+		if (type == 1) {
+			var markupStr = $('#msgContent').summernote('code');
+			$("#msgContent").val(markupStr);
+			showRelease.id = "showRelease";
+			formUtil.submitFormData(showRelease, WEB_ROOT + "news/addMsg");		
+		} else {
+			showRelease.id = "fileManage";
+			formUtil.submitFormData(showRelease, WEB_ROOT + "news/addFile");
+		}
+
+	},
+	getFileTypes : function() {
+		var result = commonUtils.get(
+				WEB_ROOT + "/busine/accept/getBusineTypes", {
+					"dictTp" : "FILE"
+				}, false);
+		if (result.flag) {
+			var html = "<option disabled='disabled' selected='selected' value=''>请选择</option> <option value=''>全部</option>";
+			$.each(result.data, function(i, v) {
+				html += "<option value=" + this.dictVal + ">" + this.dictNm
+						+ "</option>";
+			});
+			$("#fileType").html(html);
+		}
+	},
+	querFileTable : function() {
+		var dataParams = {
+			id : 'table_fileManage',//表格id
+			url : WEB_ROOT + 'news/getFiles',//地址
+			height :  ($(window).height() - clientSize * 2.4)*0.5,//表格高度
+			fileName : '综合查询信息表',//导出表格名称
+		};
+		bootstrapTable.columns = [ {
+			title : '序号',
+			align : "center",
+			colspan : 1,
+			width : 1,
+			formatter : function(value, row, index) {
+				var pageSize = $('#table_fileManage').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+	            var pageNumber = $('#table_fileManage').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+	            return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+			}
+		}, {
+			field : 'fileName',
+			title : '文件名称',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+		}, {
+			field : 'fileSymbol',
+			title : '文件文号',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+		}, {
+			field : 'fileTypeNm',
+			title : '文件类型',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80
+		}, {
+			field : 'creteTm',
+			title : '印发时间',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80
+		}, {
+			field : 'fileAttrType',
+			title : '归属类型',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+			formatter: function (value, row, index) {
+				switch (value) {
+				case "01":
+					 return "综合类型";
+					break;
+				case "02":
+					 return "河流";
+					break;
+				case "03":
+					 return "湖泊";
+					break;
+				}
+            }
+		}, {
+			field : 'remark',
+			title : '备注',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+		},{
+			field : 'fileUser',
+			title : '发文作者',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+		},{
+			field : 'fileUrl',
+			title : '文件信息',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+			formatter: function (value, row, index) {
+				if(value!=null){
+					 var str=value.substring(value.lastIndexOf("\\")+1,value.length);
+					 var paramUrl=value.split("file")[1].replace( "\\\\ ","/");
+					 var url=window.location.href.split("/gxhy")[0];
+			         var ulr1=url+"/pic"+paramUrl;
+					 return "<a href="+ulr1+"  download="+ulr1+" style='color:red;'>"+str+"</a>";
+				}
+			  
+            }
+		} ];
+		bootstrapTable.bootstrapTableUtil(showRelease, dataParams);
+	},
+
+	queryMsgTable : function() {
+		var dataParams = {
+			id : 'table_showRelease',//表格id
+			url : WEB_ROOT + 'news/getMsgs',//地址
+			height : ($(window).height() - clientSize * 2.4)*0.5,//表格高度
+			fileName : '综合查询信息表',//导出表格名称
+		};
+		bootstrapTable.columns = [ {
+			title : '序号',
+			align : "center",
+			colspan : 1,
+			width : 1,
+			formatter : function(value, row, index) {
+				var pageSize = $('#table_showRelease').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+	            var pageNumber = $('#table_showRelease').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+	            return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+			}
+		}, {
+			field : 'msgTitle',
+			title : '消息标题',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+		}, {
+			field : 'sendUser',
+			title : '发送人',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 100,
+		}, {
+			field : 'msgType',
+			title : '消息类型',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80,
+			formatter: function (value, row, index) {
+				debugger
+				switch (value) {
+				case "01":
+					 return "通知公告";
+					break;
+				case "02":
+					 return "治水新闻";
+					break;
+				case "03":
+					 return "新闻动态";
+					break;
+				}
+            }
+		}, {
+			field : 'sendTm',
+			title : '发送时间',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 80
+		}, {
+			field : 'msgContent',
+			title : '消息内容',
+			align : 'center',
+			sortable : true,
+			colspan : 1,
+			width : 100,
+			formatter : function(value, row, index) {
+				if(value!=null){
+					if(value.length >30){
+						return value.substring(0,30)+"...";
+					}else{
+						return value;
+					}
+				}
+				
+			}
+		} ];
+		//加载表格
+		bootstrapTable.bootstrapTableUtil(showRelease, dataParams);
+	}
+}
+
+$(function() {
+	//清空查询参数
+	bootstrapTable.clearParams();
+	formatter_date_utils.initDatePickerTm("createTm");
+	showRelease.getFileTypes();//获取所有的文件类型
+	showRelease.querFileTable();
+	showRelease.queryMsgTable();
+	//编辑器设置
+	$('#msgContent').summernote(
+			{
+				lang : 'zh-CN',
+				height : 150,
+				toolbar : [ [ 'style', [ 'style' ] ],
+						[ 'font', [ 'bold', 'underline', 'clear' ] ],
+						[ 'fontname', [ 'fontname' ] ],
+						[ 'color', [ 'color' ] ],
+						[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+						[ 'table', [ 'table' ] ], [ 'insert', [ 'link' ] ],
+						[ 'view', [ 'fullscreen', 'codeview', 'help' ] ] ]
+			});
+
+	//文件上传
+	/*$("#myFile").fileinput({
+		language : 'zh',
+		autoReplace : true,
+		uploadUrl : WEB_ROOT + "news/addFileUpload",
+		uploadAsync : true,//默认异步上传
+		maxFileCount : 1,
+		allowedFileExtensions : [ "doc", "docx", "pdf", "xls", "xlsx" ],
+		browseClass : "btn btn-primary", //按钮样式 
+		enctype : 'multipart/form-data',
+		previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
+	}).on("fileuploaded", function(e, data) {
+		console.log(data);
+		var res = data.response;
+		$("#fileId").val(res.message);
+		if (res.message != null) {
+			formUtil.successTip("上传成功!");
+		} else {
+			formUtil.successTip("上传失败!");
+		}
+	});*/
+});
+

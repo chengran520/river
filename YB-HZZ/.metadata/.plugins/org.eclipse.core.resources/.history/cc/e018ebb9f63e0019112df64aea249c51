@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.mapper.PermissionMapper">
+   <!--菜单-->
+   <resultMap id="permissionMap" type="com.gxhy.base.model.Permission" >
+    <id column="PERMIS_ID"     property="permisId" jdbcType="VARCHAR" />
+    <result column="PERMIS_NM"    property="permisNm" jdbcType="VARCHAR" />
+    <result column="P_PERMIS_ID"  property="ppermisId" jdbcType="VARCHAR" />
+    <result column="MENU_URL"  property="menuUrl" jdbcType="VARCHAR" />
+    <result column="SORT"      property="sort" jdbcType="INTEGER" />
+    <result column="IMG_URL"   property="imgUrl" jdbcType="VARCHAR" />
+    <result column="CREATE_TM" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TM" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="TYPE"      property="type" jdbcType="VARCHAR" />
+    <result column="PERMIS_DES"  property="permisDes" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <!-- 通过用户ID查询出所对应的权限菜单,支持多个角色 -->
+	<select id="getMenuPageById"   resultType = "com.gxhy.base.model.Permission">
+	    SELECT  s.permis_id permisId,s.permis_nm permisNm,s.p_permis_id ppermisId,s.menu_url menuUrl,s.type,s.sort from 
+	    SYS_PERMISSION s where s.PERMIS_ID in (select P.PERMIS_ID from SYS_ROLE_PERMISSION p ,SYS_PERMISSION e where 
+	    p.PERMIS_ID = e.PERMIS_ID 
+		<if test="permisId != null and permisId !=''">
+			and e.P_PERMIS_ID = #{permisId}
+		</if>
+		 and p.ROLE_ID in (select t.ROLE_ID  from SYS_ROLE t,SYS_USER_ROLE l where t.ROLE_ID = l.ROLE_ID and l.USER_ID=#{userId}) 
+		 GROUP BY P.PERMIS_ID) order by s.SORT 
+	</select>
+	
+	<!--  批量导入excel-->
+	<insert id="insertMenu">
+	    INSERT INTO SYS_PERMISSION(PERMIS_ID,PERMIS_NM,P_PERMIS_ID,MENU_URL,SORT,IMG_URL,CREATE_TM,UPDATE_TM,TYPE,PERMIS_DES)VALUES
+	    <foreach collection="list" item="item" index="index" separator=",">	 
+			(#{item.permisId},#{item.permisNm},#{item.ppermisId},#{item.menuUrl},#{item.sort},#{item.imgUrl},#{item.createTime},
+			#{item.updateTime},#{item.type},#{item.permisDes})
+		</foreach> 
+	</insert>
+	
+	<!-- 获取所有的权限信息 -->
+	<select id="getAllMenu" resultMap="permissionMap">
+	  SELECT PERMIS_ID,PERMIS_NM,P_PERMIS_ID,MENU_URL,TYPE,CREATE_TM FROM SYS_PERMISSION   
+	   <where>
+	    <if test="keyWord != null and keyWord != ''">
+			PERMIS_ID LIKE '%${keyWord}%'  OR PERMIS_NM  LIKE '%${keyWord}%'
+		</if>
+	  </where>
+	</select>
+	
+	<!-- 删除菜单 -->
+	<delete id="deleteMenu">
+	    DELETE FROM SYS_PERMISSION  WHERE PERMIS_ID IN
+	    <foreach collection="list" item="item" index="index"  open="("   close=")" separator=",">	 
+	       #{item}
+		</foreach>
+	</delete>
+	
+	 <!-- 树形菜单  -->
+   <select id="getMenuZtree" resultType="com.gxhy.base.model.Ztree">
+       SELECT PERMIS_ID AS id,PERMIS_NM AS name,P_PERMIS_ID AS pId FROM SYS_PERMISSION 
+       <where>
+         <if test="type != null and type != ''">
+			 TYPE!=#{type}
+		</if>
+       </where>
+   </select>
+ 
+  <!-- 根据某个角色查询拥有的权限 -->
+  <select id="getPerByRoleId" resultType="string">
+      SELECT PERMIS_ID FROM SYS_ROLE_PERMISSION WHERE ROLE_ID=#{roleId}
+  </select>
+  
+  <!--批量修改权限  -->
+  <update id="updateMenu" parameterType="list">
+    <foreach collection="empList" separator=";" item="emp">
+        UPDATE employee
+        SET last_name = #{emp.lastName}, email = #{emp.email}, gender = #{emp.gender}
+        WHERE id = #{emp.id}
+    </foreach>
+</update>
+
+</mapper>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+    <link href="eventCenter/seo/seo.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<!--content内容开始-->
+<div class="layui-body base_content">
+	<div id="table_select_toolbar" class="toolbar">
+	       <form class="form-inline" id="toolbar_form">
+	           <div class="form-group">
+               		<div class="input-group">
+                       <span class="input-group-addon">河流名称:</span>
+                       <select class="form-control busineUnm" name="busineType" id="riverName"></select>
+                   </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">结束时间:</span>
+	                   <input class="form-control busineUnm" name="startTm" id="startTm"  placeholder="请选择开始时间">
+	               </div>
+	               <div class="input-group" style='display:none'>
+	                   <span class="input-group-addon">结束时间:</span>
+	                   <input class="form-control busineUnm" name="endTm" id="endTm"  placeholder="请选择结束时间">
+	               </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">上报类型:</span>
+	                   <select class="form-control busineUnm" name="busineType" id="busineType"></select>
+	               </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">处理状态:</span>
+	                   <select  class="form-control busineUnm" id="type">
+						   <option disabled="disabled" selected="selected" value="">请选择</option>
+						   <option value="">全部</option>
+						        <option value="1">已处理</option>
+						        <option value="2">未处理</option>
+						        <option value="3">处理中</option>
+						        <option value="4">无效</option>
+						        <option value="5">执法</option>
+						          </select>
+			               </div>   
+			           </div>
+	           <button type="button" class="btn btn-primary queryBtn_select"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	       </form>
+	   </div>
+   <table id="table_select" class="table table-hover">
+
+   </table>
+</div>
+
+
+		
+		
+		
+	<!-- 转交选择人页面 -->
+<div class="modal fade" id="selDetailModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: hidden;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="width:700px;height:auto;overflow-y: auto;overflow-x: hidden;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="font-size: 32px;margin-right: 10px;">×</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">转交人员</h4>
+			</div>
+			<div class="modal-body" style="height:450px;">
+				<div class='downrightheader_div'>
+		    		<span>事件流程</span>
+		    	</div>
+				<div id="timeAxis"></div>
+			</div>
+			<div class="modal-footer" id="foot">
+				<button class="btn btn-default btns" id="retuBusine" type="button" style="color: #333;background-color: #fff;border-color: #adadad;"  data-dismiss="modal">
+					&nbsp;关&nbsp;闭
+				</button>
+				<button  class="btn btn-default btns" id="conBusine" type="button">
+				    &nbsp;确&nbsp;定
+				</button>
+			</div>
+		</div>
+	</div>
+  <div>
+</div>
+</div>
+		
+<!--content内容结束-->
+<script type="text/javascript" src="eventCenter/select/select.js"></script>
+</body>
+</html>
+
+

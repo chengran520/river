@@ -1,0 +1,113 @@
+var permission = {
+	 clickRow:[],//当前点击行
+	 id:"permission",
+	 type:'',
+	 loadTable: function () {
+	    	var dataParams =  {
+	    		id:'table_permission',//表格id
+	    		url:WEB_ROOT+'system/menu/getAllMenu',//地址
+	    		height:$(window).height() - clientSize * 1.5,//表格高度
+	    		fileName:'综合查询信息表',//导出表格名称
+	    	};
+	    	bootstrapTable.columns =[{
+	            title: '序号',
+	            align: "center",
+	            colspan: 1,
+	            width: 1,
+	            formatter: function (value, row, index) {
+	            	 var pageSize = $('#table_permission').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+		             var pageNumber = $('#table_permission').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+		             return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+	            }
+	        },{
+	            field: 'permisId',
+	            title: '权限Id',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80,
+	        },{
+	            field: 'permisNm',
+	            title: '权限名称',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'ppermisId',
+	            title: '父级权限Id',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'menuUrl',
+	            title: '权限地址',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'createTime',
+	            title: '创建时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'type',
+	            title: '权限类型',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 100,
+	            formatter: function (value, row, index) {
+	            	if(value==0){
+	            		 return '菜单';
+	            	}else{
+	            		return '按钮';
+	            	}
+	            }	            
+	          },{
+	            field: 'repeat',
+	            title: '操作',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 100,
+	            formatter: function (value, row, index) {
+	            	 var html = `
+		               <a href="javascript:void(0)" class="table_btn table_btn_del" onclick="role.showModal(2)">修改</a>&nbsp;&nbsp;
+		               <a href="javascript:void(0)" class="table_btn table_btn_del" onclick="role.showModal(4)">删除</a>&nbsp;&nbsp;`
+	                return html;
+	            }	            
+	          }
+	        ];
+	    	bootstrapTable.bootstrapTableUtil(permission,dataParams);
+	    },
+	    //点击表格行
+	    onClickRow:function(row, $element, field){
+	    	permission.clickRow = row;
+	    },
+	    //显示模态框
+	    showModal:function(type){
+	    	 permission.type = type;
+	    	 setTimeout(function(){  
+	    		 if(type==1){
+	    			 formUtil.showBtn(type,permission);
+	    			
+	    		 }	    		
+		      },100);	
+	    },
+	    //type: 1新增 2编辑    id:表单ID
+	    submitForm:function(type){
+	    	$("#ppcermisId").val($("#pmenuId").val());
+	    	formUtil.submitFormData(permission,WEB_ROOT+"system/menu/saveMenu?type="+type+"");
+	    }
+}
+$(function(){
+	bootstrapTable.clearParams();
+	permission.loadTable();
+	commonZtree.ztree("menuZtree",false,WEB_ROOT+"system/menu/getAllPermission",1);
+
+});

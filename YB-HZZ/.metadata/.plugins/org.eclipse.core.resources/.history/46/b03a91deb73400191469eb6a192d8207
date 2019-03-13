@@ -1,0 +1,100 @@
+var select = {
+	baseHeight: '',//表格高度
+	clickRow:[],//当前点击行
+	stm:'',//开始时间
+	etm:'',//结束时间
+	 loadTable: function () {
+	    	var dataParams =  {
+	    		id:'table_select',//表格id
+	    		url:WEB_ROOT+ '/busine/accept/getBusineStatics',//地址
+	    		height:select.baseHeight,//表格高度
+	    		fileName:'综合查询信息表',//导出表格名称
+	    	};
+	    	bootstrapTable.columns =[{
+	            title: '序号',
+	            align: "center",
+	            colspan: 1,
+	            width: 1,
+	            formatter: function (value, row, index) {
+	                return index + 1;
+	            }
+	        },{
+	            field: 'busineId',
+	            title: '事件编号',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80,
+	        },{
+	            field: 'busineOrigin',
+	            title: '事件来源',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'busineType',
+	            title: '事件类型',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'busineUnm',
+	            title: '上报人',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 80
+	        },{
+	            field: 'busineAddress',
+	            title: '发生地址',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 100,
+	        },{
+	            field: 'busineDesc',
+	            title: '事件描述',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 60  
+	        },
+	        {
+	            field: 'createTm',
+	            title: '上报时间',
+	            align: 'center',
+	            sortable: true,
+	            colspan: 1,
+	            width: 60	           
+	        }
+	        ];
+	    	bootstrapTable.bootstrapTableUtil(select,dataParams);
+	    },	    
+	    getBusineTypes:function(){   
+			var result=commonUtils.get(WEB_ROOT+"/busine/accept/getBusineTypes",{"dictTp":"BZTP"},null);
+			if(result.flag){
+				var html="<option disabled='disabled' selected='selected' value=''>请选择</option> <option value=''>全部</option>";
+				$.each(result.data,function(i,v){
+					 html+="<option value="+this.dictVal+">"+this.dictNm+"</option>";
+				});
+				$("#busineType").html(html);
+			}
+		}
+}
+$(function(){
+	formatter_date_utils.initDatePicker2("startTm","endTm");
+	select.baseHeight = $(".baseData").height() - clientSize * 0.6;
+	select.getBusineTypes();
+	select.loadTable();
+	 $(".queryBtn_table").click(function(){
+	    	bootstrapTable.queryParams["stm"] = $("#startTm").val();
+	    	bootstrapTable.queryParams["endTm"] = $("#endTm").val();
+	    	var  busineType=$("#busineType").find("option:selected").val();
+	    	var type=$("#type").find("option:selected").val();
+	    	bootstrapTable.queryParams["busineType"] = busineType;
+	    	bootstrapTable.queryParams["type"] = type;
+	    	$("#table_select").bootstrapTable('refresh');
+	    });
+});

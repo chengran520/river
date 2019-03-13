@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.basic.mapper.RiverLongMapper"> 
+    <!-- 河段 -->
+    <resultMap  id="riverLongMap"  type="com.gxhy.base.basic.model.RiverLongModel" >
+        <result column="GM_CODE"       jdbcType="VARCHAR"  property="gmCode" />
+        <result column="GM_NAME"       jdbcType="VARCHAR"  property="gmName" />
+        <result column="GM_DUTIES"     jdbcType="VARCHAR"   property="gmDuties" />
+		<result column="GM_MOBILE"     jdbcType="VARCHAR"   property="gmMobile" />
+		<result column="AD_LEVEL"     jdbcType="VARCHAR" property="adLevel" />
+		<result column="GM_TYPE"     jdbcType="VARCHAR"  property="gmType" />
+		<result column="NT"       jdbcType="VARCHAR"  property="nt" />
+		<result column="GM_DUTIESLEV"    jdbcType="VARCHAR"    property="gmDutiesLev" />
+		<result column="HIGH_DUTIES_GOV"    jdbcType="VARCHAR" property="hightDutiesGov" />
+		<result column="GOV_TYPE"     jdbcType="VARCHAR" property="govType" />
+		<result column="GM_TP"     jdbcType="VARCHAR" property="gmTp" />
+		<result column="ADDVCD"     jdbcType="VARCHAR" property="addvcd" />
+		<result column="ADDVNM"     jdbcType="VARCHAR" property="addvnm" />
+    </resultMap>
+    
+    	<resultMap id="RiverModelMap" type="com.gxhy.base.basic.model.ResultRiverInfoModel">
+		<result column="STCD" jdbcType="VARCHAR" property="stcd" />
+		<result column="STNM" jdbcType="VARCHAR" property="stnm" />
+		<result column="STLC" jdbcType="VARCHAR" property="stlc" />
+		<result column="STTP" jdbcType="VARCHAR" property="sttp" />
+		<result column="TM" jdbcType="TIMESTAMP" property="tm" />
+		<result column="Z" jdbcType="VARCHAR" property="z" />
+		<result column="Q" jdbcType="VARCHAR" property="q" />
+	</resultMap>
+	
+	<resultMap id="QualityModelMap" type="com.gxhy.base.basic.model.QualityModel">
+		<result column="WT"     jdbcType="DOUBLE" property="wt" />
+		<result column="TURB"   jdbcType="DOUBLE" property="turb" />
+		<result column="COND"     jdbcType="DOUBLE" property="cond" />
+	    <result column="PH"   jdbcType="DOUBLE" property="ph" />
+		<result column="DOX"    jdbcType="DOUBLE" property="dox" />
+		<result column="sj"  jdbcType="VARCHAR" property="spt" />
+	</resultMap>
+	
+   <!-- 将塘坝信息的excel导入数据库-->
+	<insert id="insertRiverLong" parameterType="java.util.List">
+		INSERT INTO BASE_GMINFO(GM_CODE,GM_NAME,GM_DUTIES,ADDVCD,ADDVNM,GM_MOBILE,AD_LEVEL,GM_TYPE,NT,GM_DUTIESLEV,
+		HIGH_DUTIES_GOV,GOV_TYPE,EFF_DATE,GM_TP) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">	 
+			(#{item.gmCode},#{item.gmName},#{item.gmDuties},#{item.addvcd},#{item.addvnm},#{item.gmMobile},#{item.adLevel},
+			#{item.gmType},#{item.nt},#{item.gmDutiesLev},#{item.hightDutiesGov},#{item.govType},#{item.effDate},#{item.gmTp})
+		</foreach> 
+	</insert>
+	
+	
+	<!-- 根据id将河湖长的信息进行更新 -->
+	<update id="updateRiverLong">
+		UPDATE BASE_GMINFO SET GM_CODE=#{gmcode} WHERE  UUID=#{uuid}
+	
+	</update>
+	
+	<!--查询所有的河长信息  -->
+	<select id="selectAllRiverLongs" resultMap="riverLongMap">
+	   SELECT G.GM_CODE,G.GM_NAME,G.GM_DUTIES,G.ADDVCD,G.ADDVNM,G.GM_MOBILE,G.AD_LEVEL,G.GM_TYPE,G.NT,G.GM_DUTIESLEV,G.HIGH_DUTIES_GOV,G.GOV_TYPE,G.GM_TP 
+	   FROM BASE_GMINFO  G
+	   <!-- LEFT JOIN AD_CD_B AC ON AC.ADDVCD= G.ADDVCD -->
+	    WHERE  G.GM_TP =#{gmTp} 
+	    	<if test="adcd != null and adcd !='' ">
+	    		 AND  G.ADDVCD LIKE '%${adcd}%'
+	    	</if>
+	    	<if test="keyWord != null and keyWord != ''">
+				AND (G.GM_CODE LIKE '%${keyWord}%'  OR G.GM_NAME LIKE '%${keyWord}%')
+			</if>
+			<if test="gmType != null and gmType != ''">
+				AND G.GM_TYPE =#{gmType}
+			</if>
+	</select>
+	
+	<!--  删除河长信息-->
+	<delete id="deleteRiverLong">
+	  DELETE FROM BASE_GMINFO  WHERE GM_CODE IN
+	  <foreach collection="list" item="item" index="index"  open="("   close=")" separator=",">	 
+       #{item}
+	 </foreach>
+	</delete>
+	
+	
+	 <!-- 根据条件查询列表 -->
+   <select id="getRiverInfoList" resultType="com.gxhy.base.basic.model.ResultRiverInfoModel">
+     select a.stcd AS stcd,a.stnm AS stnm,a.rvnm AS rvnm,c.z AS z,c.q AS q,c.tm AS tm,a.stlc AS stlc from st_stbprp_b a inner join 
+     (select r.z,r.q,r.tm,r.stcd from  st_river_r  r,(select stcd, MAX(tm) tm,MAX(z) z from st_river_r group by stcd) b where r.stcd=b.stcd and r.tm=b.tm ) c
+     on a.stcd=c.stcd WHERE 1 = 1 
+	   	and  a.STTP in('ZQ','ZZ') order by c.tm desc
+   </select>
+   
+   
+    <!-- 根据测站编码差查询早8点至晚8点的水位数据 -->
+   <select id="getZqlist" resultMap="RiverModelMap">
+ 		select z,q,tm from  st_river_r where stcd=#{stcd}
+ 		<if test="stm!= null and stm != ''">
+	   		and tm >= #{stm}
+		 </if>
+		 <if test="etm != null and etm != ''">
+		   	and tm &lt;= #{etm}
+		</if>
+   </select>
+   
+   <!-- 查询指定的指标 -->
+	<select id="getQuaValList" resultMap="QualityModelMap">
+	    SELECT 
+	    <if test="sql != null and sql != ''">
+	    	${sql}
+	    </if>
+	    ,q.sj  FROM ${table} Q WHERE 1 = 1
+	    <if test="starttime != null and starttime != ''">
+			 AND sj >= #{starttime}
+		</if>
+		<if test="endtime != null and endtime != ''">
+			 AND sj &lt;= #{endtime}
+		</if>
+	    order by Q.SJ ASC
+	</select>
+
+    <!--查询各级河长人数  -->
+    <select id="getRvLongList" resultMap="riverLongMap">       
+        SELECT * FROM BASE_GMINFO where 1=1 
+        <if test="addvcd != null and addvcd != ''">
+        	AND ADDVCD LIKE #{addvcd} + '%'
+        </if>
+    </select>
+    
+    <!--查询各级河长人数  -->
+    <select id="getRvLongNum" resultType="java.util.HashMap">       
+        SELECT GM_TYPE AS type,COUNT(GM_CODE) AS count FROM BASE_GMINFO GROUP BY GM_TYPE
+    </select>
+   
+</mapper>
+

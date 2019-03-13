@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="transformToArray" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="transformToArray"/>
+			<item value="build"/>
+			<item value="getUserMenuInfo"/>
+			<item value="submitForm"/>
+			<item value="form"/>
+			<item value="menuContent"/>
+			<item value="modal_setRole"/>
+			<item value="uuid"/>
+		</list>
+		<list key="replacehistory">
+			<item value=""/>
+			<item value="14"/>
+			<item value="屏山县龙溪乡"/>
+			<item value="叙州区泥溪镇"/>
+			<item value="AD_CD_B"/>
+			<item value="tm"/>
+			<item value="height"/>
+			<item value="river"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="450" key="DIALOG_WIDTH"/>
+		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
+		<item value="394" key="DIALOG_HEIGHT"/>
+		<item value="1433" key="DIALOG_X_ORIGIN"/>
+		<item value="654" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

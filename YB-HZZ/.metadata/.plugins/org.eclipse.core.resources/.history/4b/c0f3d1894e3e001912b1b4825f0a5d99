@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+    <link href="common/util/fileinput/fileinput.min.css" rel="stylesheet" type="text/css"  media="all">
+    <script type="text/javascript" src="common/util/selectTree.js"></script>	
+	<!--验证必填项-->
+	<script type="text/javascript" src="common/util/jquery/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="common/util/jquery/jquery.validate.unobtrusive.min.js"></script>
+	
+	<!-- 文件上传 -->
+	<script src="common/util/fileinput/fileinput.min.js"  type="text/javascript" ></script>
+	<script src="common/util/fileinput/zh.js"  type="text/javascript" ></script>
+	
+	<script type="text/javascript" src="systemInfo/role/roleInfo1.js"></script>
+</head>
+<body>
+<!--content内容开始-->
+<div class="layui-body base_content">
+	<div id="table_select_toolbar" class="toolbar" style="margin-top:0.1rem;">
+	       <form class="form-inline" id="toolbar_form">
+	           <div class="form-group">
+               		<div class="input-group">
+                       <span class="input-group-addon">角色名称:</span>
+                       <input class="form-control" name="keyword" id="keyword"  placeholder="请填写角色编码或名称">
+                   </div>
+			    </div>
+	           <button type="button" class="btn btn-primary queryBtn_select"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	           <button type="button" class="btn btn-primary queryBtn_add"  onclick="role.showModal(1)"><span class="glyphicon glyphicon-plus"></span>&nbsp;新&nbsp;增</button>
+      		   <button type="button" class="btn btn-primary queryBtn_import"><span class="glyphicon glyphicon-import"></span>&nbsp;导&nbsp;入</button>
+	       </form>
+	   </div>
+   <table id="table_role" class="table table-hover">
+   </table>
+</div>
+</body>
+</html>
+
+<!-- 添加角色 -->
+<div class="modal fade" id="modal_role" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_role" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:6rem;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_role">角色信息&nbsp;——&nbsp;<span id="title_type"></span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="form_role">
+                    <div class="form-group">                  
+                        <label class="col-sm-3 control-label required">角色编码</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" form="form_role" name="roleId" id="roleId" type="text" data-val="true" data-val-required="编码不能为空！" placeholder="角色编码...">
+                            <span data-valmsg-for="roleId" data-valmsg-replace="true" class="error"></span>
+                        </div>                                           
+                    </div>
+                     <div class="form-group">   
+                        <label class="col-sm-3 control-label">角色名称</label>
+						<div class="col-sm-8">	
+							<input class="form-control" form="form_role" name="roleName" id="roleName" type="text" data-val="true" data-val-required="名称不能为空！" placeholder="角色名称...">
+                            <span data-valmsg-for="roleName" data-valmsg-replace="true" class="error"></span>
+						</div> 
+                     </div>
+                     <div class="form-group"> 	
+                        <label class="col-sm-3 control-label">角色描述</label>
+						<div class="col-sm-8">
+						  	<textarea rows="5" cols="50" name="roleDes" id="roleDes"></textarea>
+						</div>  												
+                     </div>         
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary add" form="form_user" type="button" onclick="role.submitForm(1)">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;保&nbsp;存
+                </button>
+                <button class="btn btn-primary update" form="form_user" type="button" onclick="role.submitForm()">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;修&nbsp;改
+                </button>
+                <button class="btn btn-primary return" type="button" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-log-out "></span>&nbsp;返&nbsp;回
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 导入excel角色-->
+<div class="modal fade" id="modal_roleUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_roleUpload" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:9rem;height:5rem;">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_roleUpload">角色信息导入</h4> 
+            </div>
+           <div class="modal-body"> 
+                <a href="common/templates/RoleInfo.xls" class="form-control" style="border:none;color:red;">下载导入模板</a>
+		        <div class="form-group">
+				    <label for="" class="col-sm-2 control-label">选择文件</label>
+					<div class="col-sm-10">
+					   <input id="uploadRole" type="file" name="uploadRole" class="fileloading" onchange="formUtil.filefujianChange(this,2);">
+					    <p class="help-block">支持xls,xlsx格式，大小不超过2.0M</p>
+					</div>
+					<input type="hidden" name="user.logo" id="logo">
+		        </div>
+		   </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 设置权限 -->
+<div class="modal fade" id="modal_setPession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_setPession" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content" style="width:4.75rem;height:3.7rem;">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel_setPession">设置权限</h4> 
+            </div>
+           <div class="modal-body"> 
+			  <form class="form-horizontal" role="form" id="form_setPession">
+		        <div class="form-group">
+				     <label class="col-sm-2 control-label">权限</label>
+					<div class="col-sm-10"> 
+					     <input type="hidden" id="roleId">
+				        <div id="perssonDemo"></div>
+					</div>				
+		        </div>		         
+		      </form>
+		   </div>
+		   <div class="modal-footer">
+                <button class="btn btn-primary add" form="form_setPession" type="button" onclick="role.submitForm(3)">
+                    <span class="glyphicon glyphicon-saved "></span>&nbsp;保&nbsp;存
+                </button>
+                <button class="btn btn-primary return" type="button" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-log-out "></span>&nbsp;返&nbsp;回
+                </button>
+           </div>
+        </div>
+    </div>
+</div>

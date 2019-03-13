@@ -1,0 +1,261 @@
+package com.gxhy.base.basic.controller;
+
+import com.alibaba.druid.Constants;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.gxhy.base.basic.mapper.BusineMapper;
+import com.gxhy.base.basic.model.BusineModel;
+import com.gxhy.base.basic.model.DictModel;
+import com.gxhy.base.basic.service.BusineService;
+import com.gxhy.base.controller.BaseController;
+import com.gxhy.base.model.RequestModel;
+import com.gxhy.base.model.ResponseModel;
+import com.gxhy.base.model.UserModel;
+import com.gxhy.base.model.Ztree;
+import com.gxhy.patrol.model.PatrolCatalogModel;
+import com.gxhy.utils.DateUtil;
+import com.gxhy.utils.PageUtil;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping({ "busine/accept" })
+public class BusineController extends BaseController {
+	@Autowired
+	private BusineService busineService;
+
+	@RequestMapping(value = { "/getTimeAxis" }, method = { org.springframework.web.bind.annotation.RequestMethod.GET })
+	public Object getTimeAxis(HttpServletRequest request) {
+		JSONObject map = new JSONObject();
+		map.put("busineId", request.getParameter("busineId"));
+		map.put("sqlid", BusineMapper.class.getName() + ".getTimeAxis");
+		List<BusineModel> models = this.busineService.selectLists(map);
+		return ResponseModel.Success(models);
+	}
+
+	@RequestMapping(value = { "/getEventList" }, method = { org.springframework.web.bind.annotation.RequestMethod.GET })
+	public Object getEventList(HttpServletRequest request, String startTm,
+			String endTm, String keyword,String pageindex, String limit) throws Exception {
+		JSONObject map = new JSONObject();
+		map.put("startTm", startTm);
+		map.put("endTm", endTm);
+		map.put("keyword", keyword);
+		//分页
+		if(pageindex != null && limit != null){
+			map.put("pageindex",pageindex);
+			map.put("limit",limit);
+		}
+		Subject currentUser = SecurityUtils.getSubject();
+		UserModel user = (UserModel) currentUser.getSession().getAttribute("user");
+		map.put("userId", user.getUserId());
+		map.put("sqlid", BusineMapper.class.getName() + ".getEventList");
+		Page<BusineModel> page = this.busineService.selectList(map);
+		return PageUtil.success(page);
+	}
+
+	@RequestMapping(value = { "/getBusineImgs" }, method = { org.springframework.web.bind.annotation.RequestMethod.GET })
+	public Object getBusineImgs(HttpServletRequest request, String busineId) {
+		JSONObject map = new JSONObject();
+		map.put("busineId", busineId);
+		map.put("sqlid", BusineMapper.class.getName() + ".getBusineImgs");
+		List<String> list = this.busineService.selectLists(map);
+		return ResponseModel.Success(list);
+	}
+
+	/***
+	 * 新增/修改流程
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/insertWorkFlow", method = RequestMethod.POST)
+	public Object insertWorkFlow(HttpServletRequest request) {
+		JSONObject map = new JSONObject();
+		JSONObject map2 = new JSONObject();
+		int num = 0;
+		Subject currentUser = SecurityUtils.getSubject();
+		UserModel user = (UserModel) currentUser.getSession().getAttribute(
+				"user");
+		if (user != null) {
+			String busineOrgin = request.getParameter("busineOrgin");
+			if (busineOrgin.equals("gzjb")) {
+				String orginId = request.getParameter("orginId");
+				map.put("orginId", orginId);
+				map.put(RequestModel.SQLID, BusineMapper.class.getName()
+						+ ".updateExposure");
+				num = busineService.update(map);
+			} else {
+				map.put("busineId", request.getParameter("busineId"));// 事件id
+				map.put("handleTm", new Date());// 处理时间
+				map.put("status", request.getParameter("status"));// 流程状态
+				map.put("handleView", request.getParameter("handleView"));// 处理意见
+				int type = Integer.parseInt(request.getParameter("type"));
+				if (type == 1) {
+					map.put("workFlowId",
+							UUID.randomUUID().toString().replace("-", ""));
+					map.put("handleUserId", user.getUserId());// 处理人是当前用户
+					map.put("lastHandleUserId", user.getUserId());
+					map.put(RequestModel.SQLID, BusineMapper.class.getName()
+							+ ".insertWorkFlow");
+					num = busineService.insert(map);
+
+				}
+				// 转交他人处理，可同时转交其他人处理
+				else if (type == 2) {
+					String handleUserId = request.getParameter("handleUserId");
+					if (handleUserId.indexOf(",") != -1) {// 含有多个转交人
+						String users[] = handleUserId.split(",");
+						for (int i = 0; i < users.length; i++) {
+							map.put("handleUserId", users[i]);// 处理人是转交时选择用户
+							map.put("lastHandleUserId", user.getUserId());
+							map.put("workFlowId", UUID.randomUUID().toString()
+									.replace("-", ""));
+							map.put(RequestModel.SQLID,
+									BusineMapper.class.getName()
+											+ ".insertWorkFlow");
+							num = busineService.insert(map);
+						}
+					} else {
+						map.put("workFlowId", UUID.randomUUID().toString()
+								.replace("-", ""));
+						map.put("handleUserId", handleUserId);// 处理人是转交时选择用户
+						map.put("lastHandleUserId", user.getUserId());
+						map.put(RequestModel.SQLID,
+								BusineMapper.class.getName()
+										+ ".insertWorkFlow");
+						num = busineService.insert(map);
+					}
+				}
+			}
+
+			map2.put("busineId", request.getParameter("busineId"));
+			map2.put("busineStatus", request.getParameter("busineStatus"));
+			map2.put("updateTm", new Date());
+			map2.put(RequestModel.SQLID, BusineMapper.class.getName()
+					+ ".updateBusineStatus");
+			int num2 = busineService.update(map2);
+			if (num == 1 && num2 == 1) {
+				return ResponseModel.Success("更新流程成功！");
+			} else {
+				return ResponseModel.Success("更新流程失败！");
+			}
+		}
+		return ResponseModel.Failure("当前用户不存在！");
+
+	}
+
+	/***
+	 * 无效事件
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/invalidBusine", method = RequestMethod.GET)
+	public Object invalidBusine(HttpServletRequest request) {
+		JSONObject map = new JSONObject();
+		map.put("busineId", request.getParameter("busineId"));
+		map.put("busineStatus", request.getParameter("busineStatus"));
+		map.put("updateTm", new Date());
+		map.put(RequestModel.SQLID, BusineMapper.class.getName()
+				+ ".updateBusineStatus");
+		int num = busineService.update(map);
+		int num2 = 0;
+		JSONObject map2 = new JSONObject();
+		Subject currentUser = SecurityUtils.getSubject();
+		UserModel user = (UserModel) currentUser.getSession().getAttribute(
+				"user");
+		map2.put("workFlowId", UUID.randomUUID().toString().replace("-", ""));
+		map2.put("busineId", request.getParameter("busineId"));// 4表示事件无效
+		map2.put("handleUserId", user.getUserId());
+		map2.put("lastHandleUserId", user.getUserId());
+		map2.put("handleTm", new Date());// 处理时间
+		map2.put("handleView", request.getParameter("handleView"));// 处理意见
+		map2.put("status", request.getParameter("status"));// 6表示流程无效
+		String busineOrgin = request.getParameter("busineOrgin");
+		if (busineOrgin.equals("公众举报")) {
+			String orginId = request.getParameter("orginId");
+			map2.put("orginId", orginId);
+			map2.put(RequestModel.SQLID, BusineMapper.class.getName()
+					+ ".updateExposure");
+			num2 = busineService.update(map2);
+		} else {
+			map2.put(RequestModel.SQLID, BusineMapper.class.getName()
+					+ ".insertWorkFlow");
+			num2 = busineService.insert(map2);
+		}
+
+		if (num == 1 && num2 == 1) {
+			return ResponseModel.Success("更新状态成功");
+		} else {
+			return ResponseModel.Success("更新状态失败");
+		}
+	}
+		
+     /**
+	 * 下拉选择部门人员
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
+	public Object getTreeUsers(HttpServletRequest request){
+			JSONObject map = new JSONObject();
+			map.put(RequestModel.SQLID, BusineMapper.class.getName() + ".getTreeUsers");
+			List<Ztree>  list=  busineService.selectLists(map);	
+		    return ResponseModel.Success(list);
+	}
+	
+	/**
+	 * 事件统计报表  
+	 */
+	@RequestMapping(value = "/getBusineStatics", method = RequestMethod.GET)
+	public Object 	getBusineStatics(HttpServletRequest request,String type,String busineType,String startTm,String endTm,PatrolCatalogModel model){
+		JSONObject map = new JSONObject();
+		map.put("type", type);
+		map.put("busineType", busineType);
+		if(StringUtils.isNotBlank(startTm)){
+			map.put("startTm", DateUtil.convertStringToDate(startTm));
+		}
+		if(StringUtils.isNotBlank(endTm)){
+			map.put("endTm", DateUtil.convertStringToDate(endTm));
+		}
+		//分页
+		if(model.getLimit() != null && model.getPageindex() != null){
+			map.put("num",model.getPageindex());
+			map.put("size",model.getLimit());
+		}
+		map.put(RequestModel.SQLID, BusineMapper.class.getName() + ".getBusineStatics");	
+	    Page<BusineModel> page = busineService.selectList(map);
+	    return PageUtil.success(page);
+	}
+	
+	/**
+	 * 获取字典名称
+	 * @param request
+	 * @param json
+	 * @return
+	 */
+	@RequestMapping(value = "/getBusineTypes", method = RequestMethod.GET)
+	public Object getBusineTypes(HttpServletRequest request){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dictTp", request.getParameter("dictTp"));
+		map.put(RequestModel.SQLID,BusineMapper.class.getName() + ".getBusineTypes");		
+		List<DictModel> dicModels=busineService.selectLists(map);
+		return ResponseModel.Success(dicModels);
+	}
+	
+}

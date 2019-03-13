@@ -1,0 +1,69 @@
+.search-label{
+	display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0.05rem;
+    padding:0px 0.1rem;
+       width: 0.62rem !important;
+}
+.search-input{
+	width: 1.4rem;
+    line-height: 0.25rem;
+    height: 0.25rem;
+}
+.search-btn{
+      height: 0.26rem;
+    line-height: 0.26rem;
+    width: 0.6rem;
+    font-size: 0.13rem;
+    padding: 0 0.08rem;
+}
+#roleDemo{
+	padding-left: 0.2rem;
+}
+
+.layui-form-item{
+	margin-top:0.15rem !important;
+}
+.layui-inline{
+	margin-top:0rem;
+}
+.layui-layer-content{
+	 width: 98%;
+    height: 3rem !important;
+    overflow: auto;
+    float: left;
+    margin: 0.05rem;
+    border: none;
+}
+.treeExpandCollapse {
+    float: right;
+    margin: 0.06rem 0.05rem;
+    padding: 0.05rem;
+    font-size: 0.12rem;
+    color: #333;
+    position: relative;
+    z-index: 2;
+    background: #fff;
+}
+.treeShowHideButton {
+    position: absolute;
+    right: -0.1rem;
+    top: -0.03rem;
+    font-size: 0.12rem;
+    color: #333;
+    z-index: 3;
+}
+
+.layui_keyRole {
+	margin: 0;
+    margin-right: 0.1rem;
+    float: left;
+ }
+ .layui-table-page, .layui-table-total {
+    border-width: 0;
+}
+.layui-table-view {
+	    border: 0;
+}
+
+

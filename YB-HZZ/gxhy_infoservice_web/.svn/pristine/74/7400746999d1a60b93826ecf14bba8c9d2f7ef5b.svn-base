@@ -1,0 +1,28 @@
+	<script type="text/javascript" src="../../common/util/jquery/jquery-3.1.1.min.js"></script>
+<script src="../../common/util/jquery/jquery.media.js"></script>
+
+<div class="panel panel-primary">
+    <div class="panel-body">
+	</div>
+</div>
+<script type="text/javascript">
+ 	 $(function() {  
+ 		//父页面当前点击行
+ 		 var clickRow = window.parent.parentParams;
+ 		//获取文件后缀名
+ 		
+ 		 var postf = clickRow.straFileContent.substring(clickRow.straFileContent.lastIndexOf("."),clickRow.straFileContent.length)
+ 		 var address = clickRow.straFileContent.replace(window.parent.imgPath,"/pic/");
+ 		var url=window.location.href.split("/gxhy")[0]+address; 
+ 		 if(postf == ".pdf" || postf == ".PDF"||postf == ".doc"||postf == ".docx"){
+       		 strhtml = "<a class='media' href='" + url+"' download='" + url+"'></a>";
+       	 }else{
+       		 strhtml = "<img src='"+url+"'></img>";
+       	 }
+       	 $(".panel-body").html(strhtml);
+         var p = $(window).height()-20;	
+		 var w = $(window).width()-20;	
+         $('a.media').media({width:w, height:p});  
+         $('a.mediase').media({width:w, height:p}); 
+     });  
+</script>

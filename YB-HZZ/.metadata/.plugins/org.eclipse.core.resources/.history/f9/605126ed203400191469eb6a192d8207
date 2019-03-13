@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+    <link rel="stylesheet" href="riverPatrol/patrolLog/patrolLog.css">
+</head>
+<body>
+<!--content内容开始-->
+<div class="baseData layui-body">
+    <div class="baseData_content fr">
+        <div class="baseData_title title_size">
+            <p>巡河日志</p>
+        </div>
+        <div class="baseDataBox">
+            <div class="bottombox">
+           		<div class="content_top">
+          			 <div id="table_patrol_toolbar" class="toolbar">
+	                    <form class="form-inline" id="toolbar_form">
+	                        <div class="form-group">
+	                             <div class="input-group">
+	                               <span class="input-group-addon">巡检人:</span>
+	                               <input class="form-control patrolUName" name="query_patrolUName" id="query_patrolUName" placeholder="请输入巡检人">
+	                            </div>
+	                            <div class="input-group" style="width:264px;">
+	                               <span class="input-group-addon">开始日期:</span>
+	                               <input class="form-control"  style="width:156px;max-width:156px;" name="patrolStartTm" id="patrolStartTm" type="text" placeholder="请选择日期">
+	                            </div>
+	                            
+	                            <div class="input-group" style="width:264px;">
+	                               <span class="input-group-addon">结束日期:</span>
+	                               <input class="form-control"  style="width:156px;max-width:156px;" name="patrolEndTm" id="patrolEndTm" type="text" placeholder="请选择日期">
+	                            </div>
+	                        </div>
+	                        <button type="button" class="btn btn-primary queryBtn_patrol"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	                    </form>
+	                </div>
+	                <table id="table_patrol" class="table table-hover">
+	
+	                </table>
+	            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--content内容结束-->
+<script type="text/javascript" src="riverPatrol/patrolLog/patrolLog.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: gxhy_system_service
+Implementation-Version: 1.0.0
+Built-By: chengran
+Implementation-Vendor-Id: com.gxhy
+Build-Jdk: 1.8.0_191
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/parent/gxhy_system_service
+Created-By: Maven Integration for Eclipse
+

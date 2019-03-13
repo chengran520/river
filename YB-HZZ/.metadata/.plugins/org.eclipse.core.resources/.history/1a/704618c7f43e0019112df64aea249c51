@@ -1,0 +1,139 @@
+package com.gxhy.base.service;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.gxhy.base.imp.ImportExeclUtil;
+import com.gxhy.base.mapper.BaseMapper;
+import com.gxhy.base.mapper.PermissionMapper;
+import com.gxhy.base.model.Permission;
+import com.gxhy.base.model.RequestModel;
+import com.gxhy.base.model.ResponseModel;
+import com.gxhy.base.model.Ztree;
+import com.gxhy.utils.QueryUtil;
+@SuppressWarnings({"all"})
+@Service
+public class PermisService extends  BaseMapper{
+	
+    /**
+     * 导入菜单信息
+     * @param file
+     * @return
+     */
+	public int importMenuFile(MultipartFile file) {
+		JSONObject map = new JSONObject();
+		String name = file.getOriginalFilename();
+		List<Permission>  munuList=ImportExeclUtil.exportInfo(file,name,new Permission());
+		for(Permission  model:munuList){
+			model.setCreateTime(new Date());
+			model.setUpdateTime(new Date());		
+		}
+		return insertMenu(munuList);
+	}
+    /**
+     * 获取所有的菜单信息
+     * @param map
+     * @return
+     */
+	public Page<Permission> getListMenus(JSONObject map) {
+		map.put(RequestModel.SQLID,PermissionMapper.class.getName() + ".getAllMenu");
+		return  this.selectList(map);
+	}
+    /**
+     * 删除菜单
+     * @param model
+     * @return
+     */
+	public int deleteMenu(QueryUtil model) {
+		JSONObject map = new JSONObject();
+		List<String> list= Arrays.asList(model.getIds().split(","));
+		map.put("list", list);
+		map.put(RequestModel.SQLID,PermissionMapper.class.getName() + ".deleteMenu");
+		return this.delete(map);
+	}
+    /**
+     * 查询角色拥有的权限，查询角色的全部权限
+     * @param map
+     * @param model
+     * @return
+     */
+	public Map<String, Object>  getAllPermission(JSONObject map, QueryUtil model) {
+		//不需要查询全部
+	    Map<String, Object> maps = new HashMap<String, Object>();
+		List<String>  pers=new ArrayList<String>();
+		if(model.getIndex()==1){
+			map.put("type","1");
+		}else{
+			String roleId=model.getKeyWord();
+			map.put("roleId", roleId);
+			pers= this.getPerByRoleId(roleId);
+		}
+		map.put(RequestModel.SQLID,PermissionMapper.class.getName() + ".getMenuZtree");
+		List<Ztree>  menus= this.selectLists(map);
+		maps.put("pers", pers);
+		maps.put("menus", menus);
+		return maps;
+	}
+	
+	/***
+	 * 新增权限
+	 * @param model
+	 * @param type 
+	 * @return
+	 */
+	public int saveMenu(Permission model, int type) {
+		JSONObject map = new JSONObject();
+		model.setUpdateTime(new Date());
+		model.setCreateTime(new Date());
+		model.setType(model.getType().trim());
+		if(StringUtils.isBlank(model.getPpermisId())){
+			model.setPermisId("-1");
+		}	
+		if(type==1){//表示
+			List<Permission>  munuList=new ArrayList<Permission>();
+			munuList.add(model);
+			return insertMenu(munuList);
+		}else{
+		     return this.update(map);
+		}
+
+	}
+    /**
+     * 批量和单个通用的插入数据库方法
+     * @param munuList
+     * @return
+     */
+	public int insertMenu(List<Permission>  munuList){
+		JSONObject map = new JSONObject();
+		map.put("list", munuList);
+		map.put(RequestModel.SQLID,PermissionMapper.class.getName() + ".insertMenu");	
+		return this.insert(map);
+	}
+			
+	 /***
+	  * 根据用户角色查询拥有的权限
+	  * @param roleId
+	  * @return
+	  */
+	public List<String> getPerByRoleId(String roleId) {
+		JSONObject map = new JSONObject();
+		map.put("roleId", roleId);
+		map.put(RequestModel.SQLID,PermissionMapper.class.getName() + ".getPerByRoleId");	
+		return this.selectLists(map);
+	}
+
+}

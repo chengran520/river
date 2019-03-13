@@ -1,0 +1,106 @@
+.layui-fluid {
+    padding: 0.10rem 0.40rem 0rem 0.30rem;
+}
+.layui-row{
+	padding-top:0.20rem;
+}
+.grid-demo{
+	border-radius:0.02rem;
+	height:2.20rem !important;
+    background:#fff;
+    border-bottom: 0.05rem solid #b2def7; 
+    box-shadow:0rem 0.01rem 0.01rem 0rem #71c3f2;
+}
+.trapezoid-0{
+    position: relative;
+    border-bottom: 0.38rem solid #F05924;
+    border-left: 0.15rem solid transparent;
+    height: 0;
+    width:2.30rem; 
+    float: right;
+    top: -0.15rem;
+    text-align: center;
+}
+.trapezoid-0 a{
+   font-size:0.16rem;
+   color: #fff;
+}
+.trapezoid-0 a,.trapezoid-0 span{
+   color: #fff;
+   line-height: 0.36rem;
+}
+.active{
+  text-decoration-style:solid;
+   text-decoration-line:underline;
+   text-decoration-color:#fff;
+}
+.trapezoid-0 a:hover{
+   text-decoration-style:solid;
+   text-decoration-line:underline;
+   text-decoration-color:#fff;
+   cursor: pointer;
+}
+.trapezoid-sign{
+	padding:0rem 0.07rem;
+}
+.creatTm{
+    padding-top: 0.20rem;
+    padding-left: 0.14rem;
+    font-size: 0.16rem;
+    font-family: SimSun;
+    font-weight: 400;
+    color: #757B87;
+    line-height: 0.17rem;
+}
+.checkNm{
+	height: 0.70rem;
+    line-height: 0.70rem;
+    font-size: 0.23rem;
+    font-family: SimHei;
+    font-weight: 400;
+    color: #000;
+    padding-left: 0.28rem;
+    display:inline-block;
+}
+.checkNm img{
+	margin-top: -0.05rem;
+}
+.checkNm span{
+	font-size:0.18rem;
+	font-family:SimHei;
+	color:#F05924;
+	letter-spacing: 0.01rem;
+	cursor: pointer;
+}
+.check-content{
+	height:0.75rem;
+}
+.check-content p{
+	padding-left:0.14rem;
+	font-size:0.16rem;
+	font-family:SimSun;
+	color:#6E6D6D;
+	line-height:0.26rem;
+	text-indent:2em;
+}
+.standardMark{
+	float: right;
+	height:0.38rem;
+    line-height: 0.38rem;
+	width:1.50rem;
+    text-align: center;
+	background-color:#b2def7;
+	border-left:0.01rem solid #71c3f2;
+	border-right:0.01rem solid #71c3f2;
+	border-top:0.01rem solid #71c3f2;
+	border-radius:0.02rem;
+	font-size:0.18rem;
+	font-family:SimHei;
+	color:#5F5F5F;
+}
+
+@media screen and (max-width: 14.40rem){ 
+   .trapezoid-0{
+      width:1.70rem; 
+   }
+}

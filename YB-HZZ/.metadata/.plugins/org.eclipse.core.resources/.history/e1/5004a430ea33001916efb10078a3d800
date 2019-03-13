@@ -1,0 +1,302 @@
+.handleGrade {
+	color: #0095E7;
+}
+
+.handleGrade:hover {
+	cursor: pointer;
+}
+
+.tm-label {
+	font-size: 0.16rem !important;
+	width: 0.16rem !important;
+	padding: 0px !important;
+	line-height: 0.35rem;
+}
+#son_dataChange {
+	padding: 5px 15px;
+}
+#son_dataChange{
+	padding:0.05rem 0.15rem;
+}
+
+#leadTable thead th, td:nth-child(1), td:nth-child(3), td:nth-child(4),
+	td:nth-child(5) {
+	text-align: center;
+}
+
+#leadTable tr {
+	height: 70px;
+	line-height: 70px;
+#leadTable tr{
+    height: 0.70rem;
+    line-height: 0.70rem;
+}
+
+.layui-table-view {
+	margin-top: 10px !important;
+    margin-top: 0.10rem !important;
+}
+
+.downleft_div {
+	float: left;
+	border: solid 0.01rem #ccc;
+	width: 25%;
+	height: 100%;
+	background-color: white;
+	color: white;
+	margin-right: 1%;
+}
+
+.downright_div {
+	float: left;
+	border: solid 0.01rem #ccc;
+	width: 70%;
+	height: 100%;
+	background-color: white;
+	color: white;
+	overflow: auto;
+}
+
+.bottom_div {
+	height: 45%;
+	width: 100%;
+	padding: 0.25rem;
+}
+
+.bottomRightLeft_div {
+	height: 85%;
+	width: 60%;
+	padding: 0.20rem;
+	color: black;
+	float: left;
+}
+
+.bottomRightRight_div {
+	height: 70%;
+	width: 20%;
+	padding: 0.05rem;
+	float: left;
+}
+
+.description_p {
+	line-height: 200%;
+	font-size: 0.18rem;
+}
+
+.downrightheader_div {
+	width: 100%;
+	height: 10%;
+	border-bottom: solid 0.02rem #ccc;
+}
+
+.downrightheader_div span {
+	margin-left: 0.04rem;
+	color: #4db7f1;
+	line-height: 36px;
+	font-size: 18px;
+	margin-left: 10px;
+    color: #4db7f1;
+    line-height: 0.36rem;
+    font-size: 0.18rem;
+    margin-left: 0.10rem;
+}
+
+#timeAxis {
+	margin: 0 auto;
+	/* padding-right: 3px; */
+	position: relative;
+	height: 86%;
+	overflow: auto;
+	color: black;
+	padding: .3rem;
+}
+
+.flowChart {
+	display: flex;
+	margin-bottom: .5rem;
+}
+
+.flowChart-left {
+	width: 50px;
+	flex-shrink: 0;
+}
+
+.flowChart .dashed {
+	width: 0px;
+	height: 100%;
+	margin-left: 50%;
+	border-left-style: dashed;
+	border-left-color: darkgray;
+	border-left-width: 2px;
+    width: 0px;
+    height: 100%;
+    margin-left: 50%;
+    border-left-style: dashed;
+    border-left-color: darkgray;
+    border-left-width: 0.02rem;
+}
+
+.flowChart-right {
+	flex-grow: 1;
+}
+
+.flowChart .oneNode {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 93%;
+	margin-bottom: 1%;
+}
+
+.flowChart .check-danger {
+	background-color: rgb(228, 108, 35);
+	border: 4px solid rgb(250, 166, 122);
+	width: 48px;
+	height: 48px;
+	line-height: 48px;
+    background-color: rgb(228,108,35);
+    border: 0.04rem solid rgb(250, 166, 122);
+    width: 0.48rem;
+    height: 0.48rem;
+    line-height: 0.48rem;
+}
+
+.tag-boder {
+	width: 0;
+	height: 0;
+	border: 12px solid;
+	border-style: dashed;
+	border-color: transparent gainsboro transparent transparent;
+	position: relative;
+	left: -10px;
+    width: 0;
+    height: 0;
+    border: 0.12rem solid;
+    border-style: dashed;
+    border-color: transparent gainsboro transparent transparent;
+    position: relative;
+    left: -0.10rem;
+}
+
+.tag {
+	width: 0;
+	height: 0;
+	border: 14px solid;
+	border-style: dashed;
+	border-color: transparent white transparent transparent;
+	position: absolute;
+	left: -13px;
+	top: -14px;
+    width: 0;
+    height: 0;
+    border: 0.14rem solid;
+    border-style: dashed;
+    border-color: transparent white transparent transparent;
+    position: absolute;
+    left: -0.13rem;
+    top: -0.14rem;
+}
+
+.flowChart .NodeDetail {
+	background-color: white;
+	margin-left: -9px;
+	flex-grow: 1;
+	border: 1px solid gainsboro;
+	border-radius: 3px;
+	padding-right: 3%;
+	height: 99%;
+	padding-top: 1%;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 1px 1px 3px gainsboro;
+    background-color: white;
+    margin-left: -0.09rem;
+    flex-grow: 1;
+    border: 1px solid gainsboro;
+    border-radius: 0.03rem;
+    padding-right: 3%;
+    height: 99%;
+    padding-top: 1%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 0.03rem gainsboro;
+}
+
+.NodeDetail-content {
+	flex-grow: 1;
+}
+
+.NodeDetail-content p {
+	margin: 0;
+	padding: 0;
+	line-height: 2;
+	text-indent: 2em;
+	text-align: justify;
+	font-size: 14px;
+    margin: 0;
+    padding: 0;
+    line-height: 2;
+    text-indent: 2em;
+    text-align: justify;
+    font-size: 0.14rem;
+>>>>>>> .r8216
+}
+
+.getclolr {
+	font-size: 12px;
+	color: red;
+    font-size: 0.12rem;
+    color: red;
+}
+
+.NodeDetail-footer {
+	margin-top: 0px;
+}
+
+.NodeDetail-footer span {
+<<<<<<< .mine
+	font-size: 12px;
+	font-weight: 100;
+	color: rgb(104, 104, 104);
+	float: right;
+=======
+    font-size: 0.12rem;
+    font-weight: 100;
+    color: rgb(104, 104, 104);
+    float: right;
+>>>>>>> .r8216
+}
+/* ÂÖ²¥Í¼ */
+ul {
+	list-style: none;
+}
+
+.lunbo {
+	width: 730px;
+	height: 454px;
+	margin: 100px auto;
+	overflow: hidden;
+	position: relative;
+}
+
+.circle {
+	position: absolute;
+	left: 50%;
+	margin-left: -50px;
+	bottom: 10px;
+}
+
+.circle span {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	background-color: #ccc;
+	text-align: center;
+	border-radius: 18px;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.circle span.current {
+	background-color: yellow;
+}

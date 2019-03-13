@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="226" key="CommitDialog.location.y"/>
+	<item value="367" key="CommitDialog.location.x"/>
+	<item value="308" key="HistoryTableProvider.SVNHistoryPage.作者"/>
+	<item value="500" key="CommitDialog.weights.0"/>
+	<item value="698" key="RevertDialog.location.x"/>
+	<item value="771" key="HistoryTableProvider.SVNHistoryPage.注释"/>
+	<item value="500" key="CommitDialog.weights.1"/>
+	<item value="9" key="UpdateDialogWithConflictHandling.location.y"/>
+	<item value="767" key="UpdateDialogWithConflictHandling.size.y"/>
+	<item value="258" key="RevertDialog.location.y"/>
+	<item value="715" key="CommitDialog.size.y"/>
+	<item value="525" key="UpdateDialogWithConflictHandling.size.x"/>
+	<item value="1186" key="CommitDialog.size.x"/>
+	<item value="393" key="RevertDialog.size.y"/>
+	<item value="386" key="HistoryTableProvider.SVNHistoryPage.日期"/>
+	<item value="525" key="RevertDialog.size.x"/>
+	<item value="698" key="UpdateDialogWithConflictHandling.location.x"/>
+	<item value="497" key="ChooseUrlDialog.size.x"/>
+	<item value="377" key="ChooseUrlDialog.size.y"/>
+	<item value="712" key="ChooseUrlDialog.location.x"/>
+	<item value="155" key="HistoryTableProvider.SVNHistoryPage.修订"/>
+	<item value="199" key="ChooseUrlDialog.location.y"/>
+	<section name="CommitWizard">
+		<item value="500" key="VWeight2"/>
+		<item value="500" key="VWeight1"/>
+		<item value="false" key="ShowCompare"/>
+	</section>
+</section>

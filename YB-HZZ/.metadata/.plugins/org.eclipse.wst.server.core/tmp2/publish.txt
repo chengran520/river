@@ -1,0 +1,11 @@
+#Tomcat publish data
+#Mon Mar 11 13:09:23 CST 2019
+org.eclipse.jst.j2ee.server\:gxhy_infoservice_service=WEB-INF/lib/gxhy_infoservice_service-1.0.0.jar
+org.eclipse.jst.j2ee.server\:gxhy_system_service=WEB-INF/lib/gxhy_system_service-1.0.0.jar
+org.eclipse.jst.j2ee.server\:gxhy_tourriver_service=WEB-INF/lib/gxhy_tourriver_service-1.0.0.jar
+org.eclipse.jst.j2ee.server\:gxhy_utils=WEB-INF/lib/gxhy_utils-1.0.0.jar
+org.eclipse.jst.j2ee.server\:gxhy_check_service=WEB-INF/lib/gxhy_check_service-1.0.0.jar
+org.eclipse.jst.j2ee.server\:gxhy_base_service=WEB-INF/lib/gxhy_base_service-1.0.0.jar
+org.eclipse.jst.jee.server\:/binary\:D\:\\gxhy\\repository\\org\\springframework\\spring-web\\5.0.7.RELEASE\\spring-web-5.0.7.RELEASE.jar=WEB-INF/lib/spring-web-5.0.7.RELEASE.jar
+org.eclipse.jst.j2ee.server\:gxhy_compre_service=WEB-INF/lib/gxhy_compre_service-1.0.0.jar
+org.eclipse.jst.j2ee.server\:gxhy_hydro_service=WEB-INF/lib/gxhy_hydro_service-1.0.0.jar

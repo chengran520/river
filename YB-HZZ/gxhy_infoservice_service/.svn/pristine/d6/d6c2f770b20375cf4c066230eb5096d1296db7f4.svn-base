@@ -1,0 +1,98 @@
+package com.gxhy.base.basic.controller;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
+import com.alibaba.fastjson.JSONObject;
+import com.gxhy.base.basic.mapper.NewsTrendsMapper;
+import com.gxhy.base.basic.model.NewsTrendsModel;
+import com.gxhy.base.basic.service.NewsTrendsService;
+import com.gxhy.base.model.RequestModel;
+import com.gxhy.base.model.ResponseModel;
+import com.gxhy.utils.HTMLSpirit;
+
+/**
+ * 新闻动态
+ * @author cr
+ *
+ */
+@SuppressWarnings("unchecked")
+@RestController
+@RequestMapping("/news")
+public class NewsTrendsController {
+	
+   private static final Logger logger = LoggerFactory.getLogger(NewsTrendsController.class);
+	
+	@Autowired
+	private  NewsTrendsService newTrendsService;
+	
+	/**
+	 * 获取新闻动态列表
+	 * @param jsondata
+	 * @return
+	 */
+	@RequestMapping(value = "/getXwdtList", method = RequestMethod.GET)
+	public Object getMessgeList(HttpServletRequest request){
+		JSONObject map = new JSONObject();
+		map.put(RequestModel.SQLID,NewsTrendsMapper.class.getName() + ".getXwdtList");
+		List<NewsTrendsModel> models =newTrendsService.selectLists(map);
+		List<NewsTrendsModel> models1 =new ArrayList<NewsTrendsModel>();//新闻中心
+		List<NewsTrendsModel> models2 =new ArrayList<NewsTrendsModel>();//通知公告
+		List<NewsTrendsModel> models3 =new ArrayList<NewsTrendsModel>();//消息通知
+		int count=0;
+		for(NewsTrendsModel model:models){
+			int type=model.getType();
+			switch(type){
+			  case 1:
+			      model.setNewContent(HTMLSpirit.delHTMLTag(model.getNewContent()).substring(0,30)+"...");
+				  models2.add(model);
+				  break;
+			  case 2:
+				  model.setNewContent(HTMLSpirit.delHTMLTag(model.getNewContent()).substring(0,30)+"...");
+				  models3.add(model);
+				  break;
+			  case 3:
+				  model.setNewContent(HTMLSpirit.delHTMLTag(model.getNewContent()).substring(0,30)+"...");
+				  models1.add(model);
+				  break;
+			}
+			count=count+1;
+		}
+		Map<String,Object> maps = new HashMap<String, Object>();
+		maps.put("models1", models1);
+		maps.put("models2", models2);
+		maps.put("models3",models3);
+		return ResponseModel.Success(maps);
+	}
+    
+    /**
+	 * 获取详情
+	 * @param jsondata
+	 * @return
+	 */
+	@RequestMapping(value = "/getNewsById", method = RequestMethod.POST)
+	public ModelAndView getNewsById(@RequestBody  JSONObject jsondata){
+		JSONObject map = new JSONObject();
+		map.put("newsId", jsondata.getString("newsId"));
+		map.put(RequestModel.SQLID,NewsTrendsMapper.class.getName() + ".getNewsById");
+		NewsTrendsModel model =(NewsTrendsModel) newTrendsService.selectOne(map);
+		Map<String,Object> maps = new HashMap<String, Object>();
+		logger.info("新闻动态列表返回成功！");
+		maps.put("result", "success");
+		maps.put("model",model);
+	    return new ModelAndView(new MappingJackson2JsonView(),maps);
+    }
+}

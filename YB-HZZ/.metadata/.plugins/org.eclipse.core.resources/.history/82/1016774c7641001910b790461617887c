@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.basic.mapper.RiverLakeMapper">
+	<!--河流 -->
+	<resultMap id="riverMap" type="com.gxhy.base.basic.model.RiverModel">
+		<result column="RV_CD" jdbcType="VARCHAR" property="rvCd" />
+		<result column="RV_NM" jdbcType="VARCHAR" property="rvNm" />
+		<result column="BSNM" jdbcType="DATE" property="bsnm" />
+		<result column="RV_LT" jdbcType="FLOAT" property="rvLt" />
+		<result column="DRA_AREA" jdbcType="FLOAT" property="draArea" />
+		<result column="P_RV_CD" jdbcType="VARCHAR" property="prvCd" />
+		<result column="P_RV_NM" jdbcType="VARCHAR" property="prvNm" />
+		<result column="RV_ON" jdbcType="VARCHAR" property="rvOn" />
+		<result column="RV_ON_LGTD" jdbcType="DOUBLE" property="rvOnLgtd" />
+		<result column="RV_ON_LTTD" jdbcType="DOUBLE" property="rvOnLttd" />
+		<result column="RV_MH" jdbcType="VARCHAR" property="rvMh" />
+		<result column="RV_MH_LGTD" jdbcType="DOUBLE" property="rvMhLgtd" />
+		<result column="RV_MH_LTTD" jdbcType="DOUBLE" property="rvMhLttd" />
+		<result column="ADDVCD" jdbcType="VARCHAR" property="addvcd" />
+		<result column="DT" jdbcType="VARCHAR" property="dt" />
+		<result column="CRT_TM" jdbcType="TIMESTAMP" property="crtTm" />
+		<result column="UPD_TM" jdbcType="TIMESTAMP" property="updTm" />
+		<result column="OPER_USER" jdbcType="VARCHAR" property="operUser" />
+		<result column="PREW_ADDES" jdbcType="VARCHAR" property="prewAddes" />
+		<result column="RV_FLOW" jdbcType="VARCHAR" property="rvFlow" />
+	</resultMap>
+
+	<!-- 河段 -->
+	<resultMap id="reachMap" type="com.gxhy.base.basic.model.ReachModel">
+		<result column="REH_CD" jdbcType="VARCHAR" property="rehCd" />
+		<result column="REH_NM" jdbcType="VARCHAR" property="rehNm" />
+		<result column="REH_TP" jdbcType="VARCHAR" property="rehTp" />
+		<result column="REH_DT" jdbcType="VARCHAR" property="rehDt" />
+		<result column="RVCD" jdbcType="VARCHAR" property="rvcd" />
+		<result column="RVNM" jdbcType="VARCHAR" property="rvNm" />
+		<result column="REH_AREA" jdbcType="FLOAT" property="rehArea" />
+		<result column="REH_LT" jdbcType="FLOAT" property="rehLt" />
+		<result column="REH_FLOW" jdbcType="VARCHAR" property="rehFlow" />
+		<result column="REH_LEVEL" jdbcType="VARCHAR" property="rehLevel" />
+		<result column="REH_HASBOUNDARY" jdbcType="VARCHAR" property="rehHasBoundary" />
+		<result column="REH_ON" jdbcType="VARCHAR" property="rehOn" />
+		<result column="REH_MH" jdbcType="VARCHAR" property="rehMh" />
+		<result column="GEO" jdbcType="VARCHAR" property="rehMh" />
+	</resultMap>
+
+	<!--湖泊 -->
+	<resultMap id="LakeMap" type="com.gxhy.base.basic.model.LakeModel">
+		<result column="LK_CD" jdbcType="VARCHAR" property="lkCd" />
+		<result column="LK_NM" jdbcType="VARCHAR" property="lkNm" />
+		<result column="LK_ADCD" jdbcType="VARCHAR" property="lkAdcd" />
+		<result column="LK_DT" jdbcType="VARCHAR" property="lkDt" />
+		<result column="P_LK_CD" jdbcType="VARCHAR" property="plkCd" />
+		<result column="P_LK_NM" jdbcType="VARCHAR" property="plkNm" />
+		<result column="WAT_A" jdbcType="FLOAT" property="watA" />
+		<result column="SFW_PROP" jdbcType="VARCHAR" property="sfwProp" />
+		<result column="LK_LEVEL" jdbcType="VARCHAR" property="lkLevel" />
+		<result column="AVG_DEP" jdbcType="DOUBLE" property="avgDep" />
+		<result column="MAX_DEP" jdbcType="DOUBLE" property="maxDep" />
+		<result column="WRRCD" jdbcType="VARCHAR" property="wrrcd" />
+		<result column="SSHUNM" jdbcType="VARCHAR" property="sshunm" />
+		<result column="LOW_LEFT_LGTD" jdbcType="DOUBLE" property="lowLeftLgtd" />
+		<result column="LOW_LEFT_LTTD" jdbcType="DOUBLE" property="lowLeftLttd" />
+		<result column="UP_RIGHT_LGTD" jdbcType="DOUBLE" property="upRightLgtd" />
+		<result column="UP_RIGHT_LTTD" jdbcType="DOUBLE" property="upRightLttd" />
+		<result column="NT" jdbcType="VARCHAR" property="nt" />
+	</resultMap>
+
+
+	<!--山塘 -->
+	<resultMap id="pondMap" type="com.gxhy.base.basic.model.PondModel">
+		<result column="DAMCD" jdbcType="VARCHAR" property="damCd" />
+		<result column="DAMNAME" jdbcType="VARCHAR" property="damnme" />
+		<result column="WSCD" jdbcType="VARCHAR" property="wscd" />
+		<result column="ADNM" jdbcType="VARCHAR" property="adnm" />
+		<result column="LGTD" jdbcType="DOUBLE" property="lgtd" />
+		<result column="LTTD" jdbcType="DOUBLE" property="lttd" />
+		<result column="XHST" jdbcType="DOUBLE" property="xhst" />
+		<result column="HEIGHT" jdbcType="DOUBLE" property="height" />
+		<result column="WIDTH" jdbcType="DOUBLE" property="width" />
+	</resultMap>
+
+	<!-- 将河流信息的excel导入数据库 -->
+	<insert id="insertRiver" parameterType="java.util.List">
+		INSERT INTO
+		ST_RIVER_B(RV_CD,RV_NM,HNNM,BSNM,STBK,RV_LT,DRA_AREA,P_RV_CD,P_RV_NM,RV_ON,RV_ON_LGTD,RV_ON_LTTD,RV_MH,
+		RV_MH_LGTD,RV_MH_LTTD,RV_FLOW,ADDVCD,DT,CRT_TM,UPD_TM,OPER_USER,PREW_ADDES)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.rvCd},#{item.rvNm},#{item.hnnm},#{item.bsnm},#{item.stbk},#{item.rvLt},#{item.draArea},#{item.prvCd},
+			#{item.prvNm},#{item.rvOn},#{item.rvOnLgtd},#{item.rvOnLttd},#{item.rvMh},#{item.rvMhLgtd},#{item.rvMhLttd},
+			#{item.rvFlow},#{item.addvcd},#{item.dt},#{item.crtTm},#{item.updTm},#{item.operUser},#{item.prewAddes})
+		</foreach>
+	</insert>
+   
+   
+   <!-- 将河段信息的excel导入数据库 -->
+	<insert id="insertReach" parameterType="java.util.List">
+		INSERT INTO
+		BASE__REACH(REH_CD,REH_NM,REH_TP,REH_ADCD,REH_DT,RVCD,RVNM,REH_AREA,REH_LT,
+		REH_LEVEL,REH_HASBOUNDARY,
+		REH_ON,REH_ON_LTTD,REH_ON_LGTD,REH_MH,REH_MH_LTTD,REH_MH_LGTD,REH_FLOW,REH_EFFDATE,REH_VERMARK)VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.rehCd},#{item.rehNm},#{item.rehTp},#{item.rehAdcd},#{item.rehDt},#{item.rvcd},#{item.rvNm},#{item.rehArea},
+			#{item.rehLt},#{item.rehLevel},#{item.rehHasBoundary},#{item.rehOn},#{item.rehOnLttd},#{item.rehOnLgtd},#{item.rehMh},
+			#{item.rehMhLttd},#{item.rehMhLgtd},#{item.rehFlow},#{item.rehEffDate},#{item.rehVermark})
+		</foreach>
+	</insert>
+   
+   <!-- 将水库信息的excel导入数据库 -->
+	<insert id="insertRsvr" parameterType="java.util.List">
+		INSERT INTO
+		WR_RES_B(RES_CD,RES_NM,RES_ADCD,RES_DT,RES_TP,UPP_LEV_FLCO,LOC,COMP_YM,PROJ_SCAL,PROJ_RANK,RES_RANK,RES_LEVEL,
+		P_RES_CD,P_RES_NM,CAT_A,DES_FZ,TOT_V,FRSC_V,NORM_WZ,CF_Z,UTIL_V,FS_Z,FS_Z_V,DEAD_Z,DEAD_V,RES_REG_TP,MIN_DISC,LOW_LEFT_LGTD,
+		LOW_LEFT_LTTD,UP_RIGHT_LGTD,UP_RIGHT_LTTD,RES_EFFDATE,RES_VERMARK)VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.resCd},#{item.resNm},#{item.resAdcd},#{item.resDt},#{item.resTp},#{item.uppLevFlco},#{item.loc},#{item.compYm},
+			#{item.projScal},#{item.projRank},#{item.resRank},#{item.resLevel},#{item.presCd},#{item.presNm},#{item.catA},
+			#{item.desFz},#{item.totV},#{item.frscV},#{item.normWz},#{item.cfZ},#{item.utilV},#{item.fsZ},#{item.fszV},#{item.deadz},
+			#{item.deadV},#{item.resRegTp},#{item.minDisc},#{item.lowLeftLgtd},#{item.lowLeftLttd},#{item.upRightLgtd},#{item.upRightLttd},
+			#{item.resEffDate},#{item.resVermark})
+		</foreach>
+	</insert>
+   
+   
+   <!-- 将塘坝信息的excel导入数据库 -->
+	<insert id="insertPond" parameterType="java.util.List">
+		INSERT INTO
+		IA_C_DAMINFO(DAMCD,DAMNAME,WSCD,ADCD,ADNM,LGTD,LTTD,XHST,HEIGHT,WIDTH)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.damCd},#{item.damnme},#{item.wscd},#{item.adcd},#{item.adnm},#{item.lgtd},#{item.lttd},#{item.xhst},#{item.height},
+			#{item.width})
+		</foreach>
+	</insert>
+	
+	
+	<!-- 将塘坝信息的excel导入数据库 -->
+	<insert id="insertLake" parameterType="java.util.List">
+		INSERT INTO
+		WR_LK_B(LK_CD,LK_NM,LK_ADCD,LK_DT,P_LK_CD,P_LK_NM,WAT_A,SFW_PROP,LK_LEVEL,AVG_DEP,MAX_DEP,WRRCD,SSHUNM,LOW_LEFT_LGTD,
+		LOW_LEFT_LTTD,UP_RIGHT_LGTD,UP_RIGHT_LTTD,NT,LK_EFFDATE,LK_VERMARK)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.lkCd},#{item.lkNm},#{item.lkAdcd},#{item.lkDt},#{item.plkCd},#{item.plkNm},#{item.watA},#{item.sfwProp},
+			#{item.lkLevel},#{item.avgDep},#{item.maxDep},#{item.wrrcd},#{item.sshunm},#{item.lowLeftLgtd},#{item.lowLeftLttd},
+			#{item.upRightLgtd},#{item.upRightLttd},#{item.nt},#{item.lkEffDate},#{item.lkVermark})
+		</foreach>
+	</insert>
+	
+    <!-- 新增渠道信息 -->	
+	 <insert id="insertChannel">
+       INSERT INTO 
+       IOT_BASE_CHANNEL(CODE,NAME,IDNAME,IDTYPE,PRNAME,LOC,FLTH,E_LOC,BDTM,ADAG,PRNAME_1,TYPE,WQLE,FUNC,WRUS,COUNT,FLOW,ACFL,
+       DPYN,DPYT,CHLE,CHLE_LI,MBNU,DCIA,ECIA,BEPO,WRCD,WRCO,HNNM,GRAD,PAC,LEVEL,SID,HAS_NEW,NOLEADER,LONG,LAT,E_LONG
+      ,E_LAT,START_DATE,CLAS,NOTE,VILLAGE)VALUES(#{code},#{name},#{idName},#{idType},#{prname},#{LOC},#{flth},#{eLoc},#{bdtm},
+       #{adag},#{prname1},#{type},#{wqle},#{func},#{wrus},#{count},#{flow},#{acfl},#{dpyn},#{dpyt},#{chle},#{chleLi},#{mbnu},
+       #{dcia},#{ecia},#{bepo},#{wrcd},#{wrco},#{hnnm},#{grad},#{pac},#{level},#{sid},#{hasNew},#{noleader},#{long1},#{lat},
+       #{eLong},#{eLat},#{startDate},#{clas},#{note},#{village})
+    
+    
+     </insert>
+    
+    
+	<!--更新河流信息 -->
+	<update id="updateRiver">
+		UPDATE ST_RIVER_B SET
+		RV_NM=#{rvNm},HNNM=#{hnnm},BSNM=#{bsnm},STBK=#{stbk},RV_LT=#{rvLt},DRA_AREA=#{draArea},
+		P_RV_CD=#{prvCd},
+		P_RV_NM=#{prvNm},RV_ON=#{rvOn},RV_ON_LGTD=#{rvOnLgtd},RV_ON_LTTD=#{rvOnLttd},RV_MH=#{rvMh},
+		RV_MH_LGTD=#{rvMhLgtd},RV_MH_LTTD=#{rvMhLttd},RV_FLOW=#{rvFlow},ADDVCD=#{addvcd} WHERE
+		RV_CD=#{rvCd}
+	</update>
+
+	<!-- 查询所有的河流信息 -->
+	<select id="selectRivers" resultMap="riverMap">
+		SELECT R.RV_CD,R.RV_NM,R.BSNM,R.RV_LT,R.DRA_AREA,R.P_RV_NM,R.RV_ON,R.RV_ON_LGTD,R.RV_ON_LTTD,R.RV_MH,R.RV_MH_LGTD,R.RV_MH_LTTD,
+		R.DT FROM ST_RIVER_B R LEFT JOIN AD_CD_B D ON R.ADDVCD= D.ADDVCD
+		<where>
+			<if test="keyWord != null and keyWord != ''">
+				AND (R.RV_CD LIKE '%${keyWord}%' OR R.RV_NM LIKE '%${keyWord}%'   OR R.BSNM LIKE '%${keyWord}%') 
+			</if>
+			<if test="adcd != null and adcd != ''">
+				AND R.ADDVCD LIKE '%${adcd}%'
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询所有的湖泊 -->
+	<select id="selectLakes" resultMap="LakeMap">
+		SELECT
+		R.LK_CD,R.LK_NM,R.LK_ADCD,R.LK_DT,R.P_LK_CD,R.P_LK_NM,R.WAT_A,R.SFW_PROP,R.LK_LEVEL,R.AVG_DEP,R.MAX_DEP,R.WRRCD,R.SSHUNM,
+		R.LOW_LEFT_LGTD,R.LOW_LEFT_LTTD,R.UP_RIGHT_LGTD,R.UP_RIGHT_LTTD FROM
+		WR_LK_B R LEFT JOIN AD_CD_B D ON R.LK_ADCD= D.ADDVCD
+		<where>
+			<if test="keyWord != null and keyWord != ''">
+				AND R.LK_CD LIKE '%${keyWord}%' OR R.LK_NM LIKE '%${keyWord}%'
+			</if>
+			<if test="adnm != null and adnm != ''">
+				AND D.ADDVNM=#{adnm}
+			</if>
+			<if test="adcd != null and adcd != ''">
+				AND R.LK_ADCD LIKE '%${adcd}%'
+			</if>
+		</where>
+	</select>
+
+	<!--查询所有的河段 -->
+	<select id="selectReachs" resultMap="reachMap">
+		SELECT
+		R.REH_CD,R.REH_NM,R.REH_TP,R.REH_DT,R.RVNM,R.REH_AREA,R.REH_LT,R.REH_FLOW,R.REH_LEVEL,R.REH_HASBOUNDARY,R.REH_ON,R.REH_MH
+		FROM BASE__REACH R 
+		where GID IN (SELECT r_cd from BASE_GM_RELA where gm_cd =#{gmCode})
+		<if test="adcd != null and adcd != ''">
+			AND R.REH_ADCD LIKE #{adcd} + '%'
+		</if>
+		<if test="rvCd != null and rvCd != ''">
+			AND R.rvCd LIKE '%${rvCd}%' OR R.REH_NM LIKE '%${rvCd}%'
+		</if>
+	</select>
+	
+	<!--查询所有的河段 -->
+	<select id="baseReachs" resultMap="reachMap">
+		SELECT
+		R.REH_CD,R.REH_NM,R.REH_TP,R.REH_DT,R.RVNM,R.REH_AREA,R.REH_LT,R.REH_FLOW,R.REH_LEVEL,R.GEO,R.REH_ON,R.REH_MH
+		FROM BASE__REACH R
+		<where>
+			<if test="level != null and level != ''">
+				AND R.REH_level = #{level}
+			</if>
+		</where>
+	</select>
+
+	
+	<!-- 查询所有的水库 -->
+	<select id="selectRsvrs" resultType="com.gxhy.base.basic.model.ReservoirModel">
+			SELECT CODE, NAME, TYPE, VILLAGE, TEGR, END_GRAD AS ENDGRAD, WAT_SHED_AREA, VOL, WAT_LEV, BEN_RES_CAP, DEAD_CAP, ELEV FROM IOT_RES
+			WHERE 1 = 1
+			<if test="keyWord != null and keyWord != ''">
+				AND CODE LIKE '%${keyWord}%' OR NAME LIKE '%${keyWord}%'
+			</if>
+			<if test="adcd != null and adcd != ''">
+				AND CODE LIKE '%${adcd}%'
+			</if>
+	</select>
+
+	<!-- 查询所有的山塘信息 -->
+	<select id="selectPonds" resultMap="pondMap">
+		SELECT DAMCD,DAMNAME,WSCD,ADNM,LGTD,LTTD,XHST,HEIGHT,WIDTH FROM
+		IA_C_DAMINFO R LEFT JOIN AD_CD_B D ON R.WSCD=D.ADDVCD
+		<where>
+			<if test="keyWord != null and keyWord != ''">
+				AND DAMCD LIKE '%${keyWord}%' OR DAMNAME LIKE '%${keyWord}%'
+			</if>
+			<if test="adnm != null and adnm != ''">
+				AND D.ADDVNM=#{adnm}
+			</if>
+			<if test="adcd != null and adcd != ''">
+				AND R.WSCD LIKE '%${adcd}%'
+			</if>
+		</where>
+	</select>
+
+	<!-- 查找渠道信息 -->
+	<select id="getChannelList" resultType="com.gxhy.base.basic.model.ChannelModel">
+		SELECT CODE, NAME, IDNAME, IDTYPE, BDTM, LOC, TYPE, FUNC, ADAG,  ACFl, CHLE, ECIA, BEPO
+		FROM IOT_BASE_CHANNEL
+		WHERE 1 = 1
+		<if test="keyWord != null and keyWord != ''">
+			AND CODE LIKE '%${keyWord}%' OR NAME LIKE '%${keyWord}%'
+		</if> 
+		<if test="adcd != null and adcd != '' ">
+			AND PAC LIKE #{adcd} + '%'
+		</if>
+	</select>
+
+	<!--删除河流信息 -->
+	<delete id="deleteRivers" parameterType="java.util.List">
+		DELETE FROM ST_RIVER_B WHERE RV_CD IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!--删除河段信息 -->
+	<delete id="deleteReachs" parameterType="java.util.List">
+		DELETE FROM BASE__REACH WHERE REH_CD IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+
+	<!--删除水库信息 -->
+	<delete id="deleteRsvrs" parameterType="java.util.List">
+		DELETE FROM WR_RES_B WHERE RES_CD IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!--删除山塘信息 -->
+	<delete id="deletePonds" parameterType="java.util.List">
+		DELETE FROM IA_C_DAMINFO WHERE DAMCD IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!--删除湖泊信息 -->
+	<delete id="deleteLakes" parameterType="java.util.List">
+		DELETE FROM WR_LK_B WHERE LK_CD IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<!--删除渠道信息  -->
+	<delete id="deleteChannels"  parameterType="java.util.List">
+	    DELETE FROM IOT_RES WHERE CODE IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+</mapper>
+

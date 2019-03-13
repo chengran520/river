@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxhy.base.basic.mapper.RiverLongMapper"> 
+    <!-- 河段 -->
+    <resultMap  id="riverLongMap"  type="com.gxhy.base.basic.model.RiverLongModel" >
+        <result column="GM_CODE"       jdbcType="VARCHAR"  property="gmCode" />
+        <result column="GM_NAME"       jdbcType="VARCHAR"  property="gmName" />
+        <result column="GM_DUTIES"     jdbcType="VARCHAR"   property="gmDuties" />
+		<result column="GM_MOBILE"     jdbcType="VARCHAR"   property="gmMobile" />
+		<result column="AD_LEVEL"     jdbcType="VARCHAR" property="adLevel" />
+		<result column="GM_TYPE"     jdbcType="VARCHAR"  property="gmType" />
+		<result column="NT"       jdbcType="VARCHAR"  property="nt" />
+		<result column="GM_DUTIESLEV"    jdbcType="VARCHAR"    property="gmDutiesLev" />
+		<result column="HIGH_DUTIES_GOV"    jdbcType="VARCHAR" property="hightDutiesGov" />
+		<result column="GOV_TYPE"     jdbcType="VARCHAR" property="govType" />
+		<result column="GM_TP"     jdbcType="VARCHAR" property="gmTp" />
+		<result column="ADDVCD"     jdbcType="VARCHAR" property="addvcd" />
+		<result column="ADDVNM"     jdbcType="VARCHAR" property="addvnm" />
+    </resultMap>
+   <!-- 将塘坝信息的excel导入数据库-->
+	<insert id="insertRiverLong" parameterType="java.util.List">
+		INSERT INTO BASE_GMINFO(GM_CODE,GM_NAME,GM_DUTIES,ADDVCD,ADDVNM,GM_MOBILE,AD_LEVEL,GM_TYPE,NT,GM_DUTIESLEV,
+		HIGH_DUTIES_GOV,GOV_TYPE,EFF_DATE,GM_TP) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">	 
+			(#{item.gmCode},#{item.gmName},#{item.gmDuties},#{item.addvcd},#{item.addvnm},#{item.gmMobile},#{item.adLevel},
+			#{item.gmType},#{item.nt},#{item.gmDutiesLev},#{item.hightDutiesGov},#{item.govType},#{item.effDate},#{item.gmTp})
+		</foreach> 
+	</insert>
+	
+	<!--查询所有的河长信息  -->
+	<select id="selectAllRiverLongs" resultMap="riverLongMap">
+	   SELECT GM_CODE,GM_NAME,GM_DUTIES,ADDVCD,ADDVNM,GM_MOBILE,AD_LEVEL,GM_TYPE,NT,GM_DUTIESLEV,HIGH_DUTIES_GOV,GOV_TYPE,GM_TP 
+	   FROM BASE_GMINFO  WHERE  GM_TP =#{gmTp}
+	    	<if test="keyWord != null and keyWord != ''">
+				AND GM_CODE =#{keyWord} OR GM_NAME = #{keyWord}
+			</if>
+	</select>
+	
+	<!--  删除河长信息-->
+	<delete id="deleteRiverLong">
+	  DELETE FROM BASE_GMINFO  WHERE GM_CODE IN
+	  <foreach collection="list" item="item" index="index"  open="("   close=")" separator=",">	 
+       #{item}
+	 </foreach>
+	</delete>
+</mapper>
+

@@ -1,0 +1,70 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="compre/css/compre.css" >
+<link rel="stylesheet" href="compre/css/MapView.css" >
+<link rel="stylesheet" href="compre/css/Tiandt.css" >
+<script type="text/javascript" src="compre/js/gismap.js"></script>
+<div id="map" style="height: 9rem;width: 100%;z-index: 1;position: relative;"></div>
+<div id="win_div_map" class="win_div_map">
+	<div style="width: 290px;height: 97%;background-color: #FFF;">
+		<div style="width: 100%; height: 100%; display: block;" class="rdijit-layout-tab3"  >
+			<div id="mapHread">
+				<div id="content_list_div">
+					<div class="iconItem all rdijit-state-selected">
+						<i class="fa fa-ship"></i><span > 河流(段)</span>
+					</div>
+<!-- 					<div class="iconItem fav"> -->
+<!-- 						<i class="fa fa-group"></i><span > 水库</span> -->
+<!-- 					</div> -->
+<!-- 					<div class="iconItem more"> -->
+<!-- 						<i class="fa fa-align-justify"></i><span > 湖泊</span> -->
+<!-- 					</div>  -->
+				</div>
+			</div>
+			<div  class="rdijit-layout-viewstack" style="width: 100%">
+				<div style="position: relative; display: block;">
+					<div class="input-group" id="inpt_query">
+						<input type="text" class="form-control" id="keyText" placeholder="输入查询关键字...">
+						<span class="input-group-btn" id="rv_btn" >
+							<button class="btn btn-primary pull-right" type="button" style="width: 70px;background-color: #1C86EE;border: 0px;height: 34px;"><i class="fa"></i>查&nbsp;询</button>
+						</span>
+					</div>
+					<div id="all_div">
+						<div class="data_monitor_stationList_defaultView" id="stationList_defaultView" ></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="tab-tl-div">
+	<div class="tab-div-img">
+		<span style="width: 85%;float: left;margin: 4px 0 0 6px;">图例</span>
+		<img id="img1" class="show_img" src="compre/images/del.png">
+		<img id="img2" class="show_img" style="display: none;" src="compre/images/add.png">
+	</div>
+	<div id="divImg"> 
+		<label class="demo--label"><input class="demo--radio" type="checkbox" checked="checked" name="demo-checkbox1" value="pp">
+	        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" src="compre/images/river/pp_0.png">雨量站
+	    </label>
+	    <label class="demo--label">
+	        <input class="demo--radio" type="checkbox" name="demo-checkbox2" checked="checked" value="zz">
+	        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" src="compre/images/river/sk1.png">水位站
+	    </label>
+	    <label class="demo--label">
+	        <input class="demo--radio" type="checkbox" name="demo-checkbox4" checked="checked" value="sz">
+	        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" src="compre/images/river/shuiz.png">水质站
+	    </label>
+	    <label class="demo--label">
+	        <input class="demo--radio" type="checkbox" name="demo-checkbox5" checked="checked" value="sp">
+	        <span class="demo--checkbox demo--radioInput"></span><img  class="demo-img" style="height: 14px;" src="compre/images/river/video.png">视频站
+	    </label>
+	    <label class="demo--label">
+	        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="pw">
+	        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="compre/images/river/paiwk.png">排污口
+	    </label>
+	    <label class="demo--label">
+	        <input class="demo--radio" type="checkbox" name="demo-checkbox6" value="sy">
+	        <span class="demo--checkbox demo--radioInput"></span><img    class="demo-img" src="compre/images/river/dbsyd.png">水源地
+	    </label>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gxhy.base.system.mapper.RoleMapper" >
+  <resultMap id="roleMap" type="com.gxhy.base.system.model.RoleModel" >
+    <id column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="ROLE_DES" property="roleDes" jdbcType="VARCHAR" />
+  </resultMap>
+   
+   <select id="getAllRole" resultMap="roleMap">
+      SELECT ROLE_ID,ROLE_NAME,CREATE_TIME,ROLE_DES FROM SYS_ROLE 
+      <where>
+	    <if test="keyWord != null and keyWord != ''">
+			ROLE_ID LIKE '%${keyWord}%'  OR ROLE_NAME  LIKE '%${keyWord}%'
+		</if>
+	  </where>
+   </select>
+   
+   <!-- 增加角色信息-->
+  <insert id="insertRole">
+         INSERT INTO SYS_ROLE (ROLE_ID,ROLE_NAME,CREATE_TIME,UPDATE_TIME,ROLE_DES) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">	 
+			(#{item.roleId},#{item.roleName},#{item.createTime},#{item.updateTime},#{item.roleDes})
+		</foreach>
+  </insert>
+  
+  <!--  删除角色-->
+  <delete id="deleteRoles">
+        DELETE FROM SYS_ROLE  WHERE ROLE_ID IN
+	    <foreach collection="list" item="item" index="index"  open="("   close=")" separator=",">	 
+	       #{item}
+		</foreach>
+  </delete>
+  
+   <!-- 增加角色权限关系-->
+  <insert id="saveRolePers">
+         INSERT INTO SYS_ROLE_PERMISSION (ROLE_ID,PERMIS_ID) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">	 
+			(#{roleId},#{item})
+		</foreach>
+  </insert>
+  
+  <!-- 删除角色和权限关系 -->
+  <delete id="deleteRolePers">
+       DELETE FROM SYS_ROLE_PERMISSION  WHERE ROLE_ID =#{roleId}
+  </delete>
+  
+  <!--查询用户拥有的角色  -->
+  <select id="selectRolesByUserId" resultType="string">
+      SELECT ROLE_ID FROM SYS_USER_ROLE  WHERE USER_ID=#{userId}
+  </select>
+  
+  <!--  查询角色ztree树-->
+  <select id="getRoleZtree" resultType="com.gxhy.base.model.Ztree">
+     SELECT ROLE_ID AS id,ROLE_NAME AS name FROM SYS_ROLE 
+  </select>
+  
+  <!-- 删除角色和用户的关系 -->
+   <delete id="deleteUserRoles">
+       DELETE FROM SYS_USER_ROLE  WHERE USER_ID =#{userId}
+  </delete>
+  
+  <!-- 增加用户和角色的关系 -->
+  <insert id="saveUserRoles">
+        INSERT INTO SYS_USER_ROLE (USER_ID,ROLE_ID) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">	 
+			(#{userId},#{item})
+		</foreach>
+  </insert>
+ 
+</mapper>

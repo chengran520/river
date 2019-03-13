@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="common/css/baseUtil.css">
+</head>
+<body>
+<!--content内容开始-->
+<div class="layui-body base_content">
+	<div id="table_select_toolbar" class="toolbar">
+	       <form class="form-inline" id="toolbar_form">
+	           <div class="form-group">
+               		<div class="input-group">
+                       <span class="input-group-addon">河流名称:</span>
+                       <select class="form-control busineUnm" name="busineType" id="riverName"></select>
+                   </div>
+	               <div class="input-group">
+	                   <span class="input-group-addon">结束时间:</span>
+	                   <input class="form-control busineUnm" name="startTm" id="startTm"  placeholder="请选择开始时间">
+	               </div>
+			    </div>
+	           <button type="button" class="btn btn-primary queryBtn_select"><span class="glyphicon glyphicon-search"></span>&nbsp;查&nbsp;询</button>
+	       </form>
+	   </div>
+   <table id="table_user" class="table table-hover">
+   </table>
+</div>
+		
+<!--content内容结束-->
+<script type="text/javascript" src="systemInfo/user/userInfo1.js"></script>
+</body>
+</html>
+
+

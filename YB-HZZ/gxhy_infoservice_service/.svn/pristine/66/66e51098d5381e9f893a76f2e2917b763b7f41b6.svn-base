@@ -1,0 +1,20 @@
+package com.gxhy.base.basic.model;
+import java.util.Date;
+import lombok.Data;
+
+/**
+ * 消息类
+ * @author chengran
+ *
+ */
+@Data
+public class MsgModel {
+
+	private String msgId;	
+    private Date sendTm;
+    private String sendUser;
+    private String sendUserId;
+    private String msgType;	  
+    private String msgTitle;
+    private String msgContent;
+}

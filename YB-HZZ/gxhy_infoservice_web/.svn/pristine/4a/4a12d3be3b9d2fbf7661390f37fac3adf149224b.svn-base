@@ -1,0 +1,100 @@
+var showRelease = {
+		 //显示模态框
+		type:'',//增删改查 类型
+		id:'',//页面元素ID
+	    showModal:function(type,isMsg){
+	    	showRelease.type = type;
+	    	debugger
+	    	setTimeout(function(){
+	    		if(!isMsg){
+	    			showRelease.id="fileManage";
+		    	}else{
+		    		showRelease.id="showRelease";
+		    	}
+	    		 formUtil.showBtn(type,showRelease);
+	    	},100);
+	    },
+	    submitForm:function(type){
+	    	if(type==1){
+	    		var markupStr = $('#msgContent').summernote('code');
+		    	console.log(markupStr);
+		    	$("#msgContent").val(markupStr);
+		    	formUtil.submitFormData(showRelease,WEB_ROOT+"news/addMsg");
+	    	}else{
+	    		formUtil.submitFormData(showRelease,WEB_ROOT+"news/addFile");
+	    	}
+	    
+	    },
+	    getFileTypes:function(){
+	    	var result=commonUtils.get(WEB_ROOT+"/busine/accept/getBusineTypes",{"dictTp":"FILE"},false);
+			if(result.flag){
+				var html="<option disabled='disabled' selected='selected' value=''>请选择</option> <option value=''>全部</option>";
+				$.each(result.data,function(i,v){
+					 html+="<option value="+this.dictVal+">"+this.dictNm+"</option>";
+				});
+				$("#fileType").html(html);
+			}
+	    }
+}
+
+$(function(){
+    //清空查询参数
+	bootstrapTable.clearParams();
+	showRelease.getFileTypes();
+	$('#msgContent').summernote({
+        lang: 'zh-CN',
+        height:150,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['fontname', ['fontname']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+
+
+	$("#myFile").fileinput({
+	    language: 'zh',
+	    autoReplace: true,
+	    uploadUrl:WEB_ROOT+"news/addFileUpload", 
+	    uploadAsync:true,//默认异步上传
+	    maxFileCount: 1,
+	    allowedFileExtensions: ["doc", "docx", "pdf","xls","xlsx"],
+	    browseClass: "btn btn-primary", //按钮样式 
+	    enctype:'multipart/form-data',
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+    }).on("fileuploaded", function (e, data) {
+    	debugger
+    	console.log(data);
+	    var res = data.response;
+	    $("#fileId").val(res.message);
+	    if (res.message!=null) {
+	    	 formUtil.successTip("上传成功!");
+	    }else {
+	        formUtil.successTip("上传失败!");
+	    }
+	});
+});
+
+
+function filefujianChange(target) {
+	debugger
+    var fileSize = target.files[0].size;           
+     var size = fileSize / 1024;    
+     if(size>2000){  
+      formUtil.errorTip("附件不能大于2M");
+      target.value="";
+      return  false;
+     }
+     var name=target.value;
+     var fileName = name.substring(name.lastIndexOf(".")+1).toLowerCase();
+     if(fileName !="dox" && fileName !="docx" && fileName !="pdf" && fileName !="xls" && fileName !="xlsx" ){
+       formUtil.errorTip("请选择图片格式文件上传(dox,docx,pdf,xls,xlsx等)！");
+         target.value="";
+         return  false;
+     }
+   }

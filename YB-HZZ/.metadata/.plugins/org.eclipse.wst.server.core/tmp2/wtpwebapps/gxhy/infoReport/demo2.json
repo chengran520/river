@@ -1,0 +1,18 @@
+{
+  "code": 0
+  ,"msg": ""
+  ,"count": 66
+  ,"data": [{
+    "userNm": "市级"
+    ,"count": 0
+  }, {
+    "username": "县级"
+    ,"count": 0
+  }, {
+    "username": "乡级"
+    ,"count": 0
+  }, {
+    "username": "村级"
+   ,"count": 0
+  }]
+}  
